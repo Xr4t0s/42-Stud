@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: nitadros <nitadros@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/28 18:45:00 by marvin            #+#    #+#             */
-/*   Updated: 2024/10/28 18:45:00 by marvin           ###   ########.fr       */
+/*   Created: 2024/11/04 13:28:34 by nitadros          #+#    #+#             */
+/*   Updated: 2024/11/04 13:28:34 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,18 +21,20 @@ int	ft_atoi(const char *str)
 	i = 0;
 	mult = 1;
 	o = 0;
-	while (str[i] == 32)
+	while ((str[i] >= 9 && str[i] <= 13) || str[i] == 32)
 		i++;
-	while (str[i] == '-' || str[i] == '+')
+	if (!ft_isdigit(str[i]) && (str[i] != '-' && str[i] != '+'))
+		return (0);
+	if (str[i] == '-')
 	{
-		if (str[i] == '-')
-			mult *= -1;
+		mult *= -1;
 		i++;
 	}
+	else if (str[i] == '+')
+		i++;
+	if (!ft_isdigit(str[i]))
+		return (0);
 	while (ft_isdigit(str[i]))
-	{
-		o = o * 10 + str[i] - 48;
-		i++;
-	}
+		o = o * 10 + str[i++] - 48;
 	return (o * mult);
 }

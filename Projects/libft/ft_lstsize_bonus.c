@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstsize_bonus.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: nitadros <nitadros@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/30 14:43:08 by marvin            #+#    #+#             */
-/*   Updated: 2024/10/30 14:43:08 by marvin           ###   ########.fr       */
+/*   Created: 2024/11/04 13:33:34 by nitadros          #+#    #+#             */
+/*   Updated: 2024/11/04 13:33:34 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include <stdlib.h>
 
 int	ft_lstsize(t_list *lst)
 {
@@ -19,6 +18,8 @@ int	ft_lstsize(t_list *lst)
 	t_list	*bckp;
 
 	i = 0;
+	if (!lst)
+		return (0);
 	bckp = lst;
 	while (bckp->next != NULL)
 	{

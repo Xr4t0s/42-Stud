@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strtrim.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: nitadros <nitadros@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/29 15:37:41 by marvin            #+#    #+#             */
-/*   Updated: 2024/10/29 15:37:41 by marvin           ###   ########.fr       */
+/*   Created: 2024/11/04 13:38:41 by nitadros          #+#    #+#             */
+/*   Updated: 2024/11/04 13:38:41 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static char	*ft_strdup_bckp(const char *s, int end)
 	i = 0;
 	if (!s)
 		return (NULL);
-	res = (char *)malloc(sizeof(char) * (ft_strlen(s) + 1));
+	res = (char *)malloc(sizeof(char) * (end + 1));
 	if (!res)
 		return (NULL);
 	while (i < end)

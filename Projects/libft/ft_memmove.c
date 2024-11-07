@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_memmove.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: nitadros <nitadros@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/02 01:07:13 by marvin            #+#    #+#             */
-/*   Updated: 2024/10/02 01:07:13 by marvin           ###   ########.fr       */
+/*   Created: 2024/11/04 13:34:06 by nitadros          #+#    #+#             */
+/*   Updated: 2024/11/04 13:34:06 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	*ft_memmove(void *dest, const void *src, size_t n)
 			i++;
 		}
 	}
-	else if (dest_ptr > src_ptr)
+	else if (src_ptr < dest_ptr)
 	{
 		i = n;
 		while (i > 0)

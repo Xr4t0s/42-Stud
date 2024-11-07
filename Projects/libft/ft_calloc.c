@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_calloc.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: nitadros <nitadros@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/28 21:27:17 by marvin            #+#    #+#             */
-/*   Updated: 2024/10/28 21:27:17 by marvin           ###   ########.fr       */
+/*   Created: 2024/11/04 13:29:01 by nitadros          #+#    #+#             */
+/*   Updated: 2024/11/04 13:29:01 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include <stdlib.h>
 
 void	*ft_calloc(size_t nmembytes, size_t size)
 {
@@ -27,6 +26,6 @@ void	*ft_calloc(size_t nmembytes, size_t size)
 	ptr = malloc(total);
 	if (!ptr)
 		return (NULL);
-	ft_memset(ptr, 0, total);
+	ft_bzero(ptr, total);
 	return (ptr);
 }

@@ -3,12 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: nitadros <nitadros@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/02 00:16:29 by marvin            #+#    #+#             */
-/*   Updated: 2024/10/30 23:06:50 by marvin           ###   ########.fr       */
+/*   Created: 2024/11/04 13:39:21 by nitadros          #+#    #+#             */
+/*   Updated: 2024/11/07 10:53:58 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#ifndef LIBFT_H
+# define LIBFT_H
 
 // #if defined(_WIN64) || defined(__x86_64__) || defined(__ppc64__)
 // typedef unsigned long size_t; //Structure 64_bits
@@ -16,9 +19,10 @@
 // typedef unsigned int size_t; //Structure 32_bits
 // #endif
 
-// // Inclusion de <stdlib.h> pour malloc
+// Inclusion de <stdlib.h> pour malloc et <unistd.h> pour write
 
-#include <stdlib.h>
+# include <stdlib.h>
+# include <unistd.h>
 
 // Structure de la partie bonus
 
@@ -40,7 +44,7 @@ void	ft_lstclear(t_list **lst, void (*del)(void *));
 void	ft_lstiter(t_list *lst, void (*f)(void *));
 t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
 
-// // Prototypages des fonctions
+// Prototypages des fonctions
 
 int		ft_isalpha(int c);
 int		ft_isdigit(int c);
@@ -76,3 +80,5 @@ void	ft_putchar_fd(char c, int fd);
 void	ft_putstr_fd(char *s, int fd);
 void	ft_putendl_fd(char *s, int fd);
 void	ft_putnbr_fd(int n, int fd);
+
+#endif

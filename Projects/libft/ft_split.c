@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: nitadros <nitadros@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/29 16:28:06 by marvin            #+#    #+#             */
-/*   Updated: 2024/10/29 16:28:06 by marvin           ###   ########.fr       */
+/*   Created: 2024/11/04 13:36:09 by nitadros          #+#    #+#             */
+/*   Updated: 2024/11/04 13:36:09 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,10 @@ static int	count_occurence(const char *s, char c)
 	{
 		if (*s == c)
 		{
-			while (*s != c)
+			while (*s == c)
 				s++;
+			if (!*s)
+				return (count);
 			count++;
 		}
 		s++;
@@ -72,7 +74,7 @@ char	**ft_split(char const *s, char c)
 
 	j = 0;
 	if (!s || !c)
-		return (NULL);
+		return (res = malloc(sizeof(char *)), res[0] = NULL, res);
 	x = find_x(s, c);
 	res = (char **)malloc(sizeof(char *) * (count_occurence(s, c) + 1));
 	if (!res)
@@ -81,6 +83,8 @@ char	**ft_split(char const *s, char c)
 	{
 		while (s[x] == c)
 			x++;
+		if (!s[x])
+			return (res[j] = 0, res);
 		res[j] = ft_strdup_bckp(&s[x], c);
 		while (s[x] && s[x] != c)
 			x++;
