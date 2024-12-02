@@ -19,7 +19,7 @@ void	*ft_calloc(size_t nmembytes, size_t size)
 
 	total = 0;
 	if (nmembytes == 0 || size == 0)
-		return (NULL);
+		return (ptr = malloc(0), ptr);
 	if (total > 2147483647 / size)
 		return (NULL);
 	total = nmembytes * size;

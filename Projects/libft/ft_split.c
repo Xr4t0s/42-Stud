@@ -12,83 +12,77 @@
 
 #include "libft.h"
 
-static int	find_x(char const *str, char c)
+static int	count_word(const char *s, char c)
 {
-	int	x;
+	size_t	i;
+	size_t	index;
 
-	x = 0;
-	while (str[x] == c)
-		x++;
-	return (x);
-}
-
-static int	count_occurence(const char *s, char c)
-{
-	int	count;
-
-	count = 0;
+	i = 0;
+	index = 0;
 	while (*s)
 	{
-		if (*s == c)
+		if (*s != c && index == 0)
 		{
-			while (*s == c)
-				s++;
-			if (!*s)
-				return (count);
-			count++;
+			index = 1;
+			i++;
 		}
+		else if (*s == c)
+			index = 0;
 		s++;
 	}
-	return (count + 1);
+	return (i);
 }
 
-static char	*ft_strdup_bckp(const char *s, char end)
+static char	*dup_word(const char *s, int start, int end)
 {
+	char	*word;
 	int		i;
-	int		x;
-	char	*res;
 
-	x = 0;
 	i = 0;
-	if (!s)
-		return (NULL);
-	while (s[x] != end)
-		x++;
-	res = (char *)malloc(sizeof(char) * (x + 1));
-	if (!res)
-		return (NULL);
-	while (i < x)
+	word = malloc((end - start + 1) * sizeof(char));
+	while (start < end)
+		word[i++] = s[start++];
+	word[i] = '\0';
+	return (word);
+}
+
+static void	free_tab(char **tab)
+{
+	int	i;
+
+	i = 0;
+	while (tab[i])
 	{
-		res[i] = s[i];
+		free(tab[i]);
 		i++;
 	}
-	res[i] = '\0';
-	return (res);
+	free(tab);
 }
 
-char	**ft_split(char const *s, char c)
+char	**ft_split(const char *s, char c)
 {
+	size_t	i;
 	int		j;
-	int		x;
+	int		index;
 	char	**res;
 
+	i = -1;
 	j = 0;
-	if (!s || !c)
-		return (res = malloc(sizeof(char *)), res[0] = NULL, res);
-	x = find_x(s, c);
-	res = (char **)malloc(sizeof(char *) * (count_occurence(s, c) + 1));
+	index = -1;
+	res = (char **)malloc(sizeof(char *) * (count_word(s, c) + 1));
 	if (!res)
 		return (NULL);
-	while (s[x])
+	while (++i <= ft_strlen(s))
 	{
-		while (s[x] == c)
-			x++;
-		if (!s[x])
-			return (res[j] = 0, res);
-		res[j] = ft_strdup_bckp(&s[x], c);
-		while (s[x] && s[x] != c)
-			x++;
-		j++;
+		if (s[i] != c && index < 0)
+			index = i;
+		else if ((s[i] == c || i == ft_strlen(s)) && index >= 0)
+		{
+			res[j++] = dup_word(s, index, i);
+			if (!res[j - 1])
+				return (free_tab(res), NULL);
+			index = -1;
+		}
 	}
 	res[j] = 0;
 	return (res);
