@@ -31,7 +31,7 @@ void send_c(pid_t t, char c)
 		i--;
 		usleep(50);
 	}
-	usleep(100);
+	usleep(200);
 }
 
 void send_s(pid_t t, const char *str)
@@ -41,13 +41,13 @@ void send_s(pid_t t, const char *str)
 		send_c(t, reverse_bits(*str));
 		str++;
 	}
-	send_c(t, '\0');
+	send_c(t, reverse_bits('\0'));
 }
 
 int main()
 {
 	pid_t t;
-	char *message = "Hello from client......................................................................................................................................................................................................................................\n";
+	char *message = "Hello from clieeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeent\n";
 
 	printf("Entrez le pid : ");
 	scanf("%d", &t);
