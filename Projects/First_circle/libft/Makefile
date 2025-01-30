@@ -73,6 +73,6 @@ re:
 
 bonus:
 	$(CC) $(CFLAGS) -c -g $(SRC) $(BONUSSRC)
-	ar rcs $(NAME) $(BONUSOBJ)
+	ar rcs $(NAME) $(BONUSOBJ) $(OBJ)
 
 .PHONY: all fclean clean re

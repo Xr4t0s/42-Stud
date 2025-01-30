@@ -40,6 +40,8 @@ static char	*dup_word(const char *s, int start, int end)
 
 	i = 0;
 	word = malloc((end - start + 1) * sizeof(char));
+	if (!word)
+		return (NULL);
 	while (start < end)
 		word[i++] = s[start++];
 	word[i] = '\0';
@@ -61,7 +63,7 @@ static void	free_tab(char **tab)
 
 char	**ft_split(const char *s, char c)
 {
-	size_t	i;
+	int		i;
 	int		j;
 	int		index;
 	char	**res;
@@ -69,14 +71,14 @@ char	**ft_split(const char *s, char c)
 	i = -1;
 	j = 0;
 	index = -1;
-	res = (char **)malloc(sizeof(char *) * (count_word(s, c) + 1));
+	res = ft_calloc(count_word(s, c) + 1, sizeof(char *));
 	if (!res)
-		return (NULL);
-	while (++i <= ft_strlen(s))
+		return (free(res), NULL);
+	while ((size_t)++i <= ft_strlen(s))
 	{
 		if (s[i] != c && index < 0)
 			index = i;
-		else if ((s[i] == c || i == ft_strlen(s)) && index >= 0)
+		else if ((s[i] == c || (size_t)i == ft_strlen(s)) && index >= 0)
 		{
 			res[j++] = dup_word(s, index, i);
 			if (!res[j - 1])
