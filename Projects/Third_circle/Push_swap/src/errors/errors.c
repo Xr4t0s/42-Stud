@@ -2,10 +2,8 @@
 
 static int	checkEntry(char *str)
 {
-	int	i;
-
-	i = 0;
-	while(str[i])
+	int	i = 0;
+	while (str[i])
 	{
 		if ((!ft_isdigit(str[i]) && str[i] != '+' && str[i] != '-') && str[i] != ' ')
 		{
@@ -19,7 +17,7 @@ static int	checkEntry(char *str)
 
 static int	checkEntries(char **str)
 {
-	while(*str)
+	while (*str)
 	{
 		if (!checkEntry(*str))
 			return (0);
@@ -33,27 +31,51 @@ char **sanitizeEntry(char **av)
 	int i = 0;
 	char *buffer;
 	char **args;
+	char *tmp;
 
-	
-	buffer = ft_strdup("");
+	args = NULL;
+	buffer = ft_calloc(1, 1);
+	if (!buffer)
+		return (NULL);
+
 	if (!av[1] && av[0])
 	{
 		if (!checkEntry(av[0]))
-			return (free(buffer), free_arg(args), NULL);
-		buffer = ft_strjoin(buffer, av[0]);
+		{
+			free(buffer);
+			return (NULL);
+		}
+		tmp = ft_strjoin(buffer, av[0]);
+		free(buffer);
+		buffer = tmp;
 		args = ft_split(buffer, ' ');
 	}
 	else
 	{
 		if (!checkEntries(av))
-			return (free(buffer), free_arg(args), NULL);
+		{
+			free(buffer);
+			return (NULL);
+		}
 		while (av[i])
 		{
-			buffer = ft_strjoin(buffer, av[i++]);
-			buffer = ft_strjoin(buffer, " ");
+			tmp = ft_strjoin(buffer, av[i++]);
+			free(buffer);
+			buffer = tmp;
+
+			tmp = ft_strjoin(buffer, " ");
+			free(buffer);
+			buffer = tmp;
 		}
 		args = ft_split(buffer, ' ');
 	}
+
+	if (!args) // Si `ft_split` échoue
+	{
+		free(buffer);
+		return (NULL);
+	}
+
 	free(buffer);
 	return (args);
 }

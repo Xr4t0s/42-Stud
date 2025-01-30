@@ -35,5 +35,6 @@ void	free_arg(char **tab);
 
 char **sanitizeEntry(char **av);
 
+char	*ft_strdup2(char *s);
 
 #endif
