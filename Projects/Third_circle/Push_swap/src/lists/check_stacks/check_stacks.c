@@ -29,3 +29,19 @@ int	ft_lstsize(t_stack *lst)
 	i++;
 	return (i);
 }
+
+int isSorted(t_stack *lst)
+{
+	t_stack *bckp;
+
+	if (!lst)
+		return (0);
+	bckp = lst;
+	while (bckp->next != NULL)
+	{
+		if (bckp->value > bckp->next->value)
+			return (0);
+		bckp = bckp->next;
+	}
+	return (1);
+}

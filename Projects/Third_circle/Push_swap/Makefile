@@ -1,10 +1,18 @@
-SRC=src/errors/*.c src/lists/*c src/lists/manipulate_stacks/*.c src/utils/*.c main.c
+SRC=src/errors/*.c \
+	src/lists/instructions/*.c \
+	src/lists/check_stacks/*.c \
+	src/lists/delete_stacks/*.c \
+	src/lists/create_stacks/*.c \
+	src/utils/*.c \
+	main.c
+
 OBJ=build/*.o
 NAME=push_swap
 CC=cc -Wall -Wextra -Werror
 
 all:
-	$(CC) -c $(SRC) -I includes -L libs -lft -lftprintf -g 
+	$(CC) -c $(SRC) -I includes -L libs -lft -lftprintf -g
+	mkdir -p build
 	mv *.o build/
 	$(CC) -o $(NAME) $(OBJ) -I includes -L libs -lft -lftprintf -g
 
