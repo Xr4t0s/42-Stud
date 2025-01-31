@@ -41,6 +41,7 @@ int	is_sanitized(char **args)
 		if (tmp[1] == -1)
 			return (0);
 		i++;
+		free(tmp);
 	}
 	return (1);
 }

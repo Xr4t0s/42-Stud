@@ -3,6 +3,7 @@ SRC=src/errors/*.c \
 	src/lists/check_stacks/*.c \
 	src/lists/delete_stacks/*.c \
 	src/lists/create_stacks/*.c \
+	src/push_swap/*.c \
 	src/utils/*.c \
 	main.c
 

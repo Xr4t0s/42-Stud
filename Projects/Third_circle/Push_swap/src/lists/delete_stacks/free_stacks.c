@@ -22,6 +22,7 @@ void	ft_lstfree(t_stack *lst)
 		free(lst);
 		lst = tmp;
 	}
+	free(tmp);
 }
 
 void	free_arg(char **tab)
@@ -34,4 +35,5 @@ void	free_arg(char **tab)
 		free(tab[i]);
 		i++;
 	}
+	free(tab);
 }

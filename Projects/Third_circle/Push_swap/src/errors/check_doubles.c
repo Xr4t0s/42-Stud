@@ -14,8 +14,10 @@
 
 int	is_there_twins(char **args)
 {
-	int	i;
-	int	j;
+	int		i;
+	int		j;
+	long	*x;
+	long	*y;
 
 	i = 0;
 	while (args[i])
@@ -23,9 +25,13 @@ int	is_there_twins(char **args)
 		j = i + 1;
 		while (args[j])
 		{
-			if (ft_atoi2(args[i])[0] == ft_atoi2(args[j])[0])
-				return (1);
+			x = ft_atoi2(args[i]);
+			y = ft_atoi2(args[j]);
+			if (x[0] == y[0])
+				return (free(x), free(y), 1);
 			j++;
+			free(x);
+			free(y);
 		}
 		i++;
 	}

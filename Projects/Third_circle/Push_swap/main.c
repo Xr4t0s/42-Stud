@@ -23,50 +23,37 @@ t_stack	*sort_aglorithm(t_stack *stack_a)
 			swap_a_or_b(&stack_a, 1);
 	}
 	else if (size == 3)
-	{
-		if (stack_a->value > stack_a->next->value
-			&& stack_a->value > stack_a->next->next->value)
-			rotate_a_or_b(&stack_a, 1);
-		else if (stack_a->value > stack_a->next->value
-			&& stack_a->value < stack_a->next->next->value)
-			swap_a_or_b(&stack_a, 1);
-		else if (stack_a->value < stack_a->next->value
-			&& stack_a->value > stack_a->next->next->value)
-			reverse_rotate_a_or_b(&stack_a, 1);
-		else if (stack_a->value < stack_a->next->value
-			&& stack_a->value < stack_a->next->next->value)
-			reverse_rotate_a_or_b(&stack_a, 1);
-		if (stack_a->value > stack_a->next->value)
-			swap_a_or_b(&stack_a, 1);
-	}
+		stack_a = size_3(stack_a);
+	// else
+	// 	stack_a = algorithm(stack_a);
 	return (stack_a);
 }
 
 int	push_swap(char **av)
 {
 	t_stack	*stack_a;
-	t_stack	*stack_b;
 	int		i;
 	char	**args;
-	t_stack	*tmp;
+	long	*tmp;
 
 	i = 0;
-	args = sanitizeEntry(av);
+	args = sanitize_entry(av);
 	if (!args)
 		return (0);
 	stack_a = NULL;
-	stack_b = NULL;
 	while (args[i])
-		ft_lstadd_back(&stack_a, ft_lstnew(ft_atoi2(args[i++])[0]));
+	{
+		tmp = ft_atoi2(args[i++]);
+		ft_lstadd_back(&stack_a, ft_lstnew(tmp[0]));
+		free(tmp);
+	}
 	if (!is_sorted(stack_a))
 	{
-		tmp = sort_aglorithm(stack_a);
-		ft_lstiter(tmp, ft_printf);
+		// tmp = sort_aglorithm(stack_a);
+		ft_lstiter(stack_a, ft_printf);
 	}
 	ft_lstfree(stack_a);
-	ft_lstfree(stack_b);
 	free_arg(args);
-	free(args);
 	return (0);
 }
 

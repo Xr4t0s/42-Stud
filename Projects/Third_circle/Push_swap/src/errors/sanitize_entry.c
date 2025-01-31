@@ -35,7 +35,7 @@ static char	**multi_entry(char **av)
 	char	*tmp;
 
 	i = 0;
-	buffer = ft_calloc(1, 1);
+	buffer = ft_strdup2("");
 	if (!buffer)
 		return (NULL);
 	while (av[i])
@@ -93,10 +93,10 @@ char	**sanitize_entry(char **av)
 	else
 		args = multi_entry(av);
 	if (!args)
-		return (NULL);
+		return (free_arg(args), NULL);
 	if (!is_sanitized(args))
-		return (ft_printf("Error\n"), NULL);
+		return (free_arg(args), ft_printf("Error\n"), NULL);
 	if (is_there_twins(args))
-		return (ft_printf("Error\n"), NULL);
+		return (free_arg(args), ft_printf("Error\n"), NULL);
 	return (args);
 }

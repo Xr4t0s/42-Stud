@@ -44,13 +44,19 @@ int		rotate_a_and_b(t_stack **stack_a, t_stack **stack_b);
 int		reverse_rotate_a_or_b(t_stack **stack, int a_or_b);
 int		reverse_rotate_a_and_b(t_stack **stack_a, t_stack **stack_b);
 
+// Algorithm
+t_stack	*size_3(t_stack *stack);
+t_stack	*algorithm(t_stack *stack_a);
+
 // Free
 void	ft_lstfree(t_stack *lst);
 void	free_arg(char **tab);
 
-char	**sanitizeEntry(char **av);
+// Sanitize
+char	**sanitize_entry(char **av);
 int		is_there_twins(char **args);
 
+// Utils
 char	*ft_strdup2(char *s);
 long	*ft_atoi2(const char *str);
 int		is_sanitized(char **args);
