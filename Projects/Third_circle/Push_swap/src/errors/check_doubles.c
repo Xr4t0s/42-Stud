@@ -1,33 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strdup.c                                        :+:      :+:    :+:   */
+/*   check_doubles.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nitadros <nitadros@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/04 13:37:23 by nitadros          #+#    #+#             */
-/*   Updated: 2024/11/04 13:37:23 by nitadros         ###   ########.fr       */
+/*   Created: 2025/01/31 00:46:59 by nitadros          #+#    #+#             */
+/*   Updated: 2025/01/31 00:46:59 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-char	*ft_strdup2(char *s)
+int	is_there_twins(char **args)
 {
-	int		i;
-	int		len_s;
-	char	*res;
+	int	i;
+	int	j;
 
 	i = 0;
-	len_s = ft_strlen(s);
-	res = (char *)malloc(sizeof(char) * (len_s + 1));
-	if (!res)
-		return (NULL);
-	while (i < len_s)
+	while (args[i])
 	{
-		res[i] = s[i];
+		j = i + 1;
+		while (args[j])
+		{
+			if (ft_atoi2(args[i])[0] == ft_atoi2(args[j])[0])
+				return (1);
+			j++;
+		}
 		i++;
 	}
-	res[i] = '\0';
-	return (res);
+	return (0);
 }

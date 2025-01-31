@@ -1,15 +1,27 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   create_stacks.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/01/31 00:58:28 by nitadros          #+#    #+#             */
+/*   Updated: 2025/01/31 00:58:28 by nitadros         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "push_swap.h"
 
-t_stack *ft_lstnew(int content)
+t_stack	*ft_lstnew(int content)
 {
-    t_stack *new;
+	t_stack	*new;
 
-    new = (t_stack *)calloc(sizeof(t_stack), 1);
-    if (!new)
-        return (NULL);
-    new->value = content;
-    new->next = NULL;
-    return (new);
+	new = (t_stack *)calloc(sizeof(t_stack), 1);
+	if (!new)
+		return (NULL);
+	new->value = content;
+	new->next = NULL;
+	return (new);
 }
 
 t_stack	*ft_lstlast(t_stack *lst)

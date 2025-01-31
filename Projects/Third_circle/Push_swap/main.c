@@ -1,8 +1,20 @@
-#include "includes/push_swap.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/01/31 00:42:39 by nitadros          #+#    #+#             */
+/*   Updated: 2025/01/31 00:42:39 by nitadros         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-t_stack *sort_aglorithm(t_stack *stack_a)
+#include "push_swap.h"
+
+t_stack	*sort_aglorithm(t_stack *stack_a)
 {
-	int size;
+	int	size;
 
 	size = ft_lstsize(stack_a);
 	if (size == 2)
@@ -12,16 +24,17 @@ t_stack *sort_aglorithm(t_stack *stack_a)
 	}
 	else if (size == 3)
 	{
-		if (stack_a->value > stack_a->next->value && stack_a->value > stack_a->next->next->value)
+		if (stack_a->value > stack_a->next->value
+			&& stack_a->value > stack_a->next->next->value)
 			rotate_a_or_b(&stack_a, 1);
-		else if (stack_a->value > stack_a->next->value && stack_a->value < stack_a->next->next->value)
+		else if (stack_a->value > stack_a->next->value
+			&& stack_a->value < stack_a->next->next->value)
 			swap_a_or_b(&stack_a, 1);
-		else if (stack_a->value < stack_a->next->value && stack_a->value > stack_a->next->next->value)
-		{
-			swap_a_or_b(&stack_a, 0);
+		else if (stack_a->value < stack_a->next->value
+			&& stack_a->value > stack_a->next->next->value)
 			reverse_rotate_a_or_b(&stack_a, 1);
-		}
-		else if (stack_a->value < stack_a->next->value && stack_a->value < stack_a->next->next->value)
+		else if (stack_a->value < stack_a->next->value
+			&& stack_a->value < stack_a->next->next->value)
 			reverse_rotate_a_or_b(&stack_a, 1);
 		if (stack_a->value > stack_a->next->value)
 			swap_a_or_b(&stack_a, 1);
@@ -29,21 +42,23 @@ t_stack *sort_aglorithm(t_stack *stack_a)
 	return (stack_a);
 }
 
-int push_swap(char **av)
+int	push_swap(char **av)
 {
-    t_stack *stack_a;
-    t_stack *stack_b;
-	int 	i;
-	char 	**args;
-	t_stack *tmp;
+	t_stack	*stack_a;
+	t_stack	*stack_b;
+	int		i;
+	char	**args;
+	t_stack	*tmp;
 
 	i = 0;
 	args = sanitizeEntry(av);
-    stack_a = NULL;
-    stack_b = NULL;
-    while (args[i])
-		ft_lstadd_back(&stack_a, ft_lstnew(ft_atoi(args[i++])));
-	if (!isSorted(stack_a))
+	if (!args)
+		return (0);
+	stack_a = NULL;
+	stack_b = NULL;
+	while (args[i])
+		ft_lstadd_back(&stack_a, ft_lstnew(ft_atoi2(args[i++])[0]));
+	if (!is_sorted(stack_a))
 	{
 		tmp = sort_aglorithm(stack_a);
 		ft_lstiter(tmp, ft_printf);
@@ -55,10 +70,10 @@ int push_swap(char **av)
 	return (0);
 }
 
-int main(int ac, char **av)
+int	main(int ac, char **av)
 {
-    if (ac < 2)
-        return (0);
-    av++;
-    push_swap(av);
+	if (ac < 2)
+		return (0);
+	av++;
+	push_swap(av);
 }

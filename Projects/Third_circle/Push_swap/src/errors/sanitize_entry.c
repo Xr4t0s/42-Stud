@@ -1,10 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   sanitize_entry.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/01/31 00:49:59 by nitadros          #+#    #+#             */
+/*   Updated: 2025/01/31 00:49:59 by nitadros         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "push_swap.h"
 
-static char **single_entry(char *av)
+static char	**single_entry(char *av)
 {
-	char *buffer;
-	char **args;
-	char *tmp;
+	char	*buffer;
+	char	**args;
+	char	*tmp;
 
 	buffer = ft_calloc(1, 1);
 	tmp = ft_strjoin(buffer, av);
@@ -12,16 +24,17 @@ static char **single_entry(char *av)
 	buffer = tmp;
 	args = ft_split(buffer, ' ');
 	free(buffer);
-	return(args);
+	return (args);
 }
 
-static char **multi_entry(char **av)
+static char	**multi_entry(char **av)
 {
-	int i = 0;
-	char *buffer;
-	char **args;
-	char *tmp;
+	int		i;
+	char	*buffer;
+	char	**args;
+	char	*tmp;
 
+	i = 0;
 	buffer = ft_calloc(1, 1);
 	if (!buffer)
 		return (NULL);
@@ -30,7 +43,6 @@ static char **multi_entry(char **av)
 		tmp = ft_strjoin(buffer, av[i++]);
 		free(buffer);
 		buffer = tmp;
-
 		tmp = ft_strjoin(buffer, " ");
 		free(buffer);
 		buffer = tmp;
@@ -40,12 +52,15 @@ static char **multi_entry(char **av)
 	return (args);
 }
 
-static int	checkEntry(char *str)
+static int	check_entry(char *str)
 {
-	int	i = 0;
+	int	i;
+
+	i = 0;
 	while (str[i])
 	{
-		if ((!ft_isdigit(str[i]) && str[i] != '+' && str[i] != '-') && str[i] != ' ')
+		if ((!ft_isdigit(str[i]) && str[i] != '+' && str[i] != '-')
+			&& str[i] != ' ')
 		{
 			ft_printf("Error\n");
 			return (0);
@@ -55,36 +70,33 @@ static int	checkEntry(char *str)
 	return (1);
 }
 
-static int	checkEntries(char **str)
+static int	check_entries(char **str)
 {
 	while (*str)
 	{
-		if (!checkEntry(*str))
+		if (!check_entry(*str))
 			return (0);
 		str++;
 	}
 	return (1);
 }
 
-char **sanitizeEntry(char **av)
+char	**sanitize_entry(char **av)
 {
-	char **args;
+	char	**args;
 
 	args = NULL;
+	if (!check_entries(av))
+		return (NULL);
 	if (!av[1] && av[0])
-	{
-		if (!checkEntry(av[0]))
-			return (NULL);
 		args = single_entry(av[0]);
-	}
 	else
-	{
-		if (!checkEntries(av))
-			return (NULL);
 		args = multi_entry(av);
-	}
 	if (!args)
 		return (NULL);
+	if (!is_sanitized(args))
+		return (ft_printf("Error\n"), NULL);
+	if (is_there_twins(args))
+		return (ft_printf("Error\n"), NULL);
 	return (args);
 }
-
