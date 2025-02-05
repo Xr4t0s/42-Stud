@@ -16,7 +16,7 @@ t_stack	*ft_lstnew(int content)
 {
 	t_stack	*new;
 
-	new = (t_stack *)calloc(sizeof(t_stack), 1);
+	new = malloc(sizeof(t_stack));
 	if (!new)
 		return (NULL);
 	new->value = content;

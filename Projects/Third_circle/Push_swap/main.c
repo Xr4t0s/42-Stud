@@ -24,8 +24,8 @@ t_stack	*sort_aglorithm(t_stack *stack_a)
 	}
 	else if (size == 3)
 		stack_a = size_3(stack_a);
-	// else
-	// 	stack_a = algorithm(stack_a);
+	else
+		stack_a = algorithm(stack_a);
 	return (stack_a);
 }
 
@@ -35,24 +35,32 @@ int	push_swap(char **av)
 	int		i;
 	char	**args;
 	long	*tmp;
+	t_stack	*tmp2;
 
 	i = 0;
 	args = sanitize_entry(av);
 	if (!args)
 		return (0);
 	stack_a = NULL;
+	tmp2 = NULL;
 	while (args[i])
 	{
 		tmp = ft_atoi2(args[i++]);
-		ft_lstadd_back(&stack_a, ft_lstnew(tmp[0]));
+		tmp2 = ft_lstnew(tmp[0]);
+		ft_lstadd_back(&stack_a, tmp2);
 		free(tmp);
 	}
 	if (!is_sorted(stack_a))
 	{
-		// tmp = sort_aglorithm(stack_a);
+		// tmp2 = sort_aglorithm(stack_a);
 		ft_lstiter(stack_a, ft_printf);
 	}
-	ft_lstfree(stack_a);
+	if (stack_a)
+		ft_lstfree(&stack_a);
+	// if (tmp2)
+	// 	ft_lstfree(&tmp2);
+	stack_a = NULL;
+	tmp2 = NULL;
 	free_arg(args);
 	return (0);
 }

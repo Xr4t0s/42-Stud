@@ -49,7 +49,7 @@ t_stack	*size_3(t_stack *stack);
 t_stack	*algorithm(t_stack *stack_a);
 
 // Free
-void	ft_lstfree(t_stack *lst);
+void	ft_lstfree(t_stack **lst);
 void	free_arg(char **tab);
 
 // Sanitize

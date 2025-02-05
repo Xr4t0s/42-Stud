@@ -12,17 +12,19 @@
 
 #include "push_swap.h"
 
-void	ft_lstfree(t_stack *lst)
+void	ft_lstfree(t_stack **lst)
 {
 	t_stack	*tmp;
 
-	while (lst)
+	if (!lst || !*lst)
+		return;
+	while (*lst)
 	{
-		tmp = lst->next;
-		free(lst);
-		lst = tmp;
+		tmp = (*lst)->next; // Sauvegarde l'adresse du prochain élément avant free()
+		free(*lst);         // Libération de l'élément courant
+		*lst = tmp;         // Passe à l'élément suivant
 	}
-	free(tmp);
+	*lst = NULL; // 🔥 Corrige l'accès à une mémoire libérée
 }
 
 void	free_arg(char **tab)

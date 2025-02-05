@@ -31,24 +31,24 @@ t_stack	*size_3(t_stack *stack_a)
 	return (stack_a);
 }
 
-// static t_stack *reverse_size3(t_stack *stack_b)
-// {
-// 	if (stack_b->value < stack_b->next->value
-// 		&& stack_b->value < stack_b->next->next->value)
-// 		rotate_a_or_b(&stack_b, -1);
-// 	else if (stack_b->value < stack_b->next->value
-// 		&& stack_b->value > stack_b->next->next->value)
-// 		swap_a_or_b(&stack_b, -1);
-// 	else if (stack_b->value > stack_b->next->value
-// 		&& stack_b->value < stack_b->next->next->value)
-// 		reverse_rotate_a_or_b(&stack_b, -1);
-// 	else if (stack_b->value > stack_b->next->value
-// 		&& stack_b->value > stack_b->next->next->value)
-// 		reverse_rotate_a_or_b(&stack_b, -1);
-// 	if (stack_b->value < stack_b->next->value)
-// 		swap_a_or_b(&stack_b, -1);
-// 	return (stack_b);
-// }
+static t_stack *reverse_size3(t_stack *stack_b)
+{
+	if (stack_b->value < stack_b->next->value
+		&& stack_b->value < stack_b->next->next->value)
+		rotate_a_or_b(&stack_b, -1);
+	else if (stack_b->value < stack_b->next->value
+		&& stack_b->value > stack_b->next->next->value)
+		swap_a_or_b(&stack_b, -1);
+	else if (stack_b->value > stack_b->next->value
+		&& stack_b->value < stack_b->next->next->value)
+		reverse_rotate_a_or_b(&stack_b, -1);
+	else if (stack_b->value > stack_b->next->value
+		&& stack_b->value > stack_b->next->next->value)
+		reverse_rotate_a_or_b(&stack_b, -1);
+	if (stack_b->value < stack_b->next->value)
+		swap_a_or_b(&stack_b, -1);
+	return (stack_b);
+}
 
 // t_stack *establish_cost(t_stack *stack_a)
 // {
@@ -66,18 +66,16 @@ t_stack	*size_3(t_stack *stack_a)
 // 	return (stack_a);
 // }
 
-// t_stack	*algorithm(t_stack *stack_a)
-// {
-// 	t_stack	*stack_b;
-// 	int		i;
+t_stack	*algorithm(t_stack *stack_a)
+{
+	t_stack	*stack_b;
+	int		i;
 
-// 	i = 0;
-// 	stack_b = NULL;
-// 	while (i++ < 3)
-// 		push_to(&stack_a, &stack_b, -1);
-// 	if (!is_sorted(stack_b))
-// 		stack_b = reverse_size3(stack_b);
-// 	ft_lstiter(stack_b, ft_printf);
-// 	ft_lstfree(stack_b);
-// 	return (stack_b);
-// }
+	i = 0;
+	stack_b = NULL;
+	while (i++ < 3)
+		push_to(&stack_a, &stack_b, -1);
+	if (!is_sorted(stack_b))
+		stack_b = reverse_size3(stack_b);
+	return (stack_b);
+}
