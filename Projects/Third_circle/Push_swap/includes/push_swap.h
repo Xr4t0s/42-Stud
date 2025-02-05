@@ -22,6 +22,7 @@
 typedef struct s_stack
 {
 	int				value;
+	int				index;
 	int				cost;
 	struct s_stack	*next;	
 }	t_stack;
@@ -43,6 +44,10 @@ int		rotate_a_or_b(t_stack **stack, int a_or_b);
 int		rotate_a_and_b(t_stack **stack_a, t_stack **stack_b);
 int		reverse_rotate_a_or_b(t_stack **stack, int a_or_b);
 int		reverse_rotate_a_and_b(t_stack **stack_a, t_stack **stack_b);
+
+// Initialization
+void    index_stack(t_stack *stack);
+void    establish_cost(t_stack *stack);
 
 // Algorithm
 t_stack	*size_3(t_stack *stack);

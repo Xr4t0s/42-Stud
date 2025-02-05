@@ -1,21 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   indexing.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nitadros <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: nitadros <nitadros@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/05 22:35:15 by nitadros          #+#    #+#             */
-/*   Updated: 2025/01/05 22:35:30 by nitadros         ###   ########.fr       */
+/*   Created: 2025/02/05 19:09:16 by nitadros          #+#    #+#             */
+/*   Updated: 2025/02/05 20:50:35 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-size_t	ft_strlen(const char *s)
-{
-	size_t	i;
+#include "push_swap.h"
 
-	i = 0;
-	while (s[i])
+void    index_stack(t_stack *stack)
+{
+	int i;
+
+	i = 1;
+	while(stack->next != NULL)
+	{
+		stack->index = i;
 		i++;
-	return (i);
+		stack = stack->next;
+	}
+	stack->index = i;
 }

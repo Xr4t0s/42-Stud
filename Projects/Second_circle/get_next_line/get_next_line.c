@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nitadros <nitadros@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/12/10 21:47:32 by nitadros          #+#    #+#             */
+/*   Updated: 2024/12/10 22:24:53 by nitadros         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "get_next_line.h"
 #include <fcntl.h>
 
@@ -84,33 +96,34 @@ char	*read_lines(int fd, char *buffer)
 
 char	*get_next_line(int fd)
 {
-	static char	*buffer;
+	static char	*buffer[4096];
 	char		*line;
 
 	if ((fd < 0) || (BUFFER_SIZE <= 0))
 		return (NULL);
-	buffer = read_lines(fd, buffer);
-	if (!buffer)
+	buffer[fd] = read_lines(fd, buffer[fd]);
+	if (!buffer[fd])
 		return (NULL);
-	line = get_good_line(buffer);
-	buffer = get_good_next(buffer);
+	line = get_good_line(buffer[fd]);
+	buffer[fd] = get_good_next(buffer[fd]);
 	return (line);
 }
 
-/*
-int main()
+/* int main()
 {
 	int fd;
-	int i = -1;
-
 	fd = open("get_next_line.h", O_RDONLY);
-	while (1)
-	{
-		char *line = get_next_line(fd);
-		printf("%s", line);
-		if (line)
-			free(line);
-		else
-			break ;
-	}
-}*/
+	char *line = get_next_line(fd);
+	printf("%s", line);
+	if (line)
+		free(line);
+	int fd2 = open("get_next_line_utils.c", O_RDONLY);
+	char *line2 = get_next_line(fd2);
+	printf("%s", line2);
+	if (line2)
+		free(line2);
+	line = get_next_line(fd);
+	printf("%s", line);
+	if (line)
+		free(line);
+} */

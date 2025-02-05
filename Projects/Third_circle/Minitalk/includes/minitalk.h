@@ -1,21 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   minitalk.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nitadros <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: nitadros <nitadros@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/05 22:35:15 by nitadros          #+#    #+#             */
-/*   Updated: 2025/01/05 22:35:30 by nitadros         ###   ########.fr       */
+/*   Created: 2024/12/12 16:16:11 by nitadros          #+#    #+#             */
+/*   Updated: 2025/01/05 23:59:02 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-size_t	ft_strlen(const char *s)
+typedef struct Global
 {
-	size_t	i;
-
-	i = 0;
-	while (s[i])
-		i++;
-	return (i);
-}
+	unsigned char	current;
+	unsigned char	position;
+	int				i;
+} Global;

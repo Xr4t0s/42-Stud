@@ -8,8 +8,8 @@ SRCCLI=client.c
 CLIOBJ=$(SRCCLI:.c=.o)
 
 all:
-	$(CC) $(SRC)$(SRCSERV) -I includes -L libs -lft -lftprintf -o server
-	$(CC) $(SRC)$(SRCCLI) -I includes -L libs -lft -lftprintf -o client
+	$(CC) $(SRC)$(SRCSERV) -I includes -L libs -lft -lftprintf -o server -g
+	$(CC) $(SRC)$(SRCCLI) -I includes -L libs -lft -lftprintf -o client -g
 
 server:
 	$(CC) $(SRC)$(SRCSERV) -I includes -Llibs -lft -lftprintf -o client
