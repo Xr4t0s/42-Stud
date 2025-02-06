@@ -14,16 +14,9 @@
 
 static char	**single_entry(char *av)
 {
-	char	*buffer;
 	char	**args;
-	char	*tmp;
 
-	buffer = ft_calloc(1, 1);
-	tmp = ft_strjoin(buffer, av);
-	free(buffer);
-	buffer = tmp;
-	args = ft_split(buffer, ' ');
-	free(buffer);
+	args = ft_split(av, ' ');
 	return (args);
 }
 
@@ -93,7 +86,7 @@ char	**sanitize_entry(char **av)
 	else
 		args = multi_entry(av);
 	if (!args)
-		return (free_arg(args), NULL);
+		return (NULL);
 	if (!is_sanitized(args))
 		return (free_arg(args), ft_printf("Error\n"), NULL);
 	if (is_there_twins(args))

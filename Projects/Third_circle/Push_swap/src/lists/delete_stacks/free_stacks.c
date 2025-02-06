@@ -16,6 +16,8 @@ void	ft_lstfree(t_stack *lst)
 {
 	t_stack	*tmp;
 
+	if (!lst)
+		return ;
 	while (lst)
 	{
 		tmp = lst->next;

@@ -33,7 +33,8 @@ t_stack	*ft_lstnew(int content);
 int		ft_lstsize(t_stack *lst);
 void	ft_lstiter(t_stack *lst, int (*f)(const char *, ...));
 int		is_sorted(t_stack *lst);
-t_stack	*sort_aglorithm(t_stack *stack_a);
+int		is_desc_sorted(t_stack *lst);
+void	sort_aglorithm(t_stack **stack_a);
 
 // Instructions 
 
@@ -50,8 +51,9 @@ void    index_stack(t_stack *stack);
 void    establish_cost(t_stack *stack);
 
 // Algorithm
-t_stack	*size_3(t_stack *stack);
-t_stack	*algorithm(t_stack *stack_a);
+void	size_3(t_stack *stack);
+void	create_stack_b(t_stack **stack_a, t_stack **stack_b);
+void	algorithm(t_stack **stack_a);
 
 // Free
 void	ft_lstfree(t_stack *lst);

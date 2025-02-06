@@ -68,6 +68,8 @@ long	*ft_atoi2(const char *str)
 			i++;
 			mult = -1;
 		}
+		else if (is_ok(str[i]) == 2)
+			i++;
 	}
 	else
 		return (free(res), NULL);

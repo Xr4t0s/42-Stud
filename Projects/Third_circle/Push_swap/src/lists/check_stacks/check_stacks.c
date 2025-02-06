@@ -14,6 +14,9 @@
 
 void	ft_lstiter(t_stack *lst, int (*f)(const char *, ...))
 {
+	t_stack *tmp;
+
+	tmp = lst;
 	while (lst)
 	{
 		if (lst->next == NULL)
@@ -22,6 +25,24 @@ void	ft_lstiter(t_stack *lst, int (*f)(const char *, ...))
 			f("%d, ", lst->value);
 		lst = lst->next;
 	}
+	// lst = tmp;
+	// while (lst)
+	// {
+	// 	if (lst->next == NULL)
+	// 		f("%d\n", lst->index);
+	// 	else
+	// 		f("%d, ", lst->index);
+	// 	lst = lst->next;
+	// }
+	// lst = tmp;
+	// while (lst)
+	// {
+	// 	if (lst->next == NULL)
+	// 		f("%d\n", lst->cost);
+	// 	else
+	// 		f("%d, ", lst->cost);
+	// 	lst = lst->next;
+	// }
 }
 
 int	ft_lstsize(t_stack *lst)
@@ -52,6 +73,22 @@ int	is_sorted(t_stack *lst)
 	while (bckp->next != NULL)
 	{
 		if (bckp->value > bckp->next->value)
+			return (0);
+		bckp = bckp->next;
+	}
+	return (1);
+}
+
+int	is_desc_sorted(t_stack *lst)
+{
+	t_stack	*bckp;
+
+	if (!lst)
+		return (0);
+	bckp = lst;
+	while (bckp->next != NULL)
+	{
+		if (bckp->value < bckp->next->value)
 			return (0);
 		bckp = bckp->next;
 	}
