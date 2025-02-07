@@ -47,10 +47,10 @@ int	push_to(t_stack **stack_from, t_stack **stack_to, int a_or_b)
 
 	if (!*stack_from)
 		return (0);
-	tmp = (*stack_from)->next;
-	(*stack_from)->next = *stack_to;
-	*stack_to = *stack_from;
-	*stack_from = tmp;
+	tmp = *stack_from;
+	*stack_from = (*stack_from)->next;
+	tmp->next = *stack_to;
+	*stack_to = tmp;
 	if (a_or_b == 1)
 		ft_printf("pa\n");
 	else if (a_or_b == -1)

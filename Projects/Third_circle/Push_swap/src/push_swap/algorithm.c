@@ -12,7 +12,7 @@
 
 #include "push_swap.h"
 
-t_stack	*size_3(t_stack *stack_a)
+void	size_3(t_stack *stack_a)
 {
 	if (stack_a->value > stack_a->next->value
 		&& stack_a->value > stack_a->next->next->value)
@@ -28,9 +28,9 @@ t_stack	*size_3(t_stack *stack_a)
 		reverse_rotate_a_or_b(&stack_a, 1);
 	if (stack_a->value > stack_a->next->value)
 		swap_a_or_b(&stack_a, 1);
-	return (stack_a);
 }
 
+<<<<<<< HEAD
 static t_stack *reverse_size3(t_stack *stack_b)
 {
 	if (stack_b->value < stack_b->next->value
@@ -48,24 +48,25 @@ static t_stack *reverse_size3(t_stack *stack_b)
 	if (stack_b->value < stack_b->next->value)
 		swap_a_or_b(&stack_b, -1);
 	return (stack_b);
+=======
+void	desc_sort(t_stack **stack_b)
+{
+	if ((*stack_b)->value < (*stack_b)->next->value)
+		swap_a_or_b(stack_b, -1);
+>>>>>>> 96ca97ccb57fc3d7054cb87b721f09f0c2279a82
 }
 
-// t_stack *establish_cost(t_stack *stack_a)
-// {
-// 	t_stack	*tmp;
-// 	int		i;
+void create_stack_b(t_stack **stack_a, t_stack **stack_b)
+{
+	push_to(stack_a, stack_b, -1);
+	push_to(stack_a, stack_b, -1);
+}
 
-// 	i = 0;
-// 	tmp = stack_a;
-// 	while (tmp)
-// 	{
-// 		tmp->cost = i;
-// 		tmp = tmp->next;
-// 		i++;
-// 	}
-// 	return (stack_a);
-// }
+void	algorithm(t_stack **stack_a)
+{
+	t_stack *stack_b;
 
+<<<<<<< HEAD
 t_stack	*algorithm(t_stack *stack_a)
 {
 	t_stack	*stack_b;
@@ -79,3 +80,19 @@ t_stack	*algorithm(t_stack *stack_a)
 		stack_b = reverse_size3(stack_b);
 	return (stack_b);
 }
+=======
+	stack_b = NULL;
+	index_stack(*stack_a);
+	establish_cost(*stack_a);
+	create_stack_b(stack_a, &stack_b);
+	if (!is_desc_sorted(stack_b))
+		desc_sort(&stack_b);
+	while(!is_desc_sorted(stack_b))
+	{
+		
+	}
+	ft_printf("b = ");
+	ft_lstiter(stack_b, ft_printf);
+}
+
+>>>>>>> 96ca97ccb57fc3d7054cb87b721f09f0c2279a82

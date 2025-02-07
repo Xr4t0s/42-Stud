@@ -1,19 +1,37 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   client.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nitadros <nitadros@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/12/12 16:13:01 by nitadros          #+#    #+#             */
+/*   Updated: 2025/01/05 23:08:09 by nitadros         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <signal.h>
 #include <unistd.h>
 #include "../includes/ft_printf.h"
+#include "../includes/libft.h"
 
-unsigned char reverse_bits(unsigned char num) {
-    unsigned char reversed = 0;
-    int bit_count = sizeof(num) * 8;  // Pour un char, c'est généralement 8 bits
+unsigned char	reverse_bits(unsigned char num)
+{
+    unsigned char	reversed;
+    int				bit_count;
+	int				i;
 
-    for (int i = 0; i < bit_count; i++) {
-        reversed <<= 1;  // Décale 'reversed' vers la gauche pour libérer de la place
-        if (num & 1) {  // Si le bit de droite de 'num' est 1
-            reversed |= 1;  // Met le bit de droite de 'reversed' à 1
-        }
-        num >>= 1;  // Décale 'num' vers la droite pour analyser le bit suivant
+	i = 0;
+	bit_count = sizeof(num) * 8;
+	reversed = 0;
+    while (i < bit_count)
+	{
+        reversed <<= 1;
+        if (num & 1)
+            reversed |= 1;
+        num >>= 1;
+		i++;
     }
-
     return reversed;
 }
 
@@ -28,15 +46,14 @@ void send_c(pid_t t, char c)
 			kill(t, SIGUSR2);
 		else
 		 	kill(t, SIGUSR1);
+		usleep(100);
 		i--;
-		usleep(50);
 	}
-	usleep(200);
 }
 
 void send_s(pid_t t, const char *str)
 {
-	while(*str)
+	while (*str)
 	{
 		send_c(t, reverse_bits(*str));
 		str++;
@@ -44,13 +61,16 @@ void send_s(pid_t t, const char *str)
 	send_c(t, reverse_bits('\0'));
 }
 
-int main()
+int main(int ac, char **av)
 {
 	pid_t t;
-	char *message = "Hello from clieeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeent\n";
+	char *message;
 
-	printf("Entrez le pid : ");
-	scanf("%d", &t);
-	send_s(t, message);
+	if (ac != 3)
+		return (0);
 	
+
+	t = ft_atoi(av[1]);
+	message = av[2];
+	send_s((pid_t)t, message);
 }

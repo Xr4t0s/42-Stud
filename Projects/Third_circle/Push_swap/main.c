@@ -12,21 +12,27 @@
 
 #include "push_swap.h"
 
-t_stack	*sort_aglorithm(t_stack *stack_a)
+void	sort_aglorithm(t_stack **stack_a)
 {
 	int	size;
 
-	size = ft_lstsize(stack_a);
+	size = ft_lstsize(*stack_a);
 	if (size == 2)
 	{
-		if (stack_a->value > stack_a->next->value)
-			swap_a_or_b(&stack_a, 1);
+		if ((*stack_a)->value > (*stack_a)->next->value)
+			swap_a_or_b(stack_a, 1);
 	}
 	else if (size == 3)
+<<<<<<< HEAD
 		stack_a = size_3(stack_a);
 	else
 		stack_a = algorithm(stack_a);
 	return (stack_a);
+=======
+		size_3(*stack_a);
+	else
+		algorithm(stack_a);
+>>>>>>> 96ca97ccb57fc3d7054cb87b721f09f0c2279a82
 }
 
 int	push_swap(char **av)
@@ -52,6 +58,7 @@ int	push_swap(char **av)
 	}
 	if (!is_sorted(stack_a))
 	{
+<<<<<<< HEAD
 		// tmp2 = sort_aglorithm(stack_a);
 		ft_lstiter(stack_a, ft_printf);
 	}
@@ -61,6 +68,13 @@ int	push_swap(char **av)
 	// 	ft_lstfree(&tmp2);
 	stack_a = NULL;
 	tmp2 = NULL;
+=======
+		sort_aglorithm(&stack_a);
+	}
+	ft_printf("a = ");
+	ft_lstiter(stack_a, ft_printf);
+	ft_lstfree(stack_a);
+>>>>>>> 96ca97ccb57fc3d7054cb87b721f09f0c2279a82
 	free_arg(args);
 	return (0);
 }
