@@ -57,3 +57,9 @@ int	push_to(t_stack **stack_from, t_stack **stack_to, int a_or_b)
 		ft_printf("pb\n");
 	return (1);
 }
+
+void	desc_sort(t_stack **stack_b)
+{
+	if ((*stack_b)->value < (*stack_b)->next->value)
+		swap_a_or_b(stack_b, -1);
+}

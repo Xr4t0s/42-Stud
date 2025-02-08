@@ -16,15 +16,9 @@ void	ft_lstfree(t_stack **lst)
 {
 	t_stack	*tmp;
 
-<<<<<<< HEAD
 	if (!lst || !*lst)
 		return;
 	while (*lst)
-=======
-	if (!lst)
-		return ;
-	while (lst)
->>>>>>> 96ca97ccb57fc3d7054cb87b721f09f0c2279a82
 	{
 		tmp = (*lst)->next; // Sauvegarde l'adresse du prochain élément avant free()
 		free(*lst);         // Libération de l'élément courant

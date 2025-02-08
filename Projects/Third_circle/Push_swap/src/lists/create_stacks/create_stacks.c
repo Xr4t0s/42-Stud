@@ -48,3 +48,25 @@ void	ft_lstadd_back(t_stack **lst, t_stack *new)
 	last = ft_lstlast(*lst);
 	last->next = new;
 }
+
+void create_stack_a(t_stack **stack_a, char **args)
+{
+	int		i;
+	long	*tab;
+	t_stack *tmp_stack;
+
+	i = 0;
+	while (args[i])
+	{
+		tab = ft_atoi2(args[i++]);
+		tmp_stack = ft_lstnew(tab[0]);
+		ft_lstadd_back(stack_a, tmp_stack);
+		free(tab);
+	}
+}
+
+void create_stack_b(t_stack **stack_a, t_stack **stack_b)
+{
+	push_to(stack_a, stack_b, -1);
+	push_to(stack_a, stack_b, -1);
+}
