@@ -26,7 +26,9 @@ typedef struct s_stack
 	int				cost;
 	int				cost_to_swap;
 	int				is_min;
+	int				is_mid;
 	int				is_max;
+	int				is_lowcost;
 	struct s_stack	*target_node;
 	struct s_stack	*next;	
 }	t_stack;
@@ -52,11 +54,13 @@ void	desc_sort(t_stack **stack_b);
 
 // Checks
 int		not_right_head(t_stack **stack_a);
+t_stack	*is_upper_than_max(t_stack **stack_b);
 
 // Initialization
 void    index_stack(t_stack *stack);
 void    establish_cost(t_stack *stack);
 void	mark_limits(t_stack *stack);
+void	mark_lowcost(t_stack **stack);
 void	find_target_node(t_stack **stack_a, t_stack **stack_b);
 void	establish_cost_to_swap(t_stack **stack);
 
@@ -79,5 +83,6 @@ int		is_there_twins(char **args);
 char	*ft_strdup2(char *s);
 long	*ft_atoi2(const char *str);
 int		is_sanitized(char **args);
+int		abs_v(int value);
 
 #endif

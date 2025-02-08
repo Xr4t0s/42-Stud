@@ -38,7 +38,7 @@ int	push_swap(char **av)
 		return 0;
 	if (!is_sorted(stack_a))
 		sort_aglorithm(&stack_a);
-	ft_printf("a :\n");
+	// ft_printf("a :\n");
 	// ft_lstiter(stack_a, ft_printf);
 	return (free_arg(args), ft_lstfree(&stack_a), 1);
 }

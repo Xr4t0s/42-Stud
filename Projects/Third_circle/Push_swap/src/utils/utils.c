@@ -31,3 +31,10 @@ char	*ft_strdup2(char *s)
 	res[i] = '\0';
 	return (res);
 }
+
+int	abs_v(int value)
+{
+	if (value < 0)
+		value *= -1;
+	return (value);
+}

@@ -14,10 +14,20 @@
 
 void	ft_lstiter(t_stack *lst, int (*f)(const char *, ...))
 {
-	t_stack *tmp;
+	// t_stack *tmp;
 
-	tmp = lst;
-	// f("value :\n");
+	// tmp = lst;
+	// f("value : \t\t");
+	// while (lst)
+	// {
+	// 	if (lst->next == NULL)
+	// 		f("(%d)\n", lst->value);
+	// 	else
+	// 		f("(%d), ", lst->value);
+	// 	lst = lst->next;
+	// }
+	// lst = tmp;
+	// f("");
 	while (lst)
 	{
 		if (lst->next == NULL)
@@ -26,18 +36,34 @@ void	ft_lstiter(t_stack *lst, int (*f)(const char *, ...))
 			f("%d, ", lst->value);
 		lst = lst->next;
 	}
-	lst = tmp;
-	f("cost_to_swap : ");
-	while (lst)
-	{
-		if (lst->next == NULL)
-			f("%d\n", lst->cost_to_swap);
-		else
-			f("%d, ", lst->cost_to_swap);
-		lst = lst->next;
-	}
 	// lst = tmp;
-	// f("target :\n");
+	// f("is_min : \t\t");
+	// while (lst)
+	// {
+	// 	if (lst->target_node)
+	// 	{
+	// 		if (lst->next == NULL)
+	// 			f("%d\n", lst->is_min);
+	// 		else
+	// 			f("%d, ", lst->is_min);
+	// 	}
+	// 	lst = lst->next;
+	// }
+	// lst = tmp;
+	// f("cost_to_swap : \t\t");
+	// while (lst)
+	// {
+	// 	if (lst->target_node)
+	// 	{
+	// 		if (lst->next == NULL)
+	// 			f("%d\n", lst->cost_to_swap);
+	// 		else
+	// 			f("%d, ", lst->cost_to_swap);
+	// 	}
+	// 	lst = lst->next;
+	// }
+	// lst = tmp;
+	// f("target : \t\t");
 	// while (lst)
 	// {
 	// 	if (lst->target_node)

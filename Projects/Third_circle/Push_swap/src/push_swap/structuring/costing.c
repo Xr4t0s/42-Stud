@@ -6,7 +6,7 @@
 /*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 18:56:29 by nitadros          #+#    #+#             */
-/*   Updated: 2025/02/08 02:50:47 by nitadros         ###   ########.fr       */
+/*   Updated: 2025/02/08 19:17:52 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,14 +18,16 @@ static void modulo_costing(t_stack *stack, int median, int size)
 
 	i = 0;
 	median++;
-	while (stack->index != median + 1)
+	if (!stack)
+		return ;
+	while (stack->index != median + 1 && stack)
 	{
 		stack->cost = i;
 		i++;
 		stack = stack->next;
 	}
 	i--;
-	while (stack->index != size)
+	while (stack->index != size && stack)
 	{
 		stack->cost = -i;
 		i--;
@@ -39,13 +41,17 @@ static void no_modulo_costing(t_stack *stack, int median, int size)
 	int i;
 
 	i = 0;
-	while (stack->index != median + 1)
+	if (!stack)
+		return ;
+	while (stack->index != median + 1 && stack)
 	{
 		stack->cost = i;
 		i++;
 		stack = stack->next;
 	}
-	while (stack->index != size)
+	if (stack->next)
+		stack->next->is_mid = 1;
+	while (stack->index != size && stack)
 	{
 		stack->cost = -i;
 		i--;
@@ -61,6 +67,11 @@ void    establish_cost(t_stack *stack)
 	int median;
 
 	stack_size = ft_lstsize(stack);
+	if (stack_size == 1)
+	{	
+		stack->cost = 0;
+		return ;
+	}
 	modulo = stack_size % 2;
 	median = stack_size / 2;
 	if (modulo == 1)
@@ -99,4 +110,5 @@ void establish_cost_to_swap(t_stack **stack)
 		}
 		tmp = tmp->next;
 	}
+	mark_lowcost(stack);
 }
