@@ -12,21 +12,21 @@
 
 #include "push_swap.h"
 
-void	size_3(t_stack **stack_a)
+int	size_3(t_stack **stack_a)
 {
 	if ((*stack_a)->value > (*stack_a)->next->value
 		&& (*stack_a)->value > (*stack_a)->next->next->value)
-		rotate_a_or_b(stack_a, 1);
+		return (rotate_a_or_b(stack_a, 1), 1);
 	else if ((*stack_a)->value > (*stack_a)->next->value
 		&& (*stack_a)->value < (*stack_a)->next->next->value)
-		swap_a_or_b(stack_a, 1);
+		return (swap_a_or_b(stack_a, 1), 1);
 	else if ((*stack_a)->value < (*stack_a)->next->value
 		&& (*stack_a)->value > (*stack_a)->next->next->value)
-		reverse_rotate_a_or_b(stack_a, 1);
+		return (reverse_rotate_a_or_b(stack_a, 1), 1);
 	else if ((*stack_a)->value < (*stack_a)->next->value
 		&& (*stack_a)->value < (*stack_a)->next->next->value
 		&& (*stack_a)->next->value < (*stack_a)->next->next->value)
-		return ;
+		return (1);
 	if ((*stack_a)->value > (*stack_a)->next->value)
 		swap_a_or_b(stack_a, 1);
 	else if ((*stack_a)->value < (*stack_a)->next->next->value)
@@ -35,6 +35,7 @@ void	size_3(t_stack **stack_a)
 		swap_a_or_b(stack_a, 1);
 		reverse_rotate_a_or_b(stack_a, 1);
 	}
+	return (1);
 }
 
 void	execute(t_stack **stack_a, t_stack **stack_b)
