@@ -152,7 +152,7 @@ static void	current_is_lowcost(t_stack **stack, t_stack **stack_a, t_stack **sta
 		}
 	}
 }
-²
+
 void execute(t_stack **stack_a, t_stack **stack_b)
 {
 	t_stack	*tmp_a;
