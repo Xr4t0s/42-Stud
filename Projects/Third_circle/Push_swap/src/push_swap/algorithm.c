@@ -24,10 +24,17 @@ void	size_3(t_stack **stack_a)
 		&& (*stack_a)->value > (*stack_a)->next->next->value)
 		reverse_rotate_a_or_b(stack_a, 1);
 	else if ((*stack_a)->value < (*stack_a)->next->value
-		&& (*stack_a)->value < (*stack_a)->next->next->value)
+		&& (*stack_a)->value < (*stack_a)->next->next->value
+		&& (*stack_a)->next->value < (*stack_a)->next->next->value)
 		return ;
 	if ((*stack_a)->value > (*stack_a)->next->value)
 		swap_a_or_b(stack_a, 1);
+	else if ((*stack_a)->value < (*stack_a)->next->next->value)
+	{
+		rotate_a_or_b(stack_a, 1);
+		swap_a_or_b(stack_a, 1);
+		reverse_rotate_a_or_b(stack_a, 1);
+	}
 }
 
 void	execute(t_stack **stack_a, t_stack **stack_b)

@@ -24,12 +24,12 @@ int	push_swap(char **av)
 	stack_a = NULL;
 	create_stack_a(&stack_a, args);
 	size = ft_lstsize(stack_a);
-	if (size <= 3)
+	if (size <= 1 || is_sorted(stack_a))
+		return (free_arg(args), ft_lstfree(&stack_a), 1);
+	else if (size <= 3)
 	{
-		if (size == 1)
-			return (0);
 		sort_aglorithm(&stack_a);
-		return (0);
+		return (free_arg(args), ft_lstfree(&stack_a), 1);
 	}
 	index_stack(&*stack_a);
 	establish_cost(&*stack_a);

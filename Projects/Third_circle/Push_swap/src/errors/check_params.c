@@ -37,9 +37,9 @@ int	is_sanitized(char **args)
 		if (!tmp)
 			return (0);
 		if (tmp[0] > 2147483647 || tmp[0] < -2147483648)
-			return (0);
+			return (free(tmp), 0);
 		if (tmp[1] == -1)
-			return (0);
+			return (free(tmp), 0);
 		i++;
 		free(tmp);
 	}
