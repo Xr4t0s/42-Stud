@@ -105,15 +105,9 @@ static void	current_is_lowcost(t_stack **stack, t_stack **stack_a, t_stack **sta
 	}
 	else if ((*stack)->cost < 0)
 	{
-		if ((*stack)->target_node->cost <= 0)
+		if ((*stack)->target_node->cost < 0)
 		{
-			if ((*stack)->target_node->cost == 0)
-			{
-				while ((*stack)->cost++ != 0)
-					reverse_rotate_a_or_b(stack_a, 1);
-				push_to(stack_a, stack_b, -1);
-			}
-			else if ((*stack)->cost <= (*stack)->target_node->cost)
+			if ((*stack)->cost <= (*stack)->target_node->cost)
 			{
 				while ((*stack)->target_node->cost != (*stack)->cost)
 				{
@@ -136,20 +130,29 @@ static void	current_is_lowcost(t_stack **stack, t_stack **stack_a, t_stack **sta
 				push_to(stack_a, stack_b, -1);
 			}
 		}
-		else if((*stack)->target_node->cost > 0)
+		else if((*stack)->target_node->cost >= 0)
 		{
-			while ((*stack)->target_node->cost != 0)
+			if ((*stack)->target_node->cost == 0)
 			{
-				rotate_a_or_b(stack_b, -1);
-				(*stack)->target_node->cost--;
+				while ((*stack)->cost++ != 0)
+					reverse_rotate_a_or_b(stack_a, 1);
+				push_to(stack_a, stack_b, -1);
 			}
-			while ((*stack)->cost++ != 0)
-				reverse_rotate_a_or_b(stack_a, 1);
-			push_to(stack_a, stack_b, -1);
+			else
+			{
+				while ((*stack)->target_node->cost != 0)
+				{
+					rotate_a_or_b(stack_b, -1);
+					(*stack)->target_node->cost--;
+				}
+				while ((*stack)->cost++ != 0)
+					reverse_rotate_a_or_b(stack_a, 1);
+				push_to(stack_a, stack_b, -1);
+			}
 		}
 	}
 }
-
+²
 void execute(t_stack **stack_a, t_stack **stack_b)
 {
 	t_stack	*tmp_a;
@@ -185,8 +188,7 @@ void sort(t_stack **stack_a, t_stack **stack_b)
 		rotate_a_or_b(stack_b, -1);
 	}
 	else if((*stack_b)->next && (*stack_a)->value < (*stack_b)->value
-		&& (*stack_a)->value > (*stack_b)->next->value
-		&& (*stack_a)->value < ft_lstlast(*stack_b)->value)
+		&& (*stack_a)->value > (*stack_b)->next->value)
 	{
 		push_to(stack_a, stack_b, -1);
 		swap_a_or_b(stack_b, -1);

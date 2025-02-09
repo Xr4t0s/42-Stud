@@ -6,7 +6,7 @@
 /*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 16:35:30 by nitadros          #+#    #+#             */
-/*   Updated: 2025/02/09 04:45:42 by nitadros         ###   ########.fr       */
+/*   Updated: 2025/02/09 15:15:45 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ static void clear_limits(t_stack *stack)
     {
         tmp->is_min = 0;
         tmp->is_max = 0;
+		tmp->is_lowcost = 0;
         tmp = tmp->next;
     }
 }
@@ -68,7 +69,6 @@ void mark_lowcost(t_stack **stack)
 	tmp = *stack;
 	marked = tmp;
 	choosen = abs_v(tmp->cost_to_swap);
-	tmp->head = 1;
 	while (tmp)
 	{
 		if (abs_v(tmp->cost_to_swap) < choosen)
@@ -76,8 +76,6 @@ void mark_lowcost(t_stack **stack)
 			marked = tmp;
 			choosen = abs_v(tmp->cost_to_swap);
 		}
-		if (!tmp->next)
-			tmp->tail = 1;
 		tmp = tmp->next;
 	}
 	

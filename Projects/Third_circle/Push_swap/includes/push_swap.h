@@ -29,8 +29,6 @@ typedef struct s_stack
 	int				is_mid;
 	int				is_max;
 	int				is_lowcost;
-	int				head;
-	int				tail;
 	struct s_stack	*target_node;
 	struct s_stack	*next;	
 }	t_stack;
