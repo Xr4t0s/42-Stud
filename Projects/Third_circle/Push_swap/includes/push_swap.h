@@ -38,8 +38,26 @@ t_stack	*ft_lstlast(t_stack *lst);
 t_stack	*ft_lstnew(int content);
 int		ft_lstsize(t_stack *lst);
 void	ft_lstiter(t_stack *lst, int (*f)(const char *, ...));
+
+// Sanitize
+char	**sanitize_entry(char **av);
+int		is_there_twins(char **args);
+
+// Checks
 int		is_sorted(t_stack *lst);
 int		is_desc_sorted(t_stack *lst);
+int		not_right_head(t_stack **stack_a);
+t_stack	*is_upper_than_max(t_stack **stack_b);
+
+// Initialization
+void	init_all(t_stack **stack_a, t_stack **stack_b);
+void	reset_a(t_stack **stack_a, t_stack **stack_b);
+void	index_stack(t_stack *stack);
+void	establish_cost(t_stack *stack);
+void	mark_limits(t_stack *stack);
+void	mark_lowcost(t_stack **stack);
+void	find_target_node(t_stack **stack_a, t_stack **stack_b);
+void	establish_cost_to_swap(t_stack **stack);
 
 // Instructions 
 
@@ -52,32 +70,20 @@ int		reverse_rotate_a_or_b(t_stack **stack, int a_or_b);
 int		reverse_rotate_a_and_b(t_stack **stack_a, t_stack **stack_b);
 void	desc_sort(t_stack **stack_b);
 
-// Checks
-int		not_right_head(t_stack **stack_a);
-t_stack	*is_upper_than_max(t_stack **stack_b);
-
-// Initialization
-void    index_stack(t_stack *stack);
-void    establish_cost(t_stack *stack);
-void	mark_limits(t_stack *stack);
-void	mark_lowcost(t_stack **stack);
-void	find_target_node(t_stack **stack_a, t_stack **stack_b);
-void	establish_cost_to_swap(t_stack **stack);
-
 // Algorithm
 void	create_stack_a(t_stack **stack_a, char **args);
 void	create_stack_b(t_stack **stack_a, t_stack **stack_b);
 void	size_3(t_stack **stack);
 void	sort_aglorithm(t_stack **stack_a);
 void	algorithm(t_stack **stack_a);
+void	current_is_lowcost(t_stack **stack,
+			t_stack **stack_a,
+			t_stack **stack_b);
+void	execute(t_stack **stack_a, t_stack **stack_b);
 
 // Free
 void	ft_lstfree(t_stack **lst);
 void	free_arg(char **tab);
-
-// Sanitize
-char	**sanitize_entry(char **av);
-int		is_there_twins(char **args);
 
 // Utils
 char	*ft_strdup2(char *s);

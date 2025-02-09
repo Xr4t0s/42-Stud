@@ -17,14 +17,14 @@ void	ft_lstfree(t_stack **lst)
 	t_stack	*tmp;
 
 	if (!lst || !*lst)
-		return;
+		return ;
 	while (*lst)
 	{
-		tmp = (*lst)->next; // Sauvegarde l'adresse du prochain élément avant free()
-		free(*lst);         // Libération de l'élément courant
-		*lst = tmp;         // Passe à l'élément suivant
+		tmp = (*lst)->next;
+		free(*lst);
+		*lst = tmp;
 	}
-	*lst = NULL; // 🔥 Corrige l'accès à une mémoire libérée
+	*lst = NULL;
 }
 
 void	free_arg(char **tab)

@@ -1,27 +1,35 @@
-SRC=src/errors/*.c \
-	src/lists/instructions/*.c \
-	src/lists/check_stacks/*.c \
-	src/lists/delete_stacks/*.c \
-	src/lists/create_stacks/*.c \
-	src/push_swap/structuring/*.c \
-	src/push_swap/*c \
-	src/utils/*.c \
-	main.c
+CC       := cc
+CFLAGS   := -Wall -Wextra -Werror -g
+INCLUDES := -I includes
+LIBS     := -L libs -lft -lftprintf
+BUILD    := build
+NAME     := push_swap
 
-OBJ=build/*.o
-NAME=push_swap
-CC=cc -Wall -Wextra -Werror
+SRC_DIR  := src
+OBJ_DIR  := $(BUILD)
+SRC      := $(shell find $(SRC_DIR) -type f -name "*.c")
+OBJ      := $(patsubst $(SRC_DIR)/%.c,$(OBJ_DIR)/%.o,$(SRC))
 
-all:
-	$(CC) -c $(SRC) -I includes -g
-	mkdir -p build
-	mv *.o build/
-	$(CC) -o $(NAME) $(OBJ) -I includes -L libs -lft -lftprintf -g
+all: $(NAME)
+
+$(NAME): $(OBJ)
+	@echo "🔗 Linking $(NAME)..."
+	@$(CC) $(CFLAGS) -o $@ $^ $(INCLUDES) $(LIBS)
+	@echo "✅ Compilation success !"
+
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
+	@mkdir -p $(dir $@)
+	@echo "🛠️ Compilation of $<..."
+	@$(CC) $(CFLAGS) -c $< -o $@ $(INCLUDES)
 
 clean:
-	rm -rf $(OBJ) build/
+	@echo "🧹 Removing objects..."
+	@rm -rf $(OBJ_DIR)
 
 fclean: clean
-	rm -rf $(NAME)
+	@echo "🗑️ Deleting $(NAME)..."
+	@rm -rf $(NAME)
 
 re: fclean all
+
+.PHONY: all clean fclean re

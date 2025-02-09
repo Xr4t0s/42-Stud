@@ -6,66 +6,65 @@
 /*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 16:35:30 by nitadros          #+#    #+#             */
-/*   Updated: 2025/02/09 15:15:45 by nitadros         ###   ########.fr       */
+/*   Updated: 2025/02/09 20:44:47 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-static void clear_limits(t_stack *stack)
+static void	clear_limits(t_stack *stack)
 {
-    t_stack *tmp = stack;
+	t_stack	*tmp;
 
-    while (tmp)
-    {
-        tmp->is_min = 0;
-        tmp->is_max = 0;
+	tmp = stack;
+	while (tmp)
+	{
+		tmp->is_min = 0;
+		tmp->is_max = 0;
 		tmp->is_lowcost = 0;
-        tmp = tmp->next;
-    }
+		tmp = tmp->next;
+	}
 }
 
-static void mark_min_max(t_stack *stack)
+static void	mark_min_max(t_stack *stack)
 {
-    if (!stack)
-        return;
+	t_stack	*tmp;
+	t_stack	*min_node;
+	t_stack	*max_node;
 
-    t_stack *tmp = stack;
-    t_stack *min_node = stack;
-    t_stack *max_node = stack;
-
-    // Trouver les nœuds min et max en un seul passage
-    while (tmp)
-    {
-        if (tmp->value < min_node->value)
-            min_node = tmp;
-        if (tmp->value > max_node->value)
-            max_node = tmp;
-        tmp = tmp->next;
-    }
-
-    // Marquer les nœuds trouvés
-    min_node->is_min = 1;
-    max_node->is_max = 1;
+	tmp = stack;
+	min_node = stack;
+	max_node = stack;
+	if (!stack)
+		return ;
+	while (tmp)
+	{
+		if (tmp->value < min_node->value)
+			min_node = tmp;
+		if (tmp->value > max_node->value)
+			max_node = tmp;
+		tmp = tmp->next;
+	}
+	min_node->is_min = 1;
+	max_node->is_max = 1;
 }
 
-void mark_limits(t_stack *stack)
+void	mark_limits(t_stack *stack)
 {
-    if (!stack)
-        return;
-
-    clear_limits(stack);  // Réinitialise toutes les marques
-    mark_min_max(stack);  // Marque uniquement min et max
+	if (!stack)
+		return ;
+	clear_limits(stack);
+	mark_min_max(stack);
 }
 
-void mark_lowcost(t_stack **stack)
+void	mark_lowcost(t_stack **stack)
 {
-	t_stack *tmp;
-	t_stack *marked;
-	int choosen;
+	t_stack	*tmp;
+	t_stack	*marked;
+	int		choosen;
 
 	if (!stack || !*stack)
-		return;
+		return ;
 	tmp = *stack;
 	marked = tmp;
 	choosen = abs_v(tmp->cost_to_swap);
@@ -78,7 +77,6 @@ void mark_lowcost(t_stack **stack)
 		}
 		tmp = tmp->next;
 	}
-	
 	if (marked)
 		marked->is_lowcost = 1;
 }

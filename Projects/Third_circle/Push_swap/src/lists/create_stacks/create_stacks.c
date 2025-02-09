@@ -49,11 +49,11 @@ void	ft_lstadd_back(t_stack **lst, t_stack *new)
 	last->next = new;
 }
 
-void create_stack_a(t_stack **stack_a, char **args)
+void	create_stack_a(t_stack **stack_a, char **args)
 {
 	int		i;
 	long	*tab;
-	t_stack *tmp_stack;
+	t_stack	*tmp_stack;
 
 	i = 0;
 	while (args[i])
@@ -65,7 +65,7 @@ void create_stack_a(t_stack **stack_a, char **args)
 	}
 }
 
-void create_stack_b(t_stack **stack_a, t_stack **stack_b)
+void	create_stack_b(t_stack **stack_a, t_stack **stack_b)
 {
 	push_to(stack_a, stack_b, -1);
 	push_to(stack_a, stack_b, -1);

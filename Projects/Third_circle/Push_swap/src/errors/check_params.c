@@ -46,6 +46,23 @@ int	is_sanitized(char **args)
 	return (1);
 }
 
+static int	set_multiplicator(const char **str, int *i, long *mult)
+{
+	if (is_ok(*str[*i]) != 0)
+	{
+		if (is_ok(*str[*i]) == -1)
+		{
+			*mult = -1;
+			(*i)++;
+		}
+		else if (is_ok(*str[*i]) == 2)
+			(*i)++;
+	}
+	else
+		return (0);
+	return (1);
+}
+
 long	*ft_atoi2(const char *str)
 {
 	int		i;
@@ -61,17 +78,7 @@ long	*ft_atoi2(const char *str)
 		i++;
 	if (!ft_isdigit(str[i]) && (str[i] != '-' && str[i] != '+'))
 		return (free(res), NULL);
-	if (is_ok(str[i]) != 0)
-	{
-		if (is_ok(str[i]) == -1)
-		{
-			mult = -1;
-			i++;
-		}
-		else if (is_ok(str[i]) == 2)
-			i++;
-	}
-	else
+	if (!set_multiplicator(&str, &i, &mult))
 		return (free(res), NULL);
 	if (!ft_isdigit(str[i]))
 		return (free(res), NULL);
