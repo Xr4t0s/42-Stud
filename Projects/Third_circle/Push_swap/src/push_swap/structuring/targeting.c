@@ -82,6 +82,12 @@ void find_target_node(t_stack **stack_a, t_stack **stack_b)
                     current_a->target_node = tmp_b->next;
 					break;
 				}
+				else if (current_a->value > tmp_b->value
+					&& current_a->value < ft_lstlast(tmp_b)->value)
+				{
+					current_a->target_node = tmp_b;
+					break;
+				}
                 tmp_b = tmp_b->next;
             }
 

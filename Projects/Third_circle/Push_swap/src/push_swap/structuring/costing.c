@@ -6,7 +6,7 @@
 /*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 18:56:29 by nitadros          #+#    #+#             */
-/*   Updated: 2025/02/08 19:17:52 by nitadros         ###   ########.fr       */
+/*   Updated: 2025/02/09 04:14:27 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,8 @@ void establish_cost_to_swap(t_stack **stack)
 	tmp = *stack;
 	while (tmp)
 	{
+		if (!tmp || !tmp->target_node)
+			return ;
 		if (tmp->cost >= 0 && tmp->target_node->cost >= 0)
 		{
 			if (tmp->cost >= tmp->target_node->cost)

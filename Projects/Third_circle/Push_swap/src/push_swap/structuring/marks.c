@@ -6,7 +6,7 @@
 /*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 16:35:30 by nitadros          #+#    #+#             */
-/*   Updated: 2025/02/08 17:20:47 by nitadros         ###   ########.fr       */
+/*   Updated: 2025/02/09 04:45:42 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,16 +67,20 @@ void mark_lowcost(t_stack **stack)
 		return;
 	tmp = *stack;
 	marked = tmp;
-	choosen = tmp->cost_to_swap;
+	choosen = abs_v(tmp->cost_to_swap);
+	tmp->head = 1;
 	while (tmp)
 	{
-		if (tmp->cost_to_swap < choosen)
+		if (abs_v(tmp->cost_to_swap) < choosen)
 		{
 			marked = tmp;
-			choosen = tmp->cost_to_swap;
+			choosen = abs_v(tmp->cost_to_swap);
 		}
+		if (!tmp->next)
+			tmp->tail = 1;
 		tmp = tmp->next;
 	}
+	
 	if (marked)
 		marked->is_lowcost = 1;
 }

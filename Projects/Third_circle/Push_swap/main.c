@@ -38,8 +38,6 @@ int	push_swap(char **av)
 		return 0;
 	if (!is_sorted(stack_a))
 		sort_aglorithm(&stack_a);
-	// ft_printf("a :\n");
-	// ft_lstiter(stack_a, ft_printf);
 	return (free_arg(args), ft_lstfree(&stack_a), 1);
 }
 
@@ -47,6 +45,8 @@ int	main(int ac, char **av)
 {
 	if (ac < 2)
 		return (0);
+	if (!av[1][0])
+		return 0;
 	av++;
 	push_swap(av);
 }
