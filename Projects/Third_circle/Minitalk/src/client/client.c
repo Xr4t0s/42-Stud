@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   client.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nitadros <nitadros@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 16:13:01 by nitadros          #+#    #+#             */
-/*   Updated: 2025/01/05 23:08:09 by nitadros         ###   ########.fr       */
+/*   Updated: 2025/02/10 01:30:40 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <signal.h>
 #include <unistd.h>
-#include "../includes/ft_printf.h"
-#include "../includes/libft.h"
+#include "ft_printf.h"
+#include "libft.h"
 
 unsigned char	reverse_bits(unsigned char num)
 {

@@ -1,25 +1,53 @@
-SERV=server
-CLI=client
-CC=cc -g
-SRC=src/
-SRCSERV=server.c
-SERVOBJ=$(SRCSERV:.c=.o)
-SRCCLI=client.c
-CLIOBJ=$(SRCCLI:.c=.o)
+SRV			:= server
+CLI			:= client
 
-all:
-	$(CC) $(SRC)$(SRCSERV) -I includes -L libs -lft -lftprintf -o server -g
-	$(CC) $(SRC)$(SRCCLI) -I includes -L libs -lft -lftprintf -o client -g
+CC			:= cc
+CFLAGS		:= -Wall -Wextra -Werror
+LIBS		:= -L libs -lft -lftprintf
+INCL		:= -I includes
 
-server:
-	$(CC) $(SRC)$(SRCSERV) -I includes -Llibs -lft -lftprintf -o client
+SRC			:= src
+BUILD		:= build
+CLI_BUILD	:= $(BUILD)/$(CLI)
+SRV_BUILD	:= $(BUILD)/$(SRV)
+SRC_CLI_DIR	:= $(SRC)/$(CLI)
+SRC_SRV_DIR	:= $(SRC)/$(SRV)
 
-client:
-	$(CC) $(SRC)$(SRCCLI) -I includes -Llibs -lft -lftprintf -o client
+SRC_CLI		:= $(shell find $(SRC)/client -type f -name "*.c")
+SRC_SRV		:= $(shell find $(SRC)/server -type f -name "*.c")
+OBJ_CLI		:= $(patsubst $(SRC_CLI_DIR)/%.c,$(CLI_BUILD)/%.o,$(SRC_CLI))
+OBJ_SRV		:= $(patsubst $(SRC_SRV_DIR)/%.c,$(SRV_BUILD)/%.o,$(SRC_SRV))
+
+all: $(SRV) $(CLI)
+
+$(SRV): $(OBJ_SRV)
+	@echo "🔗 Linking $(SRV)..."
+	@$(CC) $(CFLAGS) -o $@ $^ $(INCL) $(LIBS)
+	@echo "✅ Compilation success !"
+
+$(SRV_BUILD)/%.o: $(SRC_SRV_DIR)/%.c
+	@mkdir -p $(dir $@)
+	@echo "🛠️  Compilation of $<..."
+	@$(CC) $(CFLAGS) -c $< -o $@ $(INCL) 
+
+$(CLI): $(OBJ_CLI)
+	@echo "🔗 Linking $(CLI)..."
+	@$(CC) $(CFLAGS) -o $@ $^ $(INCL) $(LIBS)
+	@echo "✅ Compilation success !"
+
+$(CLI_BUILD)/%.o: $(SRC_CLI_DIR)/%.c
+	@mkdir -p .$(dir $@)
+	@echo "🛠️  Compilation of $<..."
+	@$(CC) $(CFLAGS) -c $< -o $@ $(INCL) 
 
 clean:
-	rm client server -rf
+	@echo "🧹 Removing objects..."
+	@rm -rf $(BUILD)
 
 fclean: clean
+	@echo "🗑️  Deleting $(SRV) and $(CLI)..."
+	@rm -rf $(SRV) $(CLI)
 
 re: fclean all
+
+.PHONY: all clean fclean re

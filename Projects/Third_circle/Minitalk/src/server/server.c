@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   server.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nitadros <nitadros@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 16:13:05 by nitadros          #+#    #+#             */
-/*   Updated: 2025/01/06 00:01:18 by nitadros         ###   ########.fr       */
+/*   Updated: 2025/02/10 01:31:00 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <bits/types/siginfo_t.h>
 #include <signal.h>
-#include "../includes/ft_printf.h"
+#include "ft_printf.h"
 #include "minitalk.h"
 
 Global	g = {-1, 0, 0};
