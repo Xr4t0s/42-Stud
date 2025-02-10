@@ -2,7 +2,7 @@ SRV			:= server
 CLI			:= client
 
 CC			:= cc
-CFLAGS		:= -Wall -Wextra -Werror
+CFLAGS		:= -Wall -Wextra -Werror -g
 LIBS		:= -L libs -lft -lftprintf
 INCL		:= -I includes
 
@@ -26,9 +26,9 @@ $(SRV): $(OBJ_SRV)
 	@echo "✅ Compilation success !"
 
 $(SRV_BUILD)/%.o: $(SRC_SRV_DIR)/%.c
-	@mkdir -p $(dir $@)
+	@mkdir -p $(SRV_BUILD)
 	@echo "🛠️  Compilation of $<..."
-	@$(CC) $(CFLAGS) -c $< -o $@ $(INCL) 
+	@$(CC) $(CFLAGS) -c $< -o $@ $(INCL) $(LIBS)
 
 $(CLI): $(OBJ_CLI)
 	@echo "🔗 Linking $(CLI)..."
@@ -36,9 +36,9 @@ $(CLI): $(OBJ_CLI)
 	@echo "✅ Compilation success !"
 
 $(CLI_BUILD)/%.o: $(SRC_CLI_DIR)/%.c
-	@mkdir -p .$(dir $@)
+	@mkdir -p $(CLI_BUILD)
 	@echo "🛠️  Compilation of $<..."
-	@$(CC) $(CFLAGS) -c $< -o $@ $(INCL) 
+	@$(CC) $(CFLAGS) -c $< -o $@ $(INCL) $(LIBS)
 
 clean:
 	@echo "🧹 Removing objects..."

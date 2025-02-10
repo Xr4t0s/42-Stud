@@ -1,8 +1,0 @@
-{
-	"files.associations": {
-		"signal.h": "c",
-		"ft_printf.h": "c",
-		"siginfo_t.h": "c",
-		"unistd.h": "c"
-	}
-}
