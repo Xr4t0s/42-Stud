@@ -6,7 +6,7 @@
 /*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 16:13:05 by nitadros          #+#    #+#             */
-/*   Updated: 2025/02/10 03:22:15 by nitadros         ###   ########.fr       */
+/*   Updated: 2025/02/10 03:36:22 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ void	sighandler(int sig, siginfo_t *info, void *context)
 	g_.position++;
 	if (g_.position == 8)
 	{
-		buffer[g_.i] = g.current;
+		buffer[g_.i] = g_.current;
 		if (buffer[g_.i] == '\0')
 		{
 			ft_printf("%s\n", buffer);
