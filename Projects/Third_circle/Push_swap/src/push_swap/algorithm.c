@@ -16,7 +16,11 @@ int	size_3(t_stack **stack_a)
 {
 	if ((*stack_a)->value > (*stack_a)->next->value
 		&& (*stack_a)->value > (*stack_a)->next->next->value)
-		return (rotate_a_or_b(stack_a, 1), 1);
+	{
+		if ((*stack_a)->next->value < (*stack_a)->next->next->value)
+			return (rotate_a_or_b(stack_a, 1), 1);
+		return (rotate_a_or_b(stack_a, 1), swap_a_or_b(stack_a, 1), 1);
+	}
 	else if ((*stack_a)->value > (*stack_a)->next->value
 		&& (*stack_a)->value < (*stack_a)->next->next->value)
 		return (swap_a_or_b(stack_a, 1), 1);
@@ -49,7 +53,6 @@ void	execute(t_stack **stack_a, t_stack **stack_b)
 	{
 		if (tmp_a->is_lowcost)
 		{
-			init_all(stack_a, stack_b);
 			current_is_lowcost(&tmp_a, stack_a, stack_b);
 			tmp_a = *stack_a;
 			return ;
@@ -64,16 +67,12 @@ void	sort(t_stack **stack_a, t_stack **stack_b)
 {
 	if (!*stack_a || !stack_a)
 		return ;
-	init_all(stack_a, stack_b);
 	if ((*stack_a)->value > (*stack_b)->value
 		&& (*stack_a)->value < ft_lstlast(*stack_b)->value)
 		push_to(stack_a, stack_b, -1);
 	else if ((*stack_a)->value < ft_lstlast(*stack_b)->value
 		&& ft_lstlast(*stack_b)->is_min == 1)
-	{
 		push_to(stack_a, stack_b, -1);
-		rotate_a_or_b(stack_b, -1);
-	}
 	else if ((*stack_b)->next && (*stack_a)->value < (*stack_b)->value
 		&& (*stack_a)->value > (*stack_b)->next->value)
 	{
@@ -82,6 +81,40 @@ void	sort(t_stack **stack_a, t_stack **stack_b)
 	}
 	else
 		execute(stack_a, stack_b);
+}
+
+static void	final_sort(t_stack **stack_a, t_stack **stack_b)
+{
+	t_stack	*tmp;
+
+	size_3(stack_a);
+	mark_limits(*stack_b);
+	tmp = is_upper_than_max(stack_b);
+	if (tmp->cost < 0)
+	{
+		while (tmp->cost++ != 0)
+			reverse_rotate_a_or_b(stack_b, -1);
+	}
+	else
+	{
+		while (tmp->cost-- != 0)
+			rotate_a_or_b(stack_b, -1);
+	}
+	tmp = ft_lstlast(*stack_a);
+	while (tmp->value > (*stack_b)->value)
+		reverse_rotate_a_or_b(stack_a, 1);
+	while (*stack_b)
+	{
+		if (tmp->value < (*stack_a)->value && tmp->value > (*stack_b)->value)
+		{
+			reverse_rotate_a_or_b(stack_a, 1);
+			tmp = ft_lstlast(*stack_a);
+		}
+		else
+			push_to(stack_b, stack_a, 1);
+	}
+	if ((*stack_a)->value > ft_lstlast(*stack_a)->value)
+		reverse_rotate_a_or_b(stack_a, 1);
 }
 
 void	algorithm(t_stack **stack_a)
@@ -95,6 +128,11 @@ void	algorithm(t_stack **stack_a)
 	while (!is_sorted(*stack_a) || ft_lstsize(stack_b) != 0)
 	{
 		init_all(stack_a, &stack_b);
+		if (ft_lstsize(*stack_a) <= 3)
+		{
+			final_sort(stack_a, &stack_b);
+			return ;
+		}
 		sort(stack_a, &stack_b);
 		if (!*stack_a)
 		{
