@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   server.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: nitadros <nitadros@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 16:13:05 by nitadros          #+#    #+#             */
-/*   Updated: 2025/02/10 03:36:22 by nitadros         ###   ########.fr       */
+/*   Updated: 2025/02/11 00:01:02 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	send_c(pid_t t, char c)
 			kill(t, SIGUSR2);
 		else
 			kill(t, SIGUSR1);
-		usleep(200);
+		usleep(1000);
 		i--;
 	}
 }
@@ -77,6 +77,7 @@ void	sighandler(int sig, siginfo_t *info, void *context)
 		{
 			ft_printf("%s\n", buffer);
 			ft_bzero(buffer, 4096);
+			usleep(200);
 			send_s(info->si_pid, "Message received successfully !");
 			g_.i = -1;
 		}

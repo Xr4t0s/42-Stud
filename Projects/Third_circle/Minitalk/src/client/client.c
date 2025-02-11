@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   client.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: nitadros <nitadros@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 16:13:01 by nitadros          #+#    #+#             */
-/*   Updated: 2025/02/10 03:22:17 by nitadros         ###   ########.fr       */
+/*   Updated: 2025/02/11 00:20:11 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	send_c(pid_t t, char c)
 			kill(t, SIGUSR2);
 		else
 			kill(t, SIGUSR1);
-		usleep(200);
+		usleep(1000);
 		i--;
 	}
 }
