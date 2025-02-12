@@ -29,7 +29,7 @@ t_stack	*is_upper_than_max(t_stack **stack_b)
 	return (max);
 }
 
-static t_stack	*is_lower_than_min(t_stack **stack_b)
+t_stack	*is_lower_than_min(t_stack **stack_b)
 {
 	t_stack	*tmp;
 	t_stack	*min;

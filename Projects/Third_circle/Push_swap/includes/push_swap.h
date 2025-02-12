@@ -48,6 +48,7 @@ int		is_sorted(t_stack *lst);
 int		is_desc_sorted(t_stack *lst);
 int		not_right_head(t_stack **stack_a);
 t_stack	*is_upper_than_max(t_stack **stack_b);
+t_stack	*is_lower_than_min(t_stack **stack_b);
 
 // Initialization
 void	init_all(t_stack **stack_a, t_stack **stack_b);
@@ -74,12 +75,12 @@ void	desc_sort(t_stack **stack_b);
 void	create_stack_a(t_stack **stack_a, char **args);
 void	create_stack_b(t_stack **stack_a, t_stack **stack_b);
 int		size_3(t_stack **stack);
+void	size_5(t_stack **a, t_stack **b, int size);
 void	sort_aglorithm(t_stack **stack_a);
 void	algorithm(t_stack **stack_a);
 void	current_is_lowcost(t_stack **stack,
 			t_stack **stack_a,
 			t_stack **stack_b);
-void	execute(t_stack **stack_a, t_stack **stack_b);
 
 // Free
 void	ft_lstfree(t_stack **lst);
