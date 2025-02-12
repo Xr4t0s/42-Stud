@@ -12,6 +12,21 @@
 
 #include "push_swap.h"
 
+void size_5(t_stack **a, t_stack **b)
+{
+	mark_limits(*a);
+	while(!(*a)->is_min)
+		reverse_rotate_a_or_b(a, 1);
+	push_to(a, b, -1);
+	mark_limits(*a);
+	while(!(*a)->is_min)
+		reverse_rotate_a_or_b(a, 1);
+	push_to(a, b, -1);
+	size_3(a);
+	push_to(b, a, 1);
+	push_to(b, a, 1);
+}
+
 int	size_3(t_stack **stack_a)
 {
 	if ((*stack_a)->value > (*stack_a)->next->value
@@ -42,10 +57,12 @@ int	size_3(t_stack **stack_a)
 	return (1);
 }
 
-void	execute(t_stack **stack_a, t_stack **stack_b)
+void	sort(t_stack **stack_a, t_stack **stack_b)
 {
 	t_stack	*tmp_a;
 
+	if (!*stack_a || !stack_a)
+		return ;
 	if (!stack_a || !stack_b || !*stack_a || !*stack_b)
 		return ;
 	tmp_a = *stack_a;
@@ -63,31 +80,12 @@ void	execute(t_stack **stack_a, t_stack **stack_b)
 		current_is_lowcost(&tmp_a, stack_a, stack_b);
 }
 
-void	sort(t_stack **stack_a, t_stack **stack_b)
-{
-	if (!*stack_a || !stack_a)
-		return ;
-	if ((*stack_a)->value > (*stack_b)->value
-		&& (*stack_a)->value < ft_lstlast(*stack_b)->value)
-		push_to(stack_a, stack_b, -1);
-	else if ((*stack_a)->value < ft_lstlast(*stack_b)->value
-		&& ft_lstlast(*stack_b)->is_min == 1)
-		push_to(stack_a, stack_b, -1);
-	else if ((*stack_b)->next && (*stack_a)->value < (*stack_b)->value
-		&& (*stack_a)->value > (*stack_b)->next->value)
-	{
-		push_to(stack_a, stack_b, -1);
-		swap_a_or_b(stack_b, -1);
-	}
-	else
-		execute(stack_a, stack_b);
-}
-
 static void	final_sort(t_stack **stack_a, t_stack **stack_b)
 {
 	t_stack	*tmp;
 
-	size_3(stack_a);
+	//size_3(stack_a);
+	size_5(stack_a, stack_b);
 	mark_limits(*stack_b);
 	tmp = is_upper_than_max(stack_b);
 	if (tmp->cost < 0)
@@ -102,7 +100,10 @@ static void	final_sort(t_stack **stack_a, t_stack **stack_b)
 	}
 	tmp = ft_lstlast(*stack_a);
 	while (tmp->value > (*stack_b)->value)
+	{
 		reverse_rotate_a_or_b(stack_a, 1);
+		tmp = ft_lstlast(*stack_a);
+	}
 	while (*stack_b)
 	{
 		if (tmp->value < (*stack_a)->value && tmp->value > (*stack_b)->value)
@@ -128,7 +129,7 @@ void	algorithm(t_stack **stack_a)
 	while (!is_sorted(*stack_a) || ft_lstsize(stack_b) != 0)
 	{
 		init_all(stack_a, &stack_b);
-		if (ft_lstsize(*stack_a) <= 3)
+		if (ft_lstsize(*stack_a) <= 5)
 		{
 			final_sort(stack_a, &stack_b);
 			return ;
