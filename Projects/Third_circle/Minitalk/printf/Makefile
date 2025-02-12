@@ -1,22 +1,44 @@
-NAME = libftprintf.a
-SRC = src/ft_printf.c src/utils*.c src/parsing.c src/init.c src/print_addr.c
-OBJ = ft_printf.o utils*.o parsing.o init.o print_addr.o
-INC = includes
-CC = cc
-CC_FLAG = -Wall -Wextra -Werror
-AR = ar rcs
+NAME        := libftprintf.a
+CC          := cc
+CFLAGS      := -Wall -Wextra -Werror
+AR          := ar rcs
+INC         := includes
+SRC_DIR     := src
+OBJ_DIR     := build
+LIBFT       := libft/libft.a
+SRC         := $(shell find $(SRC_DIR) -type f -name "*.c")
+OBJ         := $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRC))
 
-all: $(NAME)
+all: $(LIBFT) $(NAME)
 
-all:	
-	@$(CC) $(CC_FLAG) $(SRC) -c -I $(INC)/
-	@$(AR) $(NAME) $(OBJ)
+$(NAME): $(OBJ) $(LIBFT)
+	@if [ ! -f $(NAME) ]; then \
+		echo "🔗  Creation of $(NAME)..."; \
+		$(AR) $(NAME) $(OBJ); \
+		echo "✅  Library $(NAME) successfully created !"; \
+	fi
+
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIR)
+	@mkdir -p $(OBJ_DIR)
+	@$(CC) $(CFLAGS) -c $< -o $@ -I $(INC) -L libft -lft
+
+$(OBJ_DIR):
+	@mkdir -p $(OBJ_DIR)
+
+$(LIBFT):
+	@echo "📦 Vérification de libft..."
+	@make -C libft bonus -s
+	@touch $(LIBFT)
 
 clean:
-	@rm -rf $(OBJ)
+	@echo "🧹  Deleting $(NAME) objects..."
+	@make -C libft clean -s
+	@rm -rf $(OBJ_DIR)
 
-fclean:
-	@rm -rf $(OBJ) $(NAME)
+fclean: clean
+	@echo "🗑️  Deleting $(NAME) and objects..."
+	@make -C libft fclean -s
+	@rm -f $(NAME)
 
 re: fclean all
 
