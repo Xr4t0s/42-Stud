@@ -52,7 +52,7 @@ static void	final_sort(t_stack **stack_a, t_stack **stack_b, int size)
 {
 	t_stack	*tmp;
 
-	size_5(stack_a, stack_b, size - 3);
+	size_15(stack_a, stack_b, size - 3);
 	init_all(stack_a, stack_b);
 	tmp = is_upper_than_max(stack_b);
 	if (tmp->cost < 0)
@@ -115,6 +115,10 @@ void	sort_aglorithm(t_stack **stack_a)
 	}
 	else if (size == 3)
 		size_3(stack_a);
+	else if (size == 4)
+		size_4(stack_a);
+	else if (size == 5)
+		size_5(stack_a);
 	else
 		algorithm(stack_a);
 }

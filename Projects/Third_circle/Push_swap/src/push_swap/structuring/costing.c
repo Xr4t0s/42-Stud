@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   costing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: nitadros <nitadros@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 18:56:29 by nitadros          #+#    #+#             */
-/*   Updated: 2025/02/09 22:00:58 by nitadros         ###   ########.fr       */
+/*   Updated: 2025/02/14 00:33:07 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,10 +92,9 @@ static void	establish_cost_to_swap_utils(t_stack **tmp, int i)
 	else if (i == 2)
 	{
 		if ((*tmp)->cost <= (*tmp)->target_node->cost)
-			(*tmp)->cost_to_swap = (*tmp)->cost - 1;
+			(*tmp)->cost_to_swap = (*tmp)->cost + 1;
 		else if ((*tmp)->cost > (*tmp)->target_node->cost)
-			(*tmp)->cost_to_swap = -(*tmp)->cost
-				+ -(*tmp)->target_node->cost + 1;
+			(*tmp)->cost_to_swap = -(*tmp)->target_node->cost + 1;
 	}
 	else if (i == 3)
 	{

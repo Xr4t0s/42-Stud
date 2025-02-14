@@ -12,7 +12,7 @@
 
 #include "push_swap.h"
 
-void	size_5(t_stack **a, t_stack **b, int size)
+void	size_15(t_stack **a, t_stack **b, int size)
 {
 	int		tmp;
 	t_stack	*tmp_min;
@@ -39,6 +39,57 @@ void	size_5(t_stack **a, t_stack **b, int size)
 	tmp = size;
 	while (tmp-- != 0)
 		push_to(b, a, 1);
+}
+
+void	size_5(t_stack **a)
+{
+	t_stack	*b;
+	t_stack	*tmp;
+	int		i;
+
+	b = NULL;
+	i = 2;
+	while (i-- != 0)
+	{
+		init_all(a, &b);
+		tmp = is_lower_than_min(a);
+		if (tmp->cost < 0)
+		{
+			while (tmp->cost++ != 0)
+				reverse_rotate_a_or_b(a, 1);
+		}
+		else
+		{
+			while (tmp->cost-- != 0)
+				rotate_a_or_b(a, 1);
+		}
+		push_to(a, &b, -1);
+	}
+	size_3(a);
+	push_to(&b, a, 1);
+	push_to(&b, a, 1);
+}
+
+void	size_4(t_stack **a)
+{
+	t_stack	*b;
+	t_stack	*tmp;
+
+	b = NULL;
+	tmp = is_lower_than_min(a);
+	if (tmp->cost < 0)
+	{
+		while (tmp->cost++ != 0)
+			reverse_rotate_a_or_b(a, 1);
+	}
+	else
+	{
+		while (tmp->cost-- != 0)
+			rotate_a_or_b(a, 1);
+	}
+	push_to(a, &b, -1);
+	size_3(a);
+	push_to(&b, a, 1);
 }
 
 int	size_3(t_stack **a)

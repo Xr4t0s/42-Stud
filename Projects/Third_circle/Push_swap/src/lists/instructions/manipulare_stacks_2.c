@@ -41,8 +41,6 @@ int	rotate_a_and_b(t_stack **stack_a, t_stack **stack_b)
 {
 	if (*stack_a && (*stack_a)->next && *stack_b && (*stack_b)->next)
 	{
-		if (!(*stack_a)->next->value || !(*stack_b)->next->value)
-			return (0);
 		if (!rotate_a_or_b(stack_a, 2) || !rotate_a_or_b(stack_b, 0))
 			return (0);
 	}
@@ -76,8 +74,6 @@ int	reverse_rotate_a_and_b(t_stack **stack_a, t_stack **stack_b)
 {
 	if (*stack_a && (*stack_a)->next && *stack_b && (*stack_b)->next)
 	{
-		if (!(*stack_a)->next->value || !(*stack_b)->next->value)
-			return (0);
 		if (!reverse_rotate_a_or_b(stack_a, 2)
 			|| !reverse_rotate_a_or_b(stack_b, 0))
 			return (0);

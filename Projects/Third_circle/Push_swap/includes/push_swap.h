@@ -75,7 +75,9 @@ void	desc_sort(t_stack **stack_b);
 void	create_stack_a(t_stack **stack_a, char **args);
 void	create_stack_b(t_stack **stack_a, t_stack **stack_b);
 int		size_3(t_stack **stack);
-void	size_5(t_stack **a, t_stack **b, int size);
+void	size_4(t_stack **a);
+void	size_5(t_stack **a);
+void	size_15(t_stack **a, t_stack **b, int size);
 void	sort_aglorithm(t_stack **stack_a);
 void	algorithm(t_stack **stack_a);
 void	current_is_lowcost(t_stack **stack,

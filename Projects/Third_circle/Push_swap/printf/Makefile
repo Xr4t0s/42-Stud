@@ -20,7 +20,7 @@ $(NAME): $(OBJ) $(LIBFT)
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIR)
 	@mkdir -p $(OBJ_DIR)
-	@$(CC) $(CFLAGS) -c $< -o $@ -I $(INC) -L libft -lft
+	@$(CC) $(CFLAGS) -c $< -o $@ -I $(INC)
 
 $(OBJ_DIR):
 	@mkdir -p $(OBJ_DIR)
