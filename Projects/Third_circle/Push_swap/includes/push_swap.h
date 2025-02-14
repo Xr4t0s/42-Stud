@@ -52,6 +52,7 @@ t_stack	*is_lower_than_min(t_stack **stack_b);
 
 // Initialization
 void	init_all(t_stack **stack_a, t_stack **stack_b);
+void	init_not_all(t_stack **stack_a, t_stack **stack_b);
 void	reset_a(t_stack **stack_a, t_stack **stack_b);
 void	index_stack(t_stack *stack);
 void	establish_cost(t_stack *stack);

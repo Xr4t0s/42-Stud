@@ -6,7 +6,7 @@
 /*   By: nitadros <nitadros@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 18:56:29 by nitadros          #+#    #+#             */
-/*   Updated: 2025/02/14 00:33:07 by nitadros         ###   ########.fr       */
+/*   Updated: 2025/02/14 03:17:31 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,5 +124,4 @@ void	establish_cost_to_swap(t_stack **stack)
 			establish_cost_to_swap_utils(&tmp, 3);
 		tmp = tmp->next;
 	}
-	mark_lowcost(stack);
 }

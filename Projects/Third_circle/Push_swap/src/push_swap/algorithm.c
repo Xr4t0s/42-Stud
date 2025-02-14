@@ -53,7 +53,7 @@ static void	final_sort(t_stack **stack_a, t_stack **stack_b, int size)
 	t_stack	*tmp;
 
 	size_15(stack_a, stack_b, size - 3);
-	init_all(stack_a, stack_b);
+	init_not_all(stack_a, stack_b);
 	tmp = is_upper_than_max(stack_b);
 	if (tmp->cost < 0)
 	{
@@ -66,7 +66,7 @@ static void	final_sort(t_stack **stack_a, t_stack **stack_b, int size)
 			rotate_a_or_b(stack_b, -1);
 	}
 	tmp = ft_lstlast(*stack_a);
-	while (tmp->value > (*stack_b)->value)
+	while (tmp->value > (*stack_b)->value && !(is_lower_than_min(stack_a)->value > (*stack_b)->value))
 	{
 		reverse_rotate_a_or_b(stack_a, 1);
 		tmp = ft_lstlast(*stack_a);

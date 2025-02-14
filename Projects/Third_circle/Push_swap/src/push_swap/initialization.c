@@ -12,6 +12,16 @@
 
 #include "push_swap.h"
 
+void	init_not_all(t_stack **stack_a, t_stack **stack_b)
+{
+	index_stack(*stack_a);
+	index_stack(*stack_b);
+	mark_limits(*stack_a);
+	mark_limits(*stack_b);
+	establish_cost(*stack_a);
+	establish_cost(*stack_b);
+}
+
 void	init_all(t_stack **stack_a, t_stack **stack_b)
 {
 	index_stack(*stack_a);
@@ -21,9 +31,8 @@ void	init_all(t_stack **stack_a, t_stack **stack_b)
 	establish_cost(*stack_a);
 	establish_cost(*stack_b);
 	find_target_node(stack_a, stack_b);
-	find_target_node(stack_b, stack_a);
 	establish_cost_to_swap(stack_a);
-	establish_cost_to_swap(stack_b);
+	mark_lowcost(stack_a);
 }
 
 void	reset_a(t_stack **stack_a, t_stack **stack_b)
