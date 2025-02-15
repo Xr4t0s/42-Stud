@@ -77,19 +77,19 @@ void	parse_map(char *filename, t_controller *multiplex)
 
 	file_data = get_file_data(filename);
 	if (!file_data)
-		ft_return(NULL, 0, (void *)0);
+		ft_return(NULL, 0, multiplex);
 	line_count = count_lines(file_data);
 	if (line_count == -1)
-		ft_return(NULL, 0, (void *)0);
+		ft_return(NULL, 0, multiplex);
 	multiplex->map.y = line_count;
 	tmp = delete_new_lines(file_data);
 	if (!tmp)
-		ft_return(NULL, 0, (void *)0);
+		ft_return(NULL, 0, multiplex);
 	file_data = tmp;
 	multiplex->map.index = count_word(file_data, ' ');
 	multiplex->map.x = multiplex->map.index / multiplex->map.y;
 	if (multiplex->map.index <= 0)
-		ft_return(NULL, 0, (void *)0);
+		ft_return(NULL, 0, multiplex);
 	multiplex->map.coords = string_to_int(file_data, multiplex->map.index);
 	free(file_data);
 	return ;
