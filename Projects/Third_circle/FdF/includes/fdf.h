@@ -22,47 +22,54 @@
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 32768
 # endif
+# define ESC_KEY 65307
 
-// MAP
+// STRUCT
+
+typedef struct s_imgdata
+{
+	void	*img;
+	char	*addr;
+	int		bits_per_pixel;
+	int		line_length;
+	int		endian;
+} t_imgdata;
+
 typedef struct s_map
 {
 	int	x;
 	int	y;
 	int	z;
+	int	index;
 	int	*coords;
 } t_map;
 
-void	map_init(t_map **map);
-t_map	*map(char *xyz);
-
-
-// ENV
-typedef struct s_window
+typedef struct s_controller
 {
-	void	*mlx_ptr;
-	void	*window;
-	void	*img;
-} t_window;
+	char				*filename;
+	void				*mlx_ptr;
+	void				*window;
+	t_imgdata			img;
+	t_map				map;
+	struct s_controller	*next;
+} t_controller;
+
+// INIT
+void	init_controller(t_controller *multiplex, char *filename);
+// FREE
+void	free_controller(t_controller *multiplex);
 
 
 // PARSING
-t_map	*parse_map(char *filename);
+void	parse_map(char *filename, t_controller *multiplex);
 char	*delete_new_lines(char *xyz);
 int		count_lines(const char *buffer);
 int		count_word(const char *s, char c);
 
 // GNL
 char	*get_next_line(int fd);
-char	*read_lines(int fd, char *buffer);
-char	*get_good_line(char *line);
-char	*free_buff(char *ret, char *buffer);
-char	*get_good_next(char *buffer);
-
-// FREE
-void	free_map(char ***map);
-void	free_split(char **split);
 
 // ERR
-void	ft_return(char *error, int exit_code);
+void	ft_return(char *error, int exit_code, t_controller *s_controller);
 
 #endif

@@ -12,31 +12,27 @@
 
 #include "fdf.h"
 
-void	init_mlx(t_window	**window)
-{
-	(*window)->mlx_ptr = NULL;
-	(*window)->window = NULL;
-}
+// int	deal_mouse_up(int button, int x, int y, void *param)
+// {
 
-void	start_win(char *filename)
-{
-	t_window	*mlx;
+// }
 
-	mlx = malloc(sizeof(t_window));
-	init_mlx(&mlx);
-	mlx->mlx_ptr = mlx_init();
-	mlx->window = mlx_new_window(mlx->mlx_ptr, 500, 500, ft_strjoin("FDF - ", filename));
-	mlx_loop(mlx->mlx_ptr);
-}
+// int	deal_mouse_down(int button, int x, int y, void *param)
+// {
 
-int main(int ac, char **filename)
+// }
+
+int	main(int ac, char **filename)
 {
-	t_map	*map;
+	t_controller	*multiplex;
 
 	if (ac != 2)
 		return (0);
-	map = parse_map(*(++filename));
-	start_win(*filename);
-	ft_printf("Success = %d\n", map->coords[0]);
+	multiplex = (t_controller *)malloc(sizeof(t_controller));
+	if (!multiplex)
+		return (0);
+	init_controller(multiplex, *(++filename));
+	mlx_loop(multiplex->mlx_ptr);
+	free_controller(multiplex);
 	return (0);
 }

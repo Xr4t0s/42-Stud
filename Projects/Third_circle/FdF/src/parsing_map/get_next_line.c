@@ -6,14 +6,14 @@
 /*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 21:47:32 by nitadros          #+#    #+#             */
-/*   Updated: 2025/02/13 01:59:51 by nitadros         ###   ########.fr       */
+/*   Updated: 2025/02/15 03:59:59 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 #include "libft.h"
 
-char	*get_good_next(char *buffer)
+static char	*get_good_next(char *buffer)
 {
 	int		i;
 	int		j;
@@ -36,7 +36,7 @@ char	*get_good_next(char *buffer)
 	return (line);
 }
 
-char	*free_buff(char *ret, char *buffer)
+static char	*free_buff(char *ret, char *buffer)
 {
 	char	*tmp;
 
@@ -45,7 +45,7 @@ char	*free_buff(char *ret, char *buffer)
 	return (tmp);
 }
 
-char	*get_good_line(char *line)
+static char	*get_good_line(char *line)
 {
 	char	*ret;
 	int		i;
@@ -67,7 +67,7 @@ char	*get_good_line(char *line)
 	return (ret);
 }
 
-char	*read_lines(int fd, char *buffer)
+static char	*read_lines(int fd, char *buffer)
 {
 	char	*ret;
 	int		bytes_read;
@@ -108,22 +108,3 @@ char	*get_next_line(int fd)
 	buffer[fd] = get_good_next(buffer[fd]);
 	return (line);
 }
-
-/* int main()
-{
-	int fd;
-	fd = open("get_next_line.h", O_RDONLY);
-	char *line = get_next_line(fd);
-	printf("%s", line);
-	if (line)
-		free(line);
-	int fd2 = open("get_next_line_utils.c", O_RDONLY);
-	char *line2 = get_next_line(fd2);
-	printf("%s", line2);
-	if (line2)
-		free(line2);
-	line = get_next_line(fd);
-	printf("%s", line);
-	if (line)
-		free(line);
-} */

@@ -1,21 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   errors.c                                           :+:      :+:    :+:   */
+/*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/13 17:28:41 by nitadros          #+#    #+#             */
-/*   Updated: 2025/02/13 17:28:41 by nitadros         ###   ########.fr       */
+/*   Created: 2025/02/14 21:44:50 by nitadros          #+#    #+#             */
+/*   Updated: 2025/02/14 21:44:50 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-void	ft_return(char *error, int exit_code, t_controller *controller)
+void	free_controller(t_controller *multiplex)
 {
-	if (error)
-		ft_printf("%s\n", error);
-	free_controller(controller);
-	exit(exit_code);
+	mlx_destroy_image(multiplex->mlx_ptr, multiplex->img.img);
+	mlx_destroy_window(multiplex->mlx_ptr, multiplex->window);
+	mlx_destroy_display(multiplex->mlx_ptr);
+	if (multiplex->mlx_ptr)
+		free(multiplex->mlx_ptr);
+	free(multiplex->map.coords);
+	free(multiplex);
 }
