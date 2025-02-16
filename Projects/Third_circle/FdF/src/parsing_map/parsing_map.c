@@ -22,7 +22,6 @@ static int	*string_to_int(char *str, int size)
 	ptr = str;
 	if (!str || size <= 0)
 		return (NULL);
-	ft_printf("%s", str);
 	coords = malloc(sizeof(int) * size);
 	if (!coords)
 		return (NULL);

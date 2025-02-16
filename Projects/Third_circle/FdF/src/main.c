@@ -12,16 +12,12 @@
 
 #include "fdf.h"
 
-// int	deal_mouse_up(int button, int x, int y, void *param)
-// {
 
-// }
-
-// int	deal_mouse_down(int button, int x, int y, void *param)
-// {
-
-// }
-
+/*
+	Main function will get arg, then create multiplex, initalize it,
+	and finally, will open fdf.
+	Then we free...
+*/
 int	main(int ac, char **filename)
 {
 	t_controller	*multiplex;
@@ -32,6 +28,8 @@ int	main(int ac, char **filename)
 	if (!multiplex)
 		return (0);
 	init_controller(multiplex, *(++filename));
+	parse_map(*filename, multiplex);
+	configure_all(multiplex);
 	mlx_loop(multiplex->mlx_ptr);
 	free_controller(multiplex);
 	return (0);
