@@ -17,4 +17,3 @@ void	configure_all(t_controller *multiplex)
 	configure_img(multiplex);
 	configure_hooks(multiplex);
 }
-
