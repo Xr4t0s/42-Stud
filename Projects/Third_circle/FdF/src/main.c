@@ -12,12 +12,6 @@
 
 #include "fdf.h"
 
-
-/*
-	Main function will get arg, then create multiplex, initalize it,
-	and finally, will open fdf.
-	Then we free...
-*/
 int	main(int ac, char **filename)
 {
 	t_controller	*multiplex;
