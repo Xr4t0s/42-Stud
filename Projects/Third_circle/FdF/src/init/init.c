@@ -12,9 +12,7 @@
 
 #include "fdf.h"
 
-
-/* Here we init mouse struct */
-static void init_mouse(t_controller *multiplex)
+static void	init_mouse(t_controller *multiplex)
 {
 	if (!multiplex)
 		return ;
@@ -25,8 +23,7 @@ static void init_mouse(t_controller *multiplex)
 	multiplex->mouse.previous_y = 0;
 }
 
-/* Here we init map struct */
-static void init_map(t_controller *multiplex)
+static void	init_map(t_controller *multiplex)
 {
 	if (!multiplex)
 		return ;
@@ -36,7 +33,6 @@ static void init_map(t_controller *multiplex)
 	multiplex->map.coords = NULL;
 }
 
-/* Here we init img struct */
 static void	init_img(t_controller *multiplex)
 {
 	if (!multiplex)
@@ -46,11 +42,10 @@ static void	init_img(t_controller *multiplex)
 	multiplex->img.bits_per_pixel = 0;
 	multiplex->img.line_length = 0;
 	multiplex->img.endian = 0;
-	multiplex->img.width = 680;
-	multiplex->img.height = 680;
+	multiplex->img.width = multiplex->width - 20;
+	multiplex->img.height = multiplex->height - 20;
 }
 
-/* Here we init all components */
 static void	init_components(t_controller *multiplex)
 {
 	if (!multiplex)
@@ -61,12 +56,6 @@ static void	init_components(t_controller *multiplex)
 	multiplex->next = NULL;
 }
 
-/* 	Here we init the principal controller :
-		- First we init multiplex->mlx_ptr, multiplex->window,
-	and multiplex->filename
-		- Then we call the init_components() function, that init
-	img, map, and mouse struct of the multiplex controller
-*/
 void	init_controller(t_controller *multiplex, char *filename)
 {
 	if (!multiplex || !filename)
@@ -74,8 +63,12 @@ void	init_controller(t_controller *multiplex, char *filename)
 	multiplex->filename = NULL;
 	multiplex->mlx_ptr = NULL;
 	multiplex->window = NULL;
-	multiplex->width = 700;
-	multiplex->height = 700;
+	multiplex->width = 1480;
+	multiplex->height = 720;
+	multiplex->scale = 6.0;
+	multiplex->z_factor = 3.0;
+	multiplex->offset_x = 0;
+	multiplex->offset_y = 0;
 	init_components(multiplex);
 	multiplex->mlx_ptr = mlx_init();
 	if (!multiplex->mlx_ptr)
