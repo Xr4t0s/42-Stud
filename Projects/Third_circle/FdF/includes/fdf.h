@@ -13,20 +13,26 @@
 #ifndef FDF_H
 # define FDF_H
 
-#include "mlx.h"
-#include "libft.h"
-#include "ft_printf.h"
-#include <fcntl.h>
-#include <stdlib.h>
-#include <X11/Xlib.h>
+# include "mlx.h"
+# include "libft.h"
+# include "ft_printf.h"
+# include <fcntl.h>
+# include <stdlib.h>
+# include <X11/Xlib.h>
+# include <math.h>
 
-#ifndef BUFFER_SIZE
-# define BUFFER_SIZE 1000000
-#endif
-#ifndef ESC_KEY
-# define ESC_KEY		65307
-#endif
-
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 1000000
+# endif
+# ifndef ESC_KEY
+#  define ESC_KEY 65307
+# endif
+# ifndef COS_30
+#  define COS_30 0.86602540378
+# endif
+# ifndef SIN_30
+#  define SIN_30 0.5
+# endif
 
 // STRUCT
 
@@ -37,7 +43,7 @@ typedef struct s_mouse
 	int		y;
 	int		previous_x;
 	int		previous_y;
-} t_mouse;
+}	t_mouse;
 
 typedef struct s_imgdata
 {
@@ -48,7 +54,7 @@ typedef struct s_imgdata
 	int		endian;
 	int		width;
 	int		height;
-} t_imgdata;
+}	t_imgdata;
 
 typedef struct s_map
 {
@@ -56,7 +62,7 @@ typedef struct s_map
 	int	y;
 	int	index;
 	int	*coords;
-} t_map;
+}	t_map;
 
 typedef struct s_controller
 {
@@ -65,11 +71,15 @@ typedef struct s_controller
 	void				*window;
 	int					width;
 	int					height;
+	double				scale;
+	double				z_factor;
+	int					offset_x;
+	int					offset_y;
 	t_imgdata			img;
 	t_map				map;
 	t_mouse				mouse;
 	struct s_controller	*next;
-} t_controller;
+}	t_controller;
 
 // INIT
 void	init_controller(t_controller *multiplex, char *filename);
@@ -84,11 +94,12 @@ void	free_controller(t_controller *multiplex);
 
 // FDF
 void	configure_img(t_controller *multiplex);
-void	draw_map(t_controller *controller);
-void	put_pixel(t_controller *multiplex, int x, int y, int color);
 
 // DRAWINGS
-void	draw_font(t_controller *controller, int color);
+void	put_pixel(t_imgdata *img, int x, int y, int color);
+void	draw_map(t_controller *multiplex);
+void	draw_font(t_controller *multiplex);
+double	calculate_scale(t_controller *data);
 
 // PARSING
 void	parse_map(char *filename, t_controller *multiplex);
