@@ -18,7 +18,7 @@ $(NAME): $(OBJ) $(LIBFT) | $(LIB_DIR)
 	fi
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIR)
-	@$(CC) $(CFLAGS) -c $< -o $@ -I $(INC) -L $(LIB_DIR) -lft
+	@$(CC) $(CFLAGS) -c $< -o $@ -I $(INC)
 
 $(OBJ_DIR):
 	@mkdir -p $(OBJ_DIR)

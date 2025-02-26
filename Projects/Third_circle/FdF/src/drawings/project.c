@@ -42,31 +42,53 @@ void	iso_projection(int *x, int *y, int z, double z_factor)
 	*y = (prev_x + prev_y) * SIN_30 - (z / z_factor);
 }
 
-void	draw_map(t_controller *multiplex)
+void draw_map(t_controller *multiplex)
 {
-	int	x;
-	int	y;
-	int	x_proj;
-	int	y_proj;
-	int	z;
+    int x, y;
+    int x_proj, y_proj, x_proj_right, y_proj_right, x_proj_down, y_proj_down;
+    int z, z_right, z_down;
 
-	x = 0;
-	y = 0;
-	while (y < multiplex->map.y)
-	{
-		while (x < multiplex->map.x)
-		{
-			x_proj = x * multiplex->scale;
-			y_proj = y * multiplex->scale;
-			z = multiplex->map.coords[y * multiplex->map.x + x]
-				* (multiplex->scale / 5);
-			iso_projection(&x_proj, &y_proj, z, multiplex->z_factor);
-			put_pixel(&multiplex->img, (x_proj + multiplex->img.width / 2)
-				+ multiplex->offset_x, (y_proj + multiplex->img.height / 3)
-				+ multiplex->offset_y, 0xFFFFFF);
-			x++;
-		}
-		x = 0;
-		y++;
-	}
+    for (y = 0; y < multiplex->map.y; y++)
+    {
+        for (x = 0; x < multiplex->map.x; x++)
+        {
+            // Projection du point actuel
+            z = multiplex->map.coords[y * multiplex->map.x + x] * (multiplex->scale / 5);
+            x_proj = x * multiplex->scale;
+            y_proj = y * multiplex->scale;
+            iso_projection(&x_proj, &y_proj, z, multiplex->z_factor);
+
+            // Dessiner le point
+            put_pixel(&multiplex->img, (x_proj + multiplex->img.width / 2) + multiplex->offset_x, 
+                      (y_proj + multiplex->img.height / 3) + multiplex->offset_y, 0xFFFFFF);
+
+            // Relier à droite si possible
+            if (x + 1 < multiplex->map.x)
+            {
+                z_right = multiplex->map.coords[y * multiplex->map.x + (x + 1)] * (multiplex->scale / 5);
+                x_proj_right = (x + 1) * multiplex->scale;
+                y_proj_right = y * multiplex->scale;
+                iso_projection(&x_proj_right, &y_proj_right, z_right, multiplex->z_factor);
+                draw_line(&multiplex->img, 
+                          (x_proj + multiplex->img.width / 2) + multiplex->offset_x,
+                          (y_proj + multiplex->img.height / 3) + multiplex->offset_y,
+                          (x_proj_right + multiplex->img.width / 2) + multiplex->offset_x,
+                          (y_proj_right + multiplex->img.height / 3) + multiplex->offset_y, 0xFFFFFF);
+            }
+
+            // Relier en bas si possible
+            if (y + 1 < multiplex->map.y)
+            {
+                z_down = multiplex->map.coords[(y + 1) * multiplex->map.x + x] * (multiplex->scale / 5);
+                x_proj_down = x * multiplex->scale;
+                y_proj_down = (y + 1) * multiplex->scale;
+                iso_projection(&x_proj_down, &y_proj_down, z_down, multiplex->z_factor);
+                draw_line(&multiplex->img, 
+                          (x_proj + multiplex->img.width / 2) + multiplex->offset_x,
+                          (y_proj + multiplex->img.height / 3) + multiplex->offset_y,
+                          (x_proj_down + multiplex->img.width / 2) + multiplex->offset_x,
+                          (y_proj_down + multiplex->img.height / 3) + multiplex->offset_y, 0xFFFFFF);
+            }
+        }
+    }
 }

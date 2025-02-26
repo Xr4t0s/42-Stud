@@ -63,8 +63,8 @@ void	init_controller(t_controller *multiplex, char *filename)
 	multiplex->filename = NULL;
 	multiplex->mlx_ptr = NULL;
 	multiplex->window = NULL;
-	multiplex->width = 1480;
-	multiplex->height = 720;
+	multiplex->width = 2160;
+	multiplex->height = 1440;
 	multiplex->scale = 6.0;
 	multiplex->z_factor = 3.0;
 	multiplex->offset_x = 0;

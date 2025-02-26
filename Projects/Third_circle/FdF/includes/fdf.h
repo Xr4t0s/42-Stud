@@ -99,6 +99,7 @@ void	configure_img(t_controller *multiplex);
 void	put_pixel(t_imgdata *img, int x, int y, int color);
 void	draw_map(t_controller *multiplex);
 void	draw_font(t_controller *multiplex);
+void	draw_line(t_imgdata *img, int x0, int y0, int x1, int y1, int color);
 double	calculate_scale(t_controller *data);
 
 // PARSING
