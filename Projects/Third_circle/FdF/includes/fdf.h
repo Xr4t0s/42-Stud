@@ -36,6 +36,29 @@
 
 // STRUCT
 
+typedef struct s_bresenham
+{
+	int	dx;
+	int	dy;
+	int	sx;
+	int	sy;
+	int	err;
+	int	e2;
+}	t_bresenham;
+
+typedef struct s_point
+{
+	int	x;
+	int	y;
+}	t_point;
+
+typedef struct s_line
+{
+	t_point	p1;
+	t_point	p2;
+	int		color;
+}	t_line;
+
 typedef struct s_mouse
 {
 	char	is_pressed;
@@ -88,6 +111,7 @@ void	init_controller(t_controller *multiplex, char *filename);
 void	configure_all(t_controller *multiplex);
 void	configure_hooks(t_controller *multiplex);
 void	configure_hooks(t_controller *multiplex);
+int	deal_key(int key, t_controller *multiplex);
 
 // FREE
 void	free_controller(t_controller *multiplex);
@@ -99,7 +123,7 @@ void	configure_img(t_controller *multiplex);
 void	put_pixel(t_imgdata *img, int x, int y, int color);
 void	draw_map(t_controller *multiplex);
 void	draw_font(t_controller *multiplex);
-void	draw_line(t_imgdata *img, int x0, int y0, int x1, int y1, int color);
+void	draw_line(t_imgdata *img, t_line line);
 double	calculate_scale(t_controller *data);
 
 // PARSING

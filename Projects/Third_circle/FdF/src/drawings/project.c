@@ -10,25 +10,32 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   project.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/02/15 23:25:20 by nitadros          #+#    #+#             */
+/*   Updated: 2025/02/15 23:25:20 by nitadros         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "fdf.h"
 
 double	calculate_scale(t_controller *data)
 {
 	double	scale_x;
 	double	scale_y;
-	double	scale;
 
 	if (data->map.x == 0 || data->map.y == 0)
 		return (10.0);
 	scale_x = (double)data->img.width / (data->map.x * 2);
 	scale_y = (double)data->img.height / (data->map.y * 2);
 	if (scale_x < scale_y)
-		scale = scale_x;
-	else
-		scale = scale_y;
-	if (scale < 2.0)
-		scale = 2.0;
-	return (scale);
+		return (scale_x);
+	return (scale_y);
 }
 
 void	iso_projection(int *x, int *y, int z, double z_factor)
@@ -42,53 +49,57 @@ void	iso_projection(int *x, int *y, int z, double z_factor)
 	*y = (prev_x + prev_y) * SIN_30 - (z / z_factor);
 }
 
-void draw_map(t_controller *multiplex)
+t_point	project_point(t_controller *m, int x, int y)
 {
-    int x, y;
-    int x_proj, y_proj, x_proj_right, y_proj_right, x_proj_down, y_proj_down;
-    int z, z_right, z_down;
+	t_point	proj;
+	int		z;
 
-    for (y = 0; y < multiplex->map.y; y++)
-    {
-        for (x = 0; x < multiplex->map.x; x++)
-        {
-            // Projection du point actuel
-            z = multiplex->map.coords[y * multiplex->map.x + x] * (multiplex->scale / 5);
-            x_proj = x * multiplex->scale;
-            y_proj = y * multiplex->scale;
-            iso_projection(&x_proj, &y_proj, z, multiplex->z_factor);
+	z = m->map.coords[y * m->map.x + x] * (m->scale / 5);
+	proj.x = x * m->scale;
+	proj.y = y * m->scale;
+	iso_projection(&proj.x, &proj.y, z, m->z_factor);
+	proj.x += (m->img.width / 2) + m->offset_x;
+	proj.y += (m->img.height / 3) + m->offset_y;
+	return (proj);
+}
 
-            // Dessiner le point
-            put_pixel(&multiplex->img, (x_proj + multiplex->img.width / 2) + multiplex->offset_x, 
-                      (y_proj + multiplex->img.height / 3) + multiplex->offset_y, 0xFFFFFF);
+void	draw_links(t_controller *m, t_point p, int x, int y)
+{
+	t_line	line;
 
-            // Relier à droite si possible
-            if (x + 1 < multiplex->map.x)
-            {
-                z_right = multiplex->map.coords[y * multiplex->map.x + (x + 1)] * (multiplex->scale / 5);
-                x_proj_right = (x + 1) * multiplex->scale;
-                y_proj_right = y * multiplex->scale;
-                iso_projection(&x_proj_right, &y_proj_right, z_right, multiplex->z_factor);
-                draw_line(&multiplex->img, 
-                          (x_proj + multiplex->img.width / 2) + multiplex->offset_x,
-                          (y_proj + multiplex->img.height / 3) + multiplex->offset_y,
-                          (x_proj_right + multiplex->img.width / 2) + multiplex->offset_x,
-                          (y_proj_right + multiplex->img.height / 3) + multiplex->offset_y, 0xFFFFFF);
-            }
+	if (x + 1 < m->map.x)
+	{
+		line.p1 = p;
+		line.p2 = project_point(m, x + 1, y);
+		line.color = 0xFFFFFF;
+		draw_line(&m->img, line);
+	}
+	if (y + 1 < m->map.y)
+	{
+		line.p1 = p;
+		line.p2 = project_point(m, x, y + 1);
+		line.color = 0xFFFFFF;
+		draw_line(&m->img, line);
+	}
+}
 
-            // Relier en bas si possible
-            if (y + 1 < multiplex->map.y)
-            {
-                z_down = multiplex->map.coords[(y + 1) * multiplex->map.x + x] * (multiplex->scale / 5);
-                x_proj_down = x * multiplex->scale;
-                y_proj_down = (y + 1) * multiplex->scale;
-                iso_projection(&x_proj_down, &y_proj_down, z_down, multiplex->z_factor);
-                draw_line(&multiplex->img, 
-                          (x_proj + multiplex->img.width / 2) + multiplex->offset_x,
-                          (y_proj + multiplex->img.height / 3) + multiplex->offset_y,
-                          (x_proj_down + multiplex->img.width / 2) + multiplex->offset_x,
-                          (y_proj_down + multiplex->img.height / 3) + multiplex->offset_y, 0xFFFFFF);
-            }
-        }
-    }
+void	draw_map(t_controller *m)
+{
+	int		x;
+	int		y;
+	t_point	proj;
+
+	y = 0;
+	while (y < m->map.y)
+	{
+		x = 0;
+		while (x < m->map.x)
+		{
+			proj = project_point(m, x, y);
+			put_pixel(&m->img, proj.x, proj.y, 0xFFFFFF);
+			draw_links(m, proj, x, y);
+			x++;
+		}
+		y++;
+	}
 }

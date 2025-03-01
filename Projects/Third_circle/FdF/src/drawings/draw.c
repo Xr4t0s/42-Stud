@@ -3,38 +3,53 @@
 /*                                                        :::      ::::::::   */
 /*   draw.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nitadros <nitadros@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 18:30:30 by nitadros          #+#    #+#             */
-/*   Updated: 2025/02/26 19:42:44 by nitadros         ###   ########.fr       */
+/*   Updated: 2025/03/01 15:50:58 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-void draw_line(t_imgdata *img, int x0, int y0, int x1, int y1, int color)
+static void	setup_bresenham(t_bresenham *b, t_line line)
 {
-    int dx = abs(x1 - x0);
-    int dy = abs(y1 - y0);
-    int sx = (x0 < x1) ? 1 : -1;
-    int sy = (y0 < y1) ? 1 : -1;
-    int err = dx - dy;
+	b->dx = abs(line.p2.x - line.p1.x);
+	b->dy = abs(line.p2.y - line.p1.y);
+	b->sx = 1;
+	if (line.p1.x > line.p2.x)
+		b->sx = -1;
+	b->sy = 1;
+	if (line.p1.y > line.p2.y)
+		b->sy = -1;
+	b->err = b->dx - b->dy;
+}
 
-    while (1)
-    {
-        put_pixel(img, x0, y0, color);
-        if (x0 == x1 && y0 == y1)
-            break;
-        int e2 = 2 * err;
-        if (e2 > -dy)
-        {
-            err -= dy;
-            x0 += sx;
-        }
-        if (e2 < dx)
-        {
-            err += dx;
-            y0 += sy;
-        }
-    }
+static void	bresenham_loop(t_imgdata *img, t_line line, t_bresenham *b)
+{
+	while (1)
+	{
+		put_pixel(img, line.p1.x, line.p1.y, line.color);
+		if (line.p1.x == line.p2.x && line.p1.y == line.p2.y)
+			break ;
+		b->e2 = 2 * b->err;
+		if (b->e2 > -b->dy)
+		{
+			b->err -= b->dy;
+			line.p1.x += b->sx;
+		}
+		if (b->e2 < b->dx)
+		{
+			b->err += b->dx;
+			line.p1.y += b->sy;
+		}
+	}
+}
+
+void	draw_line(t_imgdata *img, t_line line)
+{
+	t_bresenham	b;
+
+	setup_bresenham(&b, line);
+	bresenham_loop(img, line, &b);
 }
