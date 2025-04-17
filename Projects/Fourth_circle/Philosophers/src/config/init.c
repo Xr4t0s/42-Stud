@@ -5,25 +5,30 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: nitadros <nitadros@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/15 20:14:51 by nitadros          #+#    #+#             */
-/*   Updated: 2024/12/02 16:29:16 by nitadros         ###   ########.fr       */
+/*   Created: 2025/04/17 00:26:08 by nitadros          #+#    #+#             */
+/*   Updated: 2025/04/17 01:07:27 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "philo.h"
 
-t_flags	init(void)
+long   get_timestamp()
 {
-	t_flags	s;
+    struct      timeval start;
+    long        timestamp;
 
-	s.character = 'c';
-	s.string = 's';
-	s.pointer = 'p';
-	s.decimal = 'd';
-	s.integer = 'i';
-	s.uns_integer = 'u';
-	s.hex_low = 'x';
-	s.hex_up = 'X';
-	s.percent = '%';
-	return (s);
+    if(gettimeofday(&start, NULL) == -1)
+        ft_return("Echec gettimeofdate()");
+    timestamp = (start.tv_sec * 1000) + (start.tv_usec / 1000);
+    return (timestamp);
+}
+
+int    configure_table(char **av, t_table *table)
+{
+    av++;
+    table->timestamp_start = get_timestamp();
+    printf("%ld\n", table->timestamp_start);
+    if(table->timestamp_start)
+        return (1);
+    return (0);
 }

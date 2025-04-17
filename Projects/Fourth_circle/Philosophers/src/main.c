@@ -1,36 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils2.c                                           :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: nitadros <nitadros@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/02 16:31:05 by nitadros          #+#    #+#             */
-/*   Updated: 2025/02/13 02:06:55 by nitadros         ###   ########.fr       */
+/*   Created: 2025/04/05 19:17:52 by nitadros          #+#    #+#             */
+/*   Updated: 2025/04/17 01:01:39 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "philo.h"
 
-void	ft_putchar(char c)
+int main(int ac, char **av)
 {
-	write(1, &c, 1);
-}
+    t_table table;
 
-int	ft_numlen(int n)
-{
-	int	len;
-
-	len = 1;
-	if (n < 0)
-	{
-		len++;
-		n = -n;
-	}
-	while (n / 10 != 0)
-	{
-		n /= 10;
-		len++;
-	}
-	return (len);
+    if (ac != 6)
+        return (0);
+    if (!configure_table(av++, &table))
+        ft_return("Configuration failed, please check your parameters.");
+    return (1);
 }

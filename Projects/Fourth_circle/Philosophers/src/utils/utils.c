@@ -1,20 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nitadros <nitadros@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/05 19:17:52 by nitadros          #+#    #+#             */
-/*   Updated: 2025/04/05 19:22:31 by nitadros         ###   ########.fr       */
+/*   Created: 2025/04/16 22:32:40 by nitadros          #+#    #+#             */
+/*   Updated: 2025/04/16 22:48:44 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "includes/philo.h"
+#include "philo.h"
 
-int main(int ac, char **av)
+int    ft_return(char *message)
 {
-    if (ac != 6)
-        return (0);
-    
+    printf("%s\n", message);
+    return (1);
 }
