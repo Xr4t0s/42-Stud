@@ -6,12 +6,13 @@
 /*   By: nitadros <nitadros@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 19:20:44 by nitadros          #+#    #+#             */
-/*   Updated: 2025/04/17 01:04:08 by nitadros         ###   ########.fr       */
+/*   Updated: 2025/04/23 03:38:11 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../libft/includes/libft.h"
 #include <pthread.h>
+#include <unistd.h>
 #include <stdio.h>
 #include <sys/time.h>
 
@@ -26,11 +27,12 @@ typedef struct s_rules
 
 typedef struct s_philo
 {
+    int             index;
     pthread_t       id;
     pthread_mutex_t forks;
     time_t          last_meal;
     int             meals;
-    struct s_philo *next;
+    struct s_table  *table;
 } t_philo;
 
 typedef struct s_table
@@ -38,10 +40,12 @@ typedef struct s_table
     time_t          timestamp_start;
     t_rules         rules;
     t_philo         *philos;
+    int             k;
 } t_table;
 
 
-
+// Parsing
+int check_params(char **av);
 
 
 // Initialisation
