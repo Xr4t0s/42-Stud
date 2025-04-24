@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nitadros <nitadros@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 00:26:08 by nitadros          #+#    #+#             */
-/*   Updated: 2025/04/23 03:52:15 by nitadros         ###   ########.fr       */
+/*   Updated: 2025/04/24 01:56:37 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,14 +39,12 @@ static void configure_rules(char **av, t_table *table)
 void *threads(void *philo)
 {
     t_philo *tmp;
-    int     i;
-
-    i = 0;
+	
     tmp = ((t_philo *)philo);
     if (tmp->index == tmp->table->rules.philos - 1 && tmp->index % 2 != 0)
     {
-        pthread_mutex_lock(&tmp->forks);
-        pthread_mutex_lock(&tmp->table->philos[0].forks);
+		pthread_mutex_lock(&tmp->forks);
+        pthread_mutex_lock(&tmp->table->philos[tmp->index + 1].forks);
         printf("Index : %d\n", tmp->index);
         printf("Time to die : %ld\n", tmp->table->rules.time_to_die);
         printf("Time to eat : %ld\n", tmp->table->rules.time_to_eat);
@@ -56,8 +54,8 @@ void *threads(void *philo)
     }
     else if (tmp->index % 2 == 0)
     {
-        pthread_mutex_lock(&tmp->forks);
-        pthread_mutex_lock(&tmp->table->philos[tmp->index + 1].forks);
+		pthread_mutex_lock(&tmp->forks);
+        pthread_mutex_lock(&tmp->table->philos[tmp->index + 1].forks); // A corriger impossible de lock un thread non initialisé (voir ligne 83)
         printf("Index : %d\n", tmp->index);
         printf("Time to die : %ld\n", tmp->table->rules.time_to_die);
         printf("Time to eat : %ld\n", tmp->table->rules.time_to_eat);
@@ -82,7 +80,7 @@ static void configure_philos(char **av, t_table *table)
         table->philos[i].last_meal = 0;
         table->philos[i].meals = 0;
         pthread_mutex_init(&table->philos[i].forks, NULL);
-        if (pthread_create(&table->philos[i].id, NULL, threads, &table->philos[i]) == -1)
+        if (pthread_create(&table->philos[i].id, NULL, threads, &table->philos[i]) == -1) // A corriger, 
             return ;
         i++;
     }
@@ -91,9 +89,6 @@ static void configure_philos(char **av, t_table *table)
 
 int configure_table(char **av, t_table *table)
 {
-    int i;
-
-    i = 0;
     configure_rules(av, table);
     configure_philos(av, table);
     table->timestamp_start = get_timestamp();
