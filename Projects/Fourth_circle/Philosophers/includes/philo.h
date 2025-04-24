@@ -6,7 +6,7 @@
 /*   By: nitadros <nitadros@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 19:20:44 by nitadros          #+#    #+#             */
-/*   Updated: 2025/04/23 03:38:11 by nitadros         ###   ########.fr       */
+/*   Updated: 2025/04/25 01:15:43 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ typedef struct s_philo
     time_t          last_meal;
     int             meals;
     struct s_table  *table;
+    int             dead_or_alive;
 } t_philo;
 
 typedef struct s_table
@@ -40,7 +41,7 @@ typedef struct s_table
     time_t          timestamp_start;
     t_rules         rules;
     t_philo         *philos;
-    int             k;
+	int				finish;
 } t_table;
 
 
@@ -51,5 +52,8 @@ int check_params(char **av);
 // Initialisation
 int         configure_table(char **av, t_table *table);
 long        get_timestamp();
-
 int    ft_return(char *message);
+
+// Routines 
+void	routines(t_philo *philo);
+void	*supervisor(void *supervisor);
