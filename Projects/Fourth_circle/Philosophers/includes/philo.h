@@ -6,7 +6,7 @@
 /*   By: nitadros <nitadros@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 19:20:44 by nitadros          #+#    #+#             */
-/*   Updated: 2025/04/25 01:15:43 by nitadros         ###   ########.fr       */
+/*   Updated: 2025/04/25 02:15:43 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 
 typedef struct s_rules
 {
-    long    philos;
+    int    philos;
     time_t  time_to_die;
     time_t  time_to_eat;
     time_t  time_to_sleep;
@@ -50,9 +50,10 @@ int check_params(char **av);
 
 
 // Initialisation
+void	init_philo(t_table **table);
 int         configure_table(char **av, t_table *table);
 long        get_timestamp();
-int    ft_return(char *message);
+int			ft_return(char *message);
 
 // Routines 
 void	routines(t_philo *philo);
