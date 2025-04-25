@@ -6,7 +6,7 @@
 /*   By: nitadros <nitadros@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 19:20:44 by nitadros          #+#    #+#             */
-/*   Updated: 2025/04/25 02:15:43 by nitadros         ###   ########.fr       */
+/*   Updated: 2025/04/26 01:02:59 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ typedef struct s_table
     t_rules         rules;
     t_philo         *philos;
 	int				finish;
+	pthread_mutex_t print;
 } t_table;
 
 

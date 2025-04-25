@@ -6,7 +6,7 @@
 /*   By: nitadros <nitadros@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 00:26:08 by nitadros          #+#    #+#             */
-/*   Updated: 2025/04/25 06:09:45 by nitadros         ###   ########.fr       */
+/*   Updated: 2025/04/26 01:19:27 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,30 +41,63 @@ void *threads(void *philo)
 	t_philo *tmp;
 
 	tmp = ((t_philo *)philo);
-	routines(philo);
+	//routines(philo);
+	if (tmp->index % 2 != 0)
+		usleep(10000);
 	while(1)
 	{
 		if (tmp->index == tmp->table->rules.philos - 1)
 		{
         	pthread_mutex_lock(&tmp->table->philos[0].forks);
 			pthread_mutex_lock(&tmp->forks);
+
+			pthread_mutex_lock(&tmp->table->print);
+			printf("Philo %d : is eating : meals %d\n", tmp->index, tmp->meals);
+			pthread_mutex_unlock(&tmp->table->print);
+			
 			usleep(tmp->table->rules.time_to_eat * 1000);
 			tmp->meals++;
 			tmp->last_meal = get_timestamp();
+			
         	pthread_mutex_unlock(&tmp->table->philos[0].forks);
 			pthread_mutex_unlock(&tmp->forks);
+			
+			pthread_mutex_lock(&tmp->table->print);
+			printf("Philo %d : is sleeping : meals %d\n", tmp->index, tmp->meals);
+			pthread_mutex_unlock(&tmp->table->print);
+			
 			usleep(tmp->table->rules.time_to_sleep * 1000);
+			
+			pthread_mutex_lock(&tmp->table->print);
+			printf("Philo %d : is thinking : meals %d\n", tmp->index, tmp->meals);
+			pthread_mutex_unlock(&tmp->table->print);
+			
 		}
 		else
 		{
 			pthread_mutex_lock(&tmp->table->philos[tmp->index + 1].forks);
 			pthread_mutex_lock(&tmp->forks);
+
+			pthread_mutex_lock(&tmp->table->print);
+			printf("Philo %d : is eating : meals %d\n", tmp->index, tmp->meals);
+			pthread_mutex_unlock(&tmp->table->print);
+			
 			usleep(tmp->table->rules.time_to_eat * 1000);
 			tmp->meals++;
 			tmp->last_meal = get_timestamp();
 			pthread_mutex_unlock(&tmp->table->philos[tmp->index + 1].forks);
 			pthread_mutex_unlock(&tmp->forks);
+
+			pthread_mutex_lock(&tmp->table->print);
+			printf("Philo %d : is sleeping : meals %d\n", tmp->index, tmp->meals);
+			pthread_mutex_unlock(&tmp->table->print);
+
 			usleep(tmp->table->rules.time_to_sleep * 1000);
+
+			pthread_mutex_lock(&tmp->table->print);
+			printf("Philo %d : is thinking : meals %d\n", tmp->index, tmp->meals);
+			pthread_mutex_unlock(&tmp->table->print);
+			
 		}
 		continue;
 	}
