@@ -63,7 +63,7 @@ static void	odd(t_philo **tmp)
 		usleep(((*tmp)->table->rules.time_to_eat - 1) * 1000);
 	pthread_mutex_lock(&(*tmp)->forks);
 	pthread_mutex_lock(&(*tmp)->table->philos[(*tmp)->index + 1].forks);
-	
+
 	printf("%ld Philo %d : is eating : meals %d\n", get_timestamp(), (*tmp)->index + 1, (*tmp)->meals);
 	(*tmp)->last_meal = get_timestamp();
 	
