@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: engiacom <engiacom@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 22:32:40 by nitadros          #+#    #+#             */
-/*   Updated: 2025/04/26 23:36:55 by engiacom         ###   ########.fr       */
+/*   Updated: 2025/04/27 22:44:57 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,4 +48,15 @@ int	ft_atoi(const char *str)
 	while (ft_isdigit(str[i]))
 		o = o * 10 + str[i++] - 48;
 	return (o * mult);
+}
+
+long	get_timestamp(void)
+{
+	struct timeval	start;
+	long			timestamp;
+
+	if (gettimeofday(&start, NULL) == -1)
+		ft_return("Echec gettimeofdate()");
+	timestamp = (start.tv_sec * 1000) + (start.tv_usec / 1000);
+	return (timestamp);
 }

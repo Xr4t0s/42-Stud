@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: engiacom <engiacom@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 19:17:52 by nitadros          #+#    #+#             */
-/*   Updated: 2025/04/26 23:15:32 by engiacom         ###   ########.fr       */
+/*   Updated: 2025/04/27 23:44:42 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	free_table(t_table *table)
 	int	i;
 
 	i = 0;
-	while (i < table->rules.philos + 1)
+	while (i < table->rules.philos)
 	{
 		pthread_join(table->philos[i].id, NULL);
 		i++;

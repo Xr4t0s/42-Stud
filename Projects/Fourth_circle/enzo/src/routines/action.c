@@ -3,37 +3,53 @@
 /*                                                        :::      ::::::::   */
 /*   action.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nitadros <nitadros@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 23:07:22 by engiacom          #+#    #+#             */
-/*   Updated: 2025/04/27 04:40:59 by nitadros         ###   ########.fr       */
+/*   Updated: 2025/04/28 02:34:21 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <philo.h>
+#include "philo.h"
 
 void	last_odd(t_philo **tmp)
 {
-	pthread_mutex_lock(&(*tmp)->table->print);
-	printf("%ld %d is thinking\n", get_timestamp(), (*tmp)->index);
-	pthread_mutex_unlock(&(*tmp)->table->print);
+	print_status(tmp, "is thinking");
 	pthread_mutex_lock((*tmp)->l_forks);
-	pthread_mutex_lock((*tmp)->r_forks);
-	if ((*tmp)->table->finish == 1)
+	if ((*tmp)->table->rules.philos <= 1)
+	{
+		pthread_mutex_unlock((*tmp)->l_forks);
+		// (*tmp)->table->finish = 1;
 		return ;
-	pthread_mutex_lock(&(*tmp)->table->print);
-	printf("%ld %d is eating\n", get_timestamp(), (*tmp)->index);
+	}
+	pthread_mutex_lock((*tmp)->r_forks);
+	pthread_mutex_lock(&(*tmp)->table->finish_mutex);
+	if ((*tmp)->table->finish == 1)
+	{
+		pthread_mutex_unlock((*tmp)->l_forks);
+		pthread_mutex_unlock((*tmp)->r_forks);
+		pthread_mutex_unlock(&(*tmp)->table->finish_mutex);	
+		return ;
+	}
+	pthread_mutex_unlock(&(*tmp)->table->finish_mutex);
+	print_status(tmp, "is eating");
+	pthread_mutex_lock(&(*tmp)->last_meal_mutex);
 	(*tmp)->last_meal = get_timestamp();
-	pthread_mutex_unlock(&(*tmp)->table->print);
+	pthread_mutex_unlock(&(*tmp)->last_meal_mutex);
 	usleep((*tmp)->table->rules.time_to_eat * 1000);
+	pthread_mutex_lock(&(*tmp)->meal_mutex);
 	(*tmp)->meals++;
+	pthread_mutex_unlock(&(*tmp)->meal_mutex);
 	pthread_mutex_unlock((*tmp)->r_forks);
 	pthread_mutex_unlock((*tmp)->l_forks);
+	pthread_mutex_lock(&(*tmp)->table->finish_mutex);
 	if ((*tmp)->table->finish == 1)
+	{
+		pthread_mutex_unlock(&(*tmp)->table->finish_mutex);	
 		return ;
-	pthread_mutex_lock(&(*tmp)->table->print);
-	printf("%ld %d is sleeping\n", get_timestamp(), (*tmp)->index);
-	pthread_mutex_unlock(&(*tmp)->table->print);
+	}
+	pthread_mutex_unlock(&(*tmp)->table->finish_mutex);
+	print_status(tmp, "is sleeping");
 	usleep((*tmp)->table->rules.time_to_sleep * 1000);
 	if ((*tmp)->table->rules.philos % 2 == 1)
 		usleep(((*tmp)->table->rules.time_to_eat) * 1000);
@@ -43,26 +59,45 @@ void	last_even(t_philo **tmp)
 {
 	if ((*tmp)->meals == 0)
 		usleep(((*tmp)->table->rules.time_to_eat * 1000) + 1000);
-	pthread_mutex_lock(&(*tmp)->table->print);
-	printf("%ld %d is thinking\n", get_timestamp(), (*tmp)->index);
-	pthread_mutex_unlock(&(*tmp)->table->print);
+	print_status(tmp, "is thinking");
 	pthread_mutex_lock((*tmp)->r_forks);
-	pthread_mutex_lock((*tmp)->l_forks);
-	if ((*tmp)->table->finish == 1)
+	pthread_mutex_lock(&(*tmp)->table->finish_mutex);
+	if ((*tmp)->table->rules.philos <= 1)
+	{
+		pthread_mutex_unlock((*tmp)->l_forks);
+		pthread_mutex_unlock(&(*tmp)->table->finish_mutex);
+		(*tmp)->table->finish = 1;
 		return ;
-	pthread_mutex_lock(&(*tmp)->table->print);
-	printf("%ld %d is eating\n", get_timestamp(), (*tmp)->index);
+	}
+	pthread_mutex_unlock(&(*tmp)->table->finish_mutex);
+	pthread_mutex_lock((*tmp)->l_forks);
+	pthread_mutex_lock(&(*tmp)->table->finish_mutex);
+	if ((*tmp)->table->finish == 1)
+	{
+		pthread_mutex_unlock((*tmp)->l_forks);
+		pthread_mutex_unlock((*tmp)->r_forks);
+		pthread_mutex_unlock(&(*tmp)->table->finish_mutex);	
+		return ;
+	}
+	pthread_mutex_unlock(&(*tmp)->table->finish_mutex);
+	print_status(tmp, "is eating");
+	pthread_mutex_lock(&(*tmp)->last_meal_mutex);
 	(*tmp)->last_meal = get_timestamp();
-	pthread_mutex_unlock(&(*tmp)->table->print);
+	pthread_mutex_unlock(&(*tmp)->last_meal_mutex);
 	usleep((*tmp)->table->rules.time_to_eat * 1000);
+	pthread_mutex_lock(&(*tmp)->meal_mutex);
 	(*tmp)->meals++;
+	pthread_mutex_unlock(&(*tmp)->meal_mutex);
 	pthread_mutex_unlock((*tmp)->l_forks);
 	pthread_mutex_unlock((*tmp)->r_forks);
+	pthread_mutex_lock(&(*tmp)->table->finish_mutex);
 	if ((*tmp)->table->finish == 1)
+	{
+		pthread_mutex_unlock(&(*tmp)->table->finish_mutex);	
 		return ;
-	pthread_mutex_lock(&(*tmp)->table->print);
-	printf("%ld %d is sleeping\n", get_timestamp(), (*tmp)->index);
-	pthread_mutex_unlock(&(*tmp)->table->print);
+	}
+	pthread_mutex_unlock(&(*tmp)->table->finish_mutex);
+	print_status(tmp, "is sleeping");
 	usleep((*tmp)->table->rules.time_to_sleep * 1000);
 	if ((*tmp)->meals != (*tmp)->table->rules.number_eat)
 		usleep(((*tmp)->table->rules.time_to_eat) * 1000);
@@ -70,26 +105,42 @@ void	last_even(t_philo **tmp)
 
 void	odd(t_philo **tmp)
 {
-	pthread_mutex_lock(&(*tmp)->table->print);
-	printf("%ld %d is thinking\n", get_timestamp(), (*tmp)->index);
-	pthread_mutex_unlock(&(*tmp)->table->print);
+	print_status(tmp, "is thinking");
 	pthread_mutex_lock((*tmp)->l_forks);
-	pthread_mutex_lock((*tmp)->r_forks);
-	if ((*tmp)->table->finish == 1)
+	if ((*tmp)->table->rules.philos <= 1)
+	{
+		pthread_mutex_unlock((*tmp)->l_forks);
+		// (*tmp)->table->finish = 1;
 		return ;
-	pthread_mutex_lock(&(*tmp)->table->print);
-	printf("%ld %d is eating\n", get_timestamp(), (*tmp)->index);
+	}
+	pthread_mutex_lock((*tmp)->r_forks);
+	pthread_mutex_lock(&(*tmp)->table->finish_mutex);
+	if ((*tmp)->table->finish == 1)
+	{
+		pthread_mutex_unlock((*tmp)->l_forks);
+		pthread_mutex_unlock((*tmp)->r_forks);
+		pthread_mutex_unlock(&(*tmp)->table->finish_mutex);	
+		return ;
+	}
+	pthread_mutex_unlock(&(*tmp)->table->finish_mutex);
+	print_status(tmp, "is eating");
+	pthread_mutex_lock(&(*tmp)->last_meal_mutex);
 	(*tmp)->last_meal = get_timestamp();
-	pthread_mutex_unlock(&(*tmp)->table->print);
+	pthread_mutex_unlock(&(*tmp)->last_meal_mutex);
 	usleep((*tmp)->table->rules.time_to_eat * 1000);
+	pthread_mutex_lock(&(*tmp)->meal_mutex);
 	(*tmp)->meals++;
+	pthread_mutex_unlock(&(*tmp)->meal_mutex);
 	pthread_mutex_unlock((*tmp)->r_forks);
 	pthread_mutex_unlock((*tmp)->l_forks);
+	pthread_mutex_lock(&(*tmp)->table->finish_mutex);
 	if ((*tmp)->table->finish == 1)
+	{
+		pthread_mutex_unlock(&(*tmp)->table->finish_mutex);	
 		return ;
-	pthread_mutex_lock(&(*tmp)->table->print);
-	printf("%ld %d is sleeping\n", get_timestamp(), (*tmp)->index);
-	pthread_mutex_unlock(&(*tmp)->table->print);
+	}
+	pthread_mutex_unlock(&(*tmp)->table->finish_mutex);
+	print_status(tmp, "is sleeping");
 	usleep((*tmp)->table->rules.time_to_sleep * 1000);
 	if ((*tmp)->table->rules.philos % 2 == 1
 		&& (*tmp)->meals != (*tmp)->table->rules.number_eat)
@@ -98,26 +149,42 @@ void	odd(t_philo **tmp)
 
 void	even(t_philo **tmp)
 {
-	pthread_mutex_lock(&(*tmp)->table->print);
-	printf("%ld %d is thinking\n", get_timestamp(), (*tmp)->index);
-	pthread_mutex_unlock(&(*tmp)->table->print);
+	print_status(tmp, "is thinking");
 	pthread_mutex_lock((*tmp)->r_forks);
-	pthread_mutex_lock((*tmp)->l_forks);
-	if ((*tmp)->table->finish == 1)
+	if ((*tmp)->table->rules.philos <= 1)
+	{
+		pthread_mutex_unlock((*tmp)->l_forks);
+		// (*tmp)->table->finish = 1;
 		return ;
-	pthread_mutex_lock(&(*tmp)->table->print);
-	printf("%ld %d is eating\n", get_timestamp(), (*tmp)->index);
+	}
+	pthread_mutex_lock((*tmp)->l_forks);
+	pthread_mutex_lock(&(*tmp)->table->finish_mutex);
+	if ((*tmp)->table->finish == 1)
+	{
+		pthread_mutex_unlock((*tmp)->l_forks);
+		pthread_mutex_unlock((*tmp)->r_forks);
+		pthread_mutex_unlock(&(*tmp)->table->finish_mutex);	
+		return ;
+	}
+	pthread_mutex_unlock(&(*tmp)->table->finish_mutex);
+	print_status(tmp, "is eating");
+	pthread_mutex_lock(&(*tmp)->last_meal_mutex);
 	(*tmp)->last_meal = get_timestamp();
-	pthread_mutex_unlock(&(*tmp)->table->print);
+	pthread_mutex_unlock(&(*tmp)->last_meal_mutex);
 	usleep((*tmp)->table->rules.time_to_eat * 1000);
+	pthread_mutex_lock(&(*tmp)->meal_mutex);
 	(*tmp)->meals++;
+	pthread_mutex_unlock(&(*tmp)->meal_mutex);
 	pthread_mutex_unlock((*tmp)->l_forks);
 	pthread_mutex_unlock((*tmp)->r_forks);
+	pthread_mutex_lock(&(*tmp)->table->finish_mutex);
 	if ((*tmp)->table->finish == 1)
+	{
+		pthread_mutex_unlock(&(*tmp)->table->finish_mutex);	
 		return ;
-	pthread_mutex_lock(&(*tmp)->table->print);
-	printf("%ld %d is sleeping\n", get_timestamp(), (*tmp)->index);
-	pthread_mutex_unlock(&(*tmp)->table->print);
+	}
+	pthread_mutex_unlock(&(*tmp)->table->finish_mutex);
+	print_status(tmp, "is sleeping");
 	usleep((*tmp)->table->rules.time_to_sleep * 1000);
 	if ((*tmp)->meals != 0 && (*tmp)->table->rules.philos % 2 == 1)
 		usleep(((*tmp)->table->rules.time_to_eat) * 1000);

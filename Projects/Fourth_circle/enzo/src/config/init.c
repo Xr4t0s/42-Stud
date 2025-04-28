@@ -3,25 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: engiacom <engiacom@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 00:26:08 by nitadros          #+#    #+#             */
-/*   Updated: 2025/04/26 23:18:16 by engiacom         ###   ########.fr       */
+/*   Updated: 2025/04/28 02:17:10 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-
-long	get_timestamp(void)
-{
-	struct timeval	start;
-	long			timestamp;
-
-	if (gettimeofday(&start, NULL) == -1)
-		ft_return("Echec gettimeofdate()");
-	timestamp = (start.tv_sec * 1000) + (start.tv_usec / 1000);
-	return (timestamp);
-}
 
 static int	configure_rules(char **av, t_table *table)
 {
@@ -52,6 +41,7 @@ static void	configure_philos(char **av, t_table *table)
 	if (pthread_create(&table->philos[table->rules.philos].id,
 			NULL, supervisor, table) == -1)
 		return ;
+	pthread_mutex_lock(&table->start);
 	while (i < table->rules.philos)
 	{
 		if (pthread_create(&table->philos[i].id, NULL, threads,
@@ -59,8 +49,18 @@ static void	configure_philos(char **av, t_table *table)
 			return ;
 		i++;
 	}
-	while (table->finish != 1)
+	pthread_mutex_unlock(&table->start);
+	while (1)
+	{
+		pthread_mutex_lock(&table->finish_mutex);
+		if (table->finish == 1)
+		{
+			pthread_mutex_unlock(&table->finish_mutex);
+			break;
+		}
+		pthread_mutex_unlock(&table->finish_mutex);
 		usleep(100);
+	}
 }
 
 int	configure_table(char **av, t_table *table)

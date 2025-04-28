@@ -3,27 +3,45 @@
 /*                                                        :::      ::::::::   */
 /*   routine.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: engiacom <engiacom@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 00:45:43 by nitadros          #+#    #+#             */
-/*   Updated: 2025/04/26 23:20:12 by engiacom         ###   ########.fr       */
+/*   Updated: 2025/04/28 02:29:46 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <philo.h>
+#include "philo.h"
 
 static int	routine(t_philo *tmp)
 {
-	while (tmp->table->finish != 1)
+	while (1)
 	{
-		if (tmp->meals == tmp->table->rules.number_eat)
+		pthread_mutex_lock(&tmp->table->finish_mutex);
+		if (tmp->table->finish == 1)
 		{
-			while (tmp->table->finish != 1)
-				usleep(100);
+			pthread_mutex_unlock(&tmp->table->finish_mutex);
 			return (1);
 		}
-		if (tmp->table->finish == 1)
-			return (1);
+		pthread_mutex_unlock(&tmp->table->finish_mutex);
+
+		pthread_mutex_lock(&tmp->meal_mutex);
+		if (tmp->meals == tmp->table->rules.number_eat)
+		{
+			pthread_mutex_unlock(&tmp->meal_mutex);
+			while (1)
+			{
+				pthread_mutex_lock(&tmp->table->finish_mutex);
+				if (tmp->table->finish == 1)
+				{
+					pthread_mutex_unlock(&tmp->table->finish_mutex);
+					return (1);
+				}
+				pthread_mutex_unlock(&tmp->table->finish_mutex);
+				usleep(100);
+			}
+		}
+		pthread_mutex_unlock(&tmp->meal_mutex);
+
 		if (tmp->index == (tmp->table->rules.philos - 1) && tmp->index % 2 == 0)
 			last_even(&tmp);
 		else if (tmp->index == (tmp->table->rules.philos - 1)
@@ -48,7 +66,6 @@ void	*threads(void *philo)
 	pthread_mutex_unlock(&tmp->table->start);
 	if (tmp->index % 2 != 0)
 		usleep(1000);
-	if (routine(tmp))
-		return (0);
-	return (0);
+	routine(tmp);
+	return (NULL);
 }

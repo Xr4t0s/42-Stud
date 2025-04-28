@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   init_philo.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: engiacom <engiacom@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 01:41:46 by nitadros          #+#    #+#             */
-/*   Updated: 2025/04/26 23:18:57 by engiacom         ###   ########.fr       */
+/*   Updated: 2025/04/28 01:53:29 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <philo.h>
+#include "philo.h"
 
 void	init_philo(t_table **table)
 {
@@ -20,8 +20,11 @@ void	init_philo(t_table **table)
 	while (i < (*table)->rules.philos)
 	{
 		pthread_mutex_init(&(*table)->forks[i], NULL);
+		pthread_mutex_init(&(*table)->philos[i].meal_mutex, NULL);
+		pthread_mutex_init(&(*table)->philos[i].last_meal_mutex, NULL);
 		i++;
 	}
+	pthread_mutex_init(&(*table)->finish_mutex, NULL);
 	i = 0;
 	while (i < (*table)->rules.philos)
 	{
