@@ -14,7 +14,11 @@
 
 void	print_status(t_philo **target, char *message)
 {
+	long	time;
+
+	time = get_timestamp();
 	pthread_mutex_lock(&(*target)->table->print);
-	printf("%ld %d %s\n", get_timestamp(), (*target)->index, message);
+	printf("%ld %d %s\n", time, (*target)->index, message);
 	pthread_mutex_unlock(&(*target)->table->print);
 }
+

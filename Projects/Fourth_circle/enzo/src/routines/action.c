@@ -6,7 +6,7 @@
 /*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 23:07:22 by engiacom          #+#    #+#             */
-/*   Updated: 2025/04/28 02:34:21 by nitadros         ###   ########.fr       */
+/*   Updated: 2025/04/28 04:27:16 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,9 @@ void	last_odd(t_philo **tmp)
 	if ((*tmp)->table->rules.philos <= 1)
 	{
 		pthread_mutex_unlock((*tmp)->l_forks);
-		// (*tmp)->table->finish = 1;
+		pthread_mutex_lock(&(*tmp)->table->finish_mutex);
+		(*tmp)->table->finish = 1;
+		pthread_mutex_unlock(&(*tmp)->table->finish_mutex);
 		return ;
 	}
 	pthread_mutex_lock((*tmp)->r_forks);
@@ -28,7 +30,7 @@ void	last_odd(t_philo **tmp)
 	{
 		pthread_mutex_unlock((*tmp)->l_forks);
 		pthread_mutex_unlock((*tmp)->r_forks);
-		pthread_mutex_unlock(&(*tmp)->table->finish_mutex);	
+		pthread_mutex_unlock(&(*tmp)->table->finish_mutex);
 		return ;
 	}
 	pthread_mutex_unlock(&(*tmp)->table->finish_mutex);
