@@ -6,7 +6,7 @@
 /*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 19:20:44 by nitadros          #+#    #+#             */
-/*   Updated: 2025/04/28 06:05:06 by nitadros         ###   ########.fr       */
+/*   Updated: 2025/04/28 18:26:35 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ int		ft_atoi(const char *str);
 int		ft_isdigit(int c);
 void	mutex_meals(t_philo *philo);
 void	mutex_last_meal(t_philo *philo);
-void    mutex_finish(t_philo *philo);
+void	mutex_finish(t_philo *philo);
 
 // Routines 
 void	*supervisor(void *supervisor);
@@ -80,9 +80,9 @@ void	odd(t_philo **tmp);
 void	even(t_philo **tmp);
 
 // Checking
-int check_finish(t_philo **philo);
-int check_finish_and_unlock(t_philo **philo);
-int	check_solo(t_philo **tmp);
+int		check_finish(t_philo **philo);
+int		check_finish_and_unlock(t_philo **philo);
+int		check_solo(t_philo **tmp);
 
 // Printing
 void	print_status(t_philo **target, char *message);

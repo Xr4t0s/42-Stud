@@ -6,13 +6,13 @@
 /*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 00:45:43 by nitadros          #+#    #+#             */
-/*   Updated: 2025/04/28 18:23:44 by nitadros         ###   ########.fr       */
+/*   Updated: 2025/04/28 18:25:34 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-static int routine_util(t_philo **tmp)
+static int	routine_util(t_philo **tmp)
 {
 	if ((*tmp)->meals == (*tmp)->table->rules.number_eat)
 	{
