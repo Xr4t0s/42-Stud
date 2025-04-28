@@ -6,7 +6,7 @@
 /*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 00:26:08 by nitadros          #+#    #+#             */
-/*   Updated: 2025/04/28 02:17:10 by nitadros         ###   ########.fr       */
+/*   Updated: 2025/04/28 18:16:06 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ static void	configure_philos(char **av, t_table *table)
 		if (pthread_create(&table->philos[i].id, NULL, threads,
 				&table->philos[i]) == -1)
 			return ;
+		usleep(10);
 		i++;
 	}
 	pthread_mutex_unlock(&table->start);
@@ -56,7 +57,7 @@ static void	configure_philos(char **av, t_table *table)
 		if (table->finish == 1)
 		{
 			pthread_mutex_unlock(&table->finish_mutex);
-			break;
+			break ;
 		}
 		pthread_mutex_unlock(&table->finish_mutex);
 		usleep(100);

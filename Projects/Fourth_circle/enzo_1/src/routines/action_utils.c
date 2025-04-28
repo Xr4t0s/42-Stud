@@ -33,26 +33,26 @@ void	mutex_last_meal(t_philo *philo)
 	pthread_mutex_unlock(&philo->last_meal_mutex);
 }
 
-int check_finish(t_philo **philo)
+int	check_finish(t_philo **philo)
 {
 	pthread_mutex_lock(&(*philo)->table->finish_mutex);
 	if ((*philo)->table->finish == 1)
 	{
-		pthread_mutex_unlock(&(*philo)->table->finish_mutex);	
+		pthread_mutex_unlock(&(*philo)->table->finish_mutex);
 		return (0);
 	}
 	pthread_mutex_unlock(&(*philo)->table->finish_mutex);
 	return (1);
 }
 
-int check_finish_and_unlock(t_philo **philo)
+int	check_finish_and_unlock(t_philo **philo)
 {
 	pthread_mutex_lock(&(*philo)->table->finish_mutex);
 	if ((*philo)->table->finish == 1)
 	{
 		pthread_mutex_unlock((*philo)->l_forks);
 		pthread_mutex_unlock((*philo)->r_forks);
-		pthread_mutex_unlock(&(*philo)->table->finish_mutex);	
+		pthread_mutex_unlock(&(*philo)->table->finish_mutex);
 		return (0);
 	}
 	pthread_mutex_unlock(&(*philo)->table->finish_mutex);

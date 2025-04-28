@@ -6,7 +6,7 @@
 /*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 01:05:44 by nitadros          #+#    #+#             */
-/*   Updated: 2025/04/28 05:04:42 by nitadros         ###   ########.fr       */
+/*   Updated: 2025/04/28 17:29:06 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ void	*supervisor(void *supervisor)
 	while (1)
 	{
 		i = 0;
-		int meal = 0;
+		int	meal = 0; // à sortir de la boucle
 		while (i < tmp->rules.philos)
 		{
 			if (tmp->rules.number_eat != -1 && all_eaten(&tmp->philos[i]))
