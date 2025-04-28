@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   routine.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: nitadros <nitadros@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 00:45:43 by nitadros          #+#    #+#             */
-/*   Updated: 2025/04/28 18:25:34 by nitadros         ###   ########.fr       */
+/*   Updated: 2025/04/29 00:58:34 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ static int	routine_util(t_philo **tmp)
 
 static int	routine(t_philo *tmp)
 {
+	mutex_last_meal(tmp);
 	while (1)
 	{
 		pthread_mutex_lock(&tmp->table->finish_mutex);

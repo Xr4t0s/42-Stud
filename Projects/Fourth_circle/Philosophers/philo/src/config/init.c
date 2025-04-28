@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: nitadros <nitadros@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 00:26:08 by nitadros          #+#    #+#             */
-/*   Updated: 2025/04/28 18:16:06 by nitadros         ###   ########.fr       */
+/*   Updated: 2025/04/29 01:01:07 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,11 @@ static int	configure_rules(char **av, t_table *table)
 	table->rules.time_to_die = (time_t)ft_atoi(av[1]);
 	table->rules.time_to_eat = (time_t)ft_atoi(av[2]);
 	table->rules.time_to_sleep = (time_t)ft_atoi(av[3]);
+	if ((table->rules.philos < 1 || table->rules.philos > 200)
+		|| table->rules.time_to_die < 60
+		|| table->rules.time_to_eat < 60
+		|| table->rules.time_to_sleep < 60)
+		return (1);
 	if (av[4])
 		table->rules.number_eat = (long)ft_atoi(av[4]);
 	else
@@ -31,16 +36,11 @@ static int	configure_rules(char **av, t_table *table)
 	return (0);
 }
 
-static void	configure_philos(char **av, t_table *table)
+static void	configure_philos(t_table *table)
 {
 	int	i;
 
 	i = 0;
-	(void)av;
-	init_philo(&table);
-	if (pthread_create(&table->philos[table->rules.philos].id,
-			NULL, supervisor, table) == -1)
-		return ;
 	pthread_mutex_lock(&table->start);
 	while (i < table->rules.philos)
 	{
@@ -70,7 +70,11 @@ int	configure_table(char **av, t_table *table)
 	pthread_mutex_init(&table->print, NULL);
 	pthread_mutex_init(&table->start, NULL);
 	if (configure_rules(av, table))
-		return (ft_return("Malloc Error\n"), 1);
-	configure_philos(av, table);
+		return (1);
+	init_philo(&table);
+	if (pthread_create(&table->philos[table->rules.philos].id,
+			NULL, supervisor, table) == -1)
+		return (1);
+	configure_philos(table);
 	return (0);
 }
