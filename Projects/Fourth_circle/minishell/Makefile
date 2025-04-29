@@ -13,7 +13,7 @@ NAME            = minishell
 
 # Compilateur et flags
 CC              = cc
-CFLAGS          = -Wall -Wextra -Werror -I. -I$(LIBFT_DIR)
+CFLAGS          = -Wall -Wextra -Werror -I include
 
 # Commandes
 RM              = rm -rf
@@ -34,7 +34,7 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
 $(NAME): $(OBJS)
-	$(CC) $(CFLAGS) $(OBJS) $(LIBFT_A) -o $(NAME)
+	$(CC) $(CFLAGS) $(OBJS) $(LIBFT_A) -o $(NAME) -lreadline
 
 bonus: all
 
