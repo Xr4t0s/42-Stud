@@ -1,18 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nitadros <nitadros@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/29 17:22:27 by engiacom          #+#    #+#             */
-/*   Updated: 2025/04/30 00:41:12 by nitadros         ###   ########.fr       */
+/*   Created: 2025/04/30 01:57:09 by nitadros          #+#    #+#             */
+/*   Updated: 2025/04/30 03:32:33 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	main()
+int	echo(char **arg)
 {
-	read_input();
+	int	i;
+	int	newline;
+
+	i = 1;
+	newline = 1;
+	if (arg[1] && !ft_strcmp(arg[1], "-n"))
+	{
+		newline = 0;
+		i++;
+	}
+	while(arg[i])
+	{
+		printf("%s", arg[i]);
+		if (arg[i + 1])
+			printf(" ");
+		i++;
+	}
+	if (newline)
+		printf("\n");
+	return (1);
 }
