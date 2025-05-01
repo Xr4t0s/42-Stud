@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nitadros <nitadros@student.42.fr>          +#+  +:+       +#+        */
+/*   By: engiacom <engiacom@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 02:14:32 by engiacom          #+#    #+#             */
-/*   Updated: 2025/04/30 04:14:53 by nitadros         ###   ########.fr       */
+/*   Updated: 2025/04/30 16:04:25 by engiacom         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ t_arg	*ft_lstnew_m(t_token_type type, char *value)
 	if (new == NULL)
 		return (NULL);
 	new->type = type;
-	new->value = value;
+	new->value = ft_strdup(value);
 	new->next = NULL;
 	return (new);
 }

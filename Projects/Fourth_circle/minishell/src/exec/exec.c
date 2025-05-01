@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nitadros <nitadros@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 02:34:32 by nitadros          #+#    #+#             */
-/*   Updated: 2025/04/30 04:35:43 by nitadros         ###   ########.fr       */
+/*   Updated: 2025/04/30 16:10:15 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	is_builtin(const char *cmd)
 		|| !ft_strcmp(cmd, "exit"));
 }
 
-int	exec_builtin(t_arg *args)
+int	exec_builtin(char **args)
 {
 	if (!args || !args[0])
 		return (0);

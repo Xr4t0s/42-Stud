@@ -1,37 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   echo.c                                             :+:      :+:    :+:   */
+/*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/30 01:57:09 by nitadros          #+#    #+#             */
-/*   Updated: 2025/05/01 16:42:16 by nitadros         ###   ########.fr       */
+/*   Created: 2025/04/30 04:34:50 by engiacom          #+#    #+#             */
+/*   Updated: 2025/04/30 16:23:18 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	echo(char **arg)
+void	ft_lstclear_m(t_arg **lst)
 {
-	int	i;
-	int	newline;
+	t_arg	*tmp;
 
-	i = 1;
-	newline = 1;
-	if (arg[1] && !ft_strcmp(arg[1], "-n"))
+	while (*lst != NULL)
 	{
-		newline = 0;
-		i++;
+		tmp = (*lst)->next;
+		(*lst)->type = 0;
+		if ((*lst)->value)
+		{
+			(*lst)->value = NULL;
+			free ((*lst)->value);
+		}
+		free ((*lst));
+		*lst = tmp;
 	}
-	while(arg[i])
-	{
-		printf("%s", arg[i]);
-		if (arg[i + 1])
-			printf(" ");
-		i++;
-	}
-	if (newline)
-		printf("\n");
-	return (1);
+	*lst = NULL;
 }

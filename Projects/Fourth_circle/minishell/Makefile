@@ -12,8 +12,8 @@ OBJS            = $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRCS))
 NAME            = minishell
 
 # Compilateur et flags
-CC              = cc
-CFLAGS          = -Wall -Wextra -Werror -I include
+CC              = cc -g
+CFLAGS          = -Wall -Wextra -I include
 
 # Commandes
 RM              = rm -rf
