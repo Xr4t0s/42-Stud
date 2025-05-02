@@ -1,0 +1,6 @@
+"minishell$ < hello" ne renvoie pas d'erreur malgré < au début, pareil pour pipe
+
+absolument revoir les structures commandes :
+	- ajouter char *heredoc, que l'on initialise que dans un t_cmd_type pour la string heredoc
+	- garder les dernières redirections seulement et établir le reste à NONE
+	- si heredoc, éliminer les < 

@@ -72,8 +72,10 @@ void    print(t_arg *arg)
 int	read_input(t_data *data)
 {
 	char	*line;
+	int		i;
 
-	while (1)
+	i = 0;
+	while (i < 5)
 	{
 		line = readline("minishell$ ");
 		if (!line)
@@ -99,6 +101,7 @@ int	read_input(t_data *data)
 		free(line);
 		ft_lstclear_m(&data->arg);
 		ft_lstclear_c(&data->cmd);
+		i++;
 	}
 	return (0);
 }

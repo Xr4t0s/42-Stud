@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: engiacom <engiacom@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 19:04:38 by engiacom          #+#    #+#             */
-/*   Updated: 2025/04/29 15:47:49 by engiacom         ###   ########.fr       */
+/*   Updated: 2025/05/02 07:50:40 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
