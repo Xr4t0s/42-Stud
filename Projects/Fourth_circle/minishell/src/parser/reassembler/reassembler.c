@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   reassembler.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: engiacom <engiacom@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 11:45:52 by nitadros          #+#    #+#             */
-/*   Updated: 2025/05/03 02:01:30 by engiacom         ###   ########.fr       */
+/*   Updated: 2025/05/03 08:21:56 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ t_cmd	*append_new_cmd(t_cmd **head, t_cmd **last)
 		return (NULL);
 	}
 	new->pipe = 0;
+	new->input_fd = 0;
+	new->output_fd = 0;
 	new->redirection = NULL;
 	new->next = NULL;
 	if (!*head)

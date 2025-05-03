@@ -10,55 +10,57 @@
 // /*                                                                            */
 // /* ************************************************************************** */
 
-// #include "minishell.h"
+#include "minishell.h"
 
-// static void	init_io(t_io *io)
-// {
-// 	io->i = 0;
-// 	io->index_in = 0;
-// 	io->index_out = 0;
-// }
+static void	init_io(t_io *io)
+{
+	io->i = 0;
+	io->index_in = -1;
+	io->index_out = -1;
+}
 
-// static void	io_loop(t_redir *tmp, t_io *io)
-// {
-// 	if (tmp->type == R_IN)
-// 		io->index_in = io->i;
-// 	else if (tmp->type == R_HEREDOC)
-// 		io->index_in = io->i;
-// 	else if (tmp->type == R_OUT)
-// 		io->index_out = io->i;
-// 	else if (tmp->type == R_APPEND)
-// 		io->index_out = io->i;
-// }
+static void	io_loop(t_redir *tmp, t_io *io)
+{
+	if (tmp->type == R_IN)
+		io->index_in = io->i;
+	else if (tmp->type == R_HEREDOC)
+		io->index_in = io->i;
+	else if (tmp->type == R_OUT)
+		io->index_out = io->i;
+	else if (tmp->type == R_APPEND)
+		io->index_out = io->i;
+}
 
-// int	io_config(t_cmd *cmds)
-// {
-// 	t_io	io;
-// 	t_redir	*tmp;
+int	io_config(t_cmd *cmds)
+{
+	t_io	io;
+	t_redir	*tmp;
 
-// 	init_io(&io);
-// 	if (!cmds)
-// 		return (0);
-// 	while (cmds)
-// 	{
-// 		if (!cmds->redirection)
-// 		{
-// 			cmds = cmds->next;
-// 			continue;
-// 		}
-// 		io.i = 0;
-// 		tmp = cmds->redirection;
-// 		while (tmp)
-// 		{
-// 			io_loop(tmp, &io);
-// 			tmp = tmp->next;
-// 			io.i++;
-// 		}
-// 		io_redirect(&io, cmds);
-// 		cmds = cmds->next;
-// 	}
-// 	return (1);
-// }
+	init_io(&io);
+	if (!cmds)
+		return (0);
+	while (cmds)
+	{
+		if (!cmds->redirection)
+		{
+			cmds = cmds->next;
+			continue;
+		}
+		io.i = 0;
+		tmp = cmds->redirection;
+		while (tmp)
+		{
+			io_loop(tmp, &io);
+			if (tmp->next)
+				io.i++;
+			tmp = tmp->next;
+		}
+		if (!io_redirect(&io, &cmds))
+			return (perror(cmds->redirection[io.index_in].target), 0);
+		cmds = cmds->next;
+	}
+	return (1);
+}
 
 
 // // int main(void)

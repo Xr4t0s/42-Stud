@@ -54,7 +54,7 @@ void	print_data_cmds(t_data *data)
 			printf("Aucune redirection.\n");
 		if (cmd->pipe)
 			printf("Piped !\n");
-
+		printf("input : %d | output : %d\n", cmd->input_fd, cmd->output_fd);
 		cmd = cmd->next;
 	}
 }
@@ -89,6 +89,7 @@ int	read_input(t_data *data)
 			{
 				expanser(&data->arg);
 				reassembler(data);
+				io_config(data->cmd);
 				print_data_cmds(data);
 			}
 			else

@@ -6,7 +6,7 @@
 /*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 17:22:24 by engiacom          #+#    #+#             */
-/*   Updated: 2025/05/03 05:48:15 by nitadros         ###   ########.fr       */
+/*   Updated: 2025/05/03 10:05:54 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,17 @@ typedef struct s_io_config
 	int		index_out;
 }	t_io;
 
+typedef struct s_heredoc
+{
+	int		index;
+	char	*target;
+	char	*line;
+	char	*joined;
+	char	*tmp;
+	int		fd;
+}	t_heredoc;
+
+
 int		read_input(t_data *data);
 
 // Execution
@@ -123,6 +134,8 @@ int		token_word(char *c, int i, t_arg **arg, int v);
 void	reassembler_check(t_arg **arg, t_cmd **cmd);
 void	append_arg(char *c, int start, int len, t_arg **arg, t_token_type type);
 int		check_cmd(char *s, t_arg **arg);
+int		io_config(t_cmd *cmds);
 int		io_redirect(t_io *io, t_cmd **cmd);
+int 	heredoc(t_redir *redir);
 
 #endif
