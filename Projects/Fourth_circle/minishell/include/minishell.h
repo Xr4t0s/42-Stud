@@ -6,7 +6,7 @@
 /*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 17:22:24 by engiacom          #+#    #+#             */
-/*   Updated: 2025/05/03 05:09:59 by nitadros         ###   ########.fr       */
+/*   Updated: 2025/05/03 05:48:15 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@
 # include "../libft/include/libft.h"
 # include <readline/readline.h>
 # include <readline/history.h>
+# include <unistd.h>
+# include <fcntl.h>
 
 // Disassembler
 typedef enum e_token_type
@@ -87,7 +89,6 @@ typedef struct s_expansion
 typedef struct s_io_config
 {
 	int		i;
-	int		heredoc;
 	int		index_in;
 	int		index_out;
 }	t_io;
@@ -122,5 +123,6 @@ int		token_word(char *c, int i, t_arg **arg, int v);
 void	reassembler_check(t_arg **arg, t_cmd **cmd);
 void	append_arg(char *c, int start, int len, t_arg **arg, t_token_type type);
 int		check_cmd(char *s, t_arg **arg);
+int		io_redirect(t_io *io, t_cmd **cmd);
 
 #endif
