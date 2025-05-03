@@ -6,7 +6,7 @@
 /*   By: engiacom <engiacom@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 14:32:01 by engiacom          #+#    #+#             */
-/*   Updated: 2025/05/02 02:57:52 by engiacom         ###   ########.fr       */
+/*   Updated: 2025/05/03 04:23:14 by engiacom         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,21 +39,31 @@ int	check_quote(char *line)
 int	check_pipe(t_arg *arg)
 {
 	int	p;
+	int	w;
 
 	p = 0;
+	w = 0;
 	while (arg)
 	{
-		if ((check_token_redir(arg->type) || arg->type == T_PIPE) && p == 1)
-			return (1);
-		else if (arg->type == T_PIPE)
-			p = 1;
-		if ((!arg->next || !(arg->next->type == T_WORD
-					|| arg->next->type == T_QUOTE
-					|| arg->next->type == T_DQUOTE)) && p == 1)
-			return (1);
+		if (arg->type == T_WORD || arg->type == T_QUOTE
+			|| arg->type == T_DQUOTE || arg->type == T_VAR || check_token_redir(arg->type))
+			w = 1;
+		if (w == 1)
+		{
+			if ((check_token_redir(arg->type) || arg->type == T_PIPE) && p == 1)
+				return (1);
+			else if (arg->type == T_PIPE)
+				p = 1;
+			if ((!arg->next || !(arg->next->type == T_WORD
+						|| arg->next->type == T_QUOTE
+						|| arg->next->type == T_DQUOTE)) && p == 1)
+				return (1);
+			else
+				p = 0;
+			arg = arg->next;
+		}
 		else
-			p = 0;
-		arg = arg->next;
+			return (1);
 	}
 	return (p);
 }

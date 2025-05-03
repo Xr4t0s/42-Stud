@@ -6,7 +6,7 @@
 /*   By: engiacom <engiacom@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 01:57:12 by engiacom          #+#    #+#             */
-/*   Updated: 2025/05/02 02:57:28 by engiacom         ###   ########.fr       */
+/*   Updated: 2025/05/03 04:23:41 by engiacom         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,12 @@
 int	token_var_qmark(char *c, int i, t_arg **arg)
 {
 	int		k;
-	char	*s;
 
 	k = 1;
 	if (c[i + k] && c[i + k] == '?')
 	{
 		k++;
-		s = ft_substr(c, i, k);
-		ft_lstadd_back_m(arg, ft_lstnew_m(T_VAR, s));
+		append_arg(c, i, k, arg, T_VAR);
 	}
 	return (k);
 }
@@ -30,7 +28,6 @@ int	token_var_qmark(char *c, int i, t_arg **arg)
 int	token_var_word(char *c, int i, t_arg **arg)
 {
 	int		k;
-	char	*s;
 
 	k = 1;
 	if (c[i] && c[i] == '$')
@@ -42,13 +39,10 @@ int	token_var_word(char *c, int i, t_arg **arg)
 			k++;
 			while (c[i + k] && (ft_isalnum(c[i + k]) || c[i + k] == '_'))
 				k++;
-			s = ft_substr(c, i, k);
-			ft_lstadd_back_m(arg, ft_lstnew_m(T_VAR, s));
+			append_arg(c, i, k, arg, T_VAR);
 		}
 		else
 			return (token_word(c, i, arg, 1));
-		if (s)
-			free(s);
 		return (k);
 	}
 	return (0);
@@ -57,7 +51,6 @@ int	token_var_word(char *c, int i, t_arg **arg)
 int	token_quote(char *c, int i, t_arg **arg)
 {
 	int		k;
-	char	*s;
 
 	k = 0;
 	if (c[i] && c[i] == '\"')
@@ -68,9 +61,7 @@ int	token_quote(char *c, int i, t_arg **arg)
 			k++;
 		}
 		k++;
-		s = ft_substr(c, i, k);
-		ft_lstadd_back_m(arg, ft_lstnew_m(T_DQUOTE, s));
-		free(s);
+		append_arg(c, i, k, arg, T_DQUOTE);
 		return (k);
 	}
 	return (k);
@@ -79,7 +70,6 @@ int	token_quote(char *c, int i, t_arg **arg)
 int	token_other(char *c, int i, t_arg **arg)
 {
 	int		k;
-	char	*s;
 
 	k = 0;
 	if (c[i] && c[i] == ' ')
@@ -97,9 +87,7 @@ int	token_other(char *c, int i, t_arg **arg)
 		while (c[i + k] && c[i + k] != '\'')
 			k++;
 		k++;
-		s = ft_substr(c, i, k);
-		ft_lstadd_back_m(arg, ft_lstnew_m(T_QUOTE, s));
-		free(s);
+		append_arg(c, i, k, arg, T_QUOTE);
 		return (k);
 	}
 	return (0);
@@ -110,6 +98,7 @@ int	parser(char *line, t_arg **arg)
 	int	i;
 
 	i = 0;
+	i += check_cmd(line, arg);
 	while (line[i])
 	{
 		i += token_r_left(line, i, arg);

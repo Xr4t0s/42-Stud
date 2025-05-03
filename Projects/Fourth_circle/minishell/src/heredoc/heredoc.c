@@ -1,14 +1,14 @@
-// /* ************************************************************************** */
-// /*                                                                            */
-// /*                                                        :::      ::::::::   */
-// /*   heredoc.c                                          :+:      :+:    :+:   */
-// /*                                                    +:+ +:+         +:+     */
-// /*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
-// /*                                                +#+#+#+#+#+   +#+           */
-// /*   Created: 2025/05/02 07:03:24 by nitadros          #+#    #+#             */
-// /*   Updated: 2025/05/02 08:33:20 by nitadros         ###   ########.fr       */
-// /*                                                                            */
-// /* ************************************************************************** */
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   heredoc.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/02 07:03:24 by nitadros          #+#    #+#             */
+/*   Updated: 2025/05/03 05:09:05 by nitadros         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "minishell.h"
 
@@ -19,11 +19,13 @@ int heredoc(t_cmd *cmds)
 	char	*target;
 	char	*line;
 	char	*joined;
+	char	*tmp;
 
 	tmp_cmd = cmds;
 	target = NULL;
-	line = "";
-	joined = "";
+	line = calloc(sizeof(char), 1);
+	joined = calloc(sizeof(char), 1);
+	tmp = NULL;
 	while (tmp_cmd)
 	{
 		tmp_redir = tmp_cmd->redirection;
@@ -32,12 +34,21 @@ int heredoc(t_cmd *cmds)
 			if (tmp_redir->type == R_HEREDOC)
 			{
 				target = tmp_redir->target;
-				while(ft_strcmp(line, target) != 0)
+				while (ft_strcmp(line, target) != 0)
 				{
+					if (line)
+						free(line);
 					line = readline("heredoc> ");
+					if (!line)
+						break;
+					tmp = joined;
 					joined = ft_strjoin(joined, line);
+					free(tmp);
+					tmp = joined;
 					joined = ft_strjoin(joined, "\n");
+					free(tmp);
 				}
+				free(line);
 				size_t len = ft_strlen(joined) - ft_strlen(target) - 1;
                 joined[len - 1] = '\0';		
 			}
@@ -47,6 +58,7 @@ int heredoc(t_cmd *cmds)
 	}
 	printf("%s\n", joined);
 	free(joined);
+	return (1);
 }
 
 // int main(void)

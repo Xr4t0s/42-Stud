@@ -6,7 +6,7 @@
 /*   By: engiacom <engiacom@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 12:15:52 by nitadros          #+#    #+#             */
-/*   Updated: 2025/05/02 02:57:13 by engiacom         ###   ########.fr       */
+/*   Updated: 2025/05/03 04:05:48 by engiacom         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ static int	need_expansion(char *str)
 	{
 		if (str[i] == '$' && str[i + 1])
 		{
-			if (ft_isalpha(str[i + 1]) || str[i] == '_')
+			if (ft_isalpha(str[i + 1]) || str[i + 1] == '_')
 				return (1);
 		}
 		i++;

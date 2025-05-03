@@ -6,7 +6,7 @@
 /*   By: engiacom <engiacom@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 02:14:32 by engiacom          #+#    #+#             */
-/*   Updated: 2025/05/02 02:58:20 by engiacom         ###   ########.fr       */
+/*   Updated: 2025/05/03 03:07:23 by engiacom         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,16 +81,13 @@ int	token_r_left(char *c, int i, t_arg **arg)
 int	token_word(char *c, int i, t_arg **arg, int v)
 {
 	int		k;
-	char	*s;
 
 	k = v;
 	while (c[i + k] && !(is_separator(c[i + k])))
 		k++;
 	if (k > 0)
 	{
-		s = ft_substr(c, i, k);
-		ft_lstadd_back_m(arg, ft_lstnew_m(T_WORD, s));
-		free(s);
+		append_arg(c, i, k, arg, T_WORD);
 		return (k);
 	}
 	return (k);

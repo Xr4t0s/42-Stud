@@ -6,7 +6,7 @@
 /*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 17:22:24 by engiacom          #+#    #+#             */
-/*   Updated: 2025/05/02 08:38:20 by nitadros         ###   ########.fr       */
+/*   Updated: 2025/05/03 05:09:59 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,8 @@ typedef struct s_cmd
 	int				pipe;
 	char			**bin;
 	t_redir			*redirection;
+	int				input_fd;
+	int				output_fd;
 	struct s_cmd	*next;
 }	t_cmd;
 
@@ -81,6 +83,14 @@ typedef struct s_expansion
 	char	*joined;
 	char	*new_str;
 }	t_expansion;
+
+typedef struct s_io_config
+{
+	int		i;
+	int		heredoc;
+	int		index_in;
+	int		index_out;
+}	t_io;
 
 int		read_input(t_data *data);
 
@@ -110,5 +120,7 @@ int		token_r_right(char *c, int i, t_arg **arg);
 int		token_r_left(char *c, int i, t_arg **arg);
 int		token_word(char *c, int i, t_arg **arg, int v);
 void	reassembler_check(t_arg **arg, t_cmd **cmd);
+void	append_arg(char *c, int start, int len, t_arg **arg, t_token_type type);
+int		check_cmd(char *s, t_arg **arg);
 
 #endif
