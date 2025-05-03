@@ -1,14 +1,14 @@
-// /* ************************************************************************** */
-// /*                                                                            */
-// /*                                                        :::      ::::::::   */
-// /*   io_config.c                                        :+:      :+:    :+:   */
-// /*                                                    +:+ +:+         +:+     */
-// /*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
-// /*                                                +#+#+#+#+#+   +#+           */
-// /*   Created: 2025/05/03 01:47:44 by nitadros          #+#    #+#             */
-// /*   Updated: 2025/05/03 05:45:32 by nitadros         ###   ########.fr       */
-// /*                                                                            */
-// /* ************************************************************************** */
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   io_config.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/03 01:47:44 by nitadros          #+#    #+#             */
+/*   Updated: 2025/05/03 20:23:07 by nitadros         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "minishell.h"
 
@@ -63,58 +63,58 @@ int	io_config(t_cmd *cmds)
 }
 
 
-// // int main(void)
-// // {
-// // 	t_cmd	*cmds;
-// // 	cmds = NULL;
-// // 	cmds = malloc(sizeof(t_cmd));
-// // 	cmds->bin = malloc(sizeof(char *) * 3);
-// // 	cmds->redirection = malloc(sizeof(t_redir *) * 5);
-// // 	cmds->bin[0] = "echo";
-// // 	cmds->bin[1] = "hello";
-// // 	cmds->bin[2] = NULL;
-// // 	cmds->input_fd = 0;
-// // 	cmds->output_fd = 0;
-// // 	cmds->pipe = 0;
-// // 	cmds->next = NULL;
+// int main(void)
+// {
+// 	t_cmd	*cmds;
+// 	cmds = NULL;
+// 	cmds = malloc(sizeof(t_cmd));
+// 	cmds->bin = malloc(sizeof(char *) * 3);
+// 	cmds->redirection = malloc(sizeof(t_redir *) * 5);
+// 	cmds->bin[0] = "echo";
+// 	cmds->bin[1] = "hello";
+// 	cmds->bin[2] = NULL;
+// 	cmds->input_fd = 0;
+// 	cmds->output_fd = 0;
+// 	cmds->pipe = 0;
+// 	cmds->next = NULL;
 	
-// // 	cmds->redirection->type = R_APPEND;
-// // 	cmds->redirection->target = "target1";
-// // 	cmds->redirection->next = malloc(sizeof(t_redir));
+// 	cmds->redirection->type = R_APPEND;
+// 	cmds->redirection->target = "target1";
+// 	cmds->redirection->next = malloc(sizeof(t_redir));
 
-// // 	cmds->redirection->next->type = R_OUT;
-// // 	cmds->redirection->next->target = "target2";
-// // 	cmds->redirection->next->next = malloc(sizeof(t_redir));
+// 	cmds->redirection->next->type = R_OUT;
+// 	cmds->redirection->next->target = "target2";
+// 	cmds->redirection->next->next = malloc(sizeof(t_redir));
 
-// // 	cmds->redirection->next->next->type = R_APPEND;
-// // 	cmds->redirection->next->next->target = "target3";
-// // 	cmds->redirection->next->next->next = malloc(sizeof(t_redir));
+// 	cmds->redirection->next->next->type = R_APPEND;
+// 	cmds->redirection->next->next->target = "target3";
+// 	cmds->redirection->next->next->next = malloc(sizeof(t_redir));
 
-// // 	cmds->redirection->next->next->next->type = R_HEREDOC;
-// // 	cmds->redirection->next->next->next->target = "EOF";
-// // 	cmds->redirection->next->next->next->next = malloc(sizeof(t_redir));
+// 	cmds->redirection->next->next->next->type = R_HEREDOC;
+// 	cmds->redirection->next->next->next->target = "EOF";
+// 	cmds->redirection->next->next->next->next = malloc(sizeof(t_redir));
 
-// // 	cmds->redirection->next->next->next->next->type = R_IN;
-// // 	cmds->redirection->next->next->next->next->target = "input.txt";
-// // 	cmds->redirection->next->next->next->next->next = NULL;
+// 	cmds->redirection->next->next->next->next->type = R_IN;
+// 	cmds->redirection->next->next->next->next->target = "input.txt";
+// 	cmds->redirection->next->next->next->next->next = NULL;
 
-// // 	io_config(cmds);
-// // 	// Free le tableau bin
-// // 	free(cmds->bin);
+// 	io_config(cmds);
+// 	// Free le tableau bin
+// 	free(cmds->bin);
 
-// // 	// Free les redirections (liste chaînée)
-// // 	t_redir *current = cmds->redirection;
-// // 	t_redir *next;
-// // 	while (current)
-// // 	{
-// // 		next = current->next;
-// // 		free(current);
-// // 		current = next;
-// // 	}
+// 	// Free les redirections (liste chaînée)
+// 	t_redir *current = cmds->redirection;
+// 	t_redir *next;
+// 	while (current)
+// 	{
+// 		next = current->next;
+// 		free(current);
+// 		current = next;
+// 	}
 
-// // 	// Free la structure cmds
-// // 	free(cmds);
+// 	// Free la structure cmds
+// 	free(cmds);
 
-// // 	return (1);
-// // }
+// 	return (1);
+// }
 

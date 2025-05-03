@@ -6,7 +6,7 @@
 /*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 17:22:24 by engiacom          #+#    #+#             */
-/*   Updated: 2025/05/03 10:05:54 by nitadros         ###   ########.fr       */
+/*   Updated: 2025/05/03 22:30:03 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@
 # include "../libft/include/libft.h"
 # include <readline/readline.h>
 # include <readline/history.h>
-# include <unistd.h>
 # include <fcntl.h>
+# include <sys/wait.h>
 
 // Disassembler
 typedef enum e_token_type
@@ -104,7 +104,7 @@ typedef struct s_heredoc
 }	t_heredoc;
 
 
-int		read_input(t_data *data);
+int		read_input(t_data *data, char **envp);
 
 // Execution
 int		is_builtin(const char *cmd);
@@ -137,5 +137,8 @@ int		check_cmd(char *s, t_arg **arg);
 int		io_config(t_cmd *cmds);
 int		io_redirect(t_io *io, t_cmd **cmd);
 int 	heredoc(t_redir *redir);
+
+// Execution
+int	execute_commands(t_cmd *cmds, char **envp);
 
 #endif

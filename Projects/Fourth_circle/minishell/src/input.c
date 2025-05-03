@@ -69,7 +69,7 @@ void    print(t_arg *arg)
 	printf("\n");
 }
 
-int	read_input(t_data *data)
+int	read_input(t_data *data, char **envp)
 {
 	char	*line;
 	int		i;
@@ -90,6 +90,7 @@ int	read_input(t_data *data)
 				expanser(&data->arg);
 				reassembler(data);
 				io_config(data->cmd);
+				execute_commands(data->cmd, envp);
 				print_data_cmds(data);
 			}
 			else
