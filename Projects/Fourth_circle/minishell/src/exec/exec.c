@@ -6,7 +6,7 @@
 /*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 02:34:32 by nitadros          #+#    #+#             */
-/*   Updated: 2025/05/03 23:14:48 by nitadros         ###   ########.fr       */
+/*   Updated: 2025/05/04 00:29:38 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ int	execute_commands(t_cmd *cmds, char **envp)
 	int		saved_stdout;
 	int		saved_stdin;
 	char *argv[3];
+	int		fd[2];
 
 	argv[0] = "ls";     // ou tout autre nom de commande
 	argv[1] = "-la";
@@ -47,10 +48,17 @@ int	execute_commands(t_cmd *cmds, char **envp)
 	joined = NULL;
 	while(tmp)
 	{
+		
 		saved_stdin = dup(STDIN_FILENO);
 		saved_stdout = dup(STDOUT_FILENO);
 		if (saved_stdout == -1 || saved_stdin == -1)
 			return (perror("dup"), 0);
+		if (tmp->pipe && tmp->redirection == NULL)
+		{
+			pipe(fd);
+			tmp->output_fd = fd[1];
+			tmp->next->input_fd = fd[0];
+		}
 		pid = fork();
 		if (pid == -1)
 			return (perror("fork"), 0);

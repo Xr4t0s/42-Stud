@@ -6,7 +6,7 @@
 /*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 07:03:24 by nitadros          #+#    #+#             */
-/*   Updated: 2025/05/03 23:11:35 by nitadros         ###   ########.fr       */
+/*   Updated: 2025/05/03 23:52:03 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static void	heredoc_loop(t_redir **tmp_redir, t_heredoc *hrdc)
 	}
 	free((*hrdc).line);
 	len = ft_strlen((*hrdc).joined) - ft_strlen((*hrdc).target) - 1;
-	(*hrdc).joined[len - 1] = '\0';
+	(*hrdc).joined[len] = '\0';
 }
 
 int	save_heredoc(t_heredoc hrdc)
@@ -68,6 +68,8 @@ int	save_heredoc(t_heredoc hrdc)
 		free(filename);
 		return (perror("write"), close(fd), -1);
 	}
+	close(fd);
+	fd = open(filename, O_RDONLY);
 	return (free(filename), fd);
 }
 

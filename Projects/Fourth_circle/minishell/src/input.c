@@ -72,25 +72,30 @@ void    print(t_arg *arg)
 int	read_input(t_data *data, char **envp)
 {
 	char	*line;
-	int		i;
+	//int		i;
 
-	i = 0;
-	while (i < 5)
+	//i = 0;
+	line = NULL;
+	while (1)
 	{
 		line = readline("minishell$ ");
 		if (!line)
 			break ;
-		if (*line != '\0')
-			add_history(line);
+		if (*line == '\0')
+		{
+			free(line);
+			continue ;
+		}
 		if (!check_quote(line))
 		{
+			add_history(line);
 			parser(line, &data->arg);
 			if (!check_pipe(data->arg) && !check_redir_legit(data->arg))
 			{
 				expanser(&data->arg);
 				reassembler(data);
-				io_config(data->cmd);
-				execute_commands(data->cmd, envp);
+				if (io_config(data->cmd))
+					execute_commands(data->cmd, envp);
 				print_data_cmds(data);
 			}
 			else
@@ -103,7 +108,8 @@ int	read_input(t_data *data, char **envp)
 		free(line);
 		ft_lstclear_m(&data->arg);
 		ft_lstclear_c(&data->cmd);
-		i++;
 	}
+	ft_lstclear_m(&data->arg);
+	ft_lstclear_c(&data->cmd);
 	return (0);
 }

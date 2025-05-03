@@ -6,7 +6,7 @@
 /*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 04:34:50 by engiacom          #+#    #+#             */
-/*   Updated: 2025/05/03 10:41:32 by nitadros         ###   ########.fr       */
+/*   Updated: 2025/05/04 01:11:50 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,9 @@ void	ft_lstclear_c(t_cmd **lst)
 	t_cmd	*tmp;
 	int		i;
 
-	i = 0;
 	while (*lst != NULL)
 	{
+		i = 0;
 		tmp = (*lst)->next;
 		if ((*lst)->bin)
 		{

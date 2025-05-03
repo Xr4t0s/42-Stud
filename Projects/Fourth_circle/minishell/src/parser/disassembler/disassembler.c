@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   disassembler.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: engiacom <engiacom@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 01:57:12 by engiacom          #+#    #+#             */
-/*   Updated: 2025/05/03 04:23:41 by engiacom         ###   ########.fr       */
+/*   Updated: 2025/05/04 00:39:32 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ int	token_quote(char *c, int i, t_arg **arg)
 			k++;
 		}
 		k++;
-		append_arg(c, i, k, arg, T_DQUOTE);
+		append_arg(c, i + 1, k - 1, arg, T_DQUOTE);
 		return (k);
 	}
 	return (k);
@@ -87,7 +87,7 @@ int	token_other(char *c, int i, t_arg **arg)
 		while (c[i + k] && c[i + k] != '\'')
 			k++;
 		k++;
-		append_arg(c, i, k, arg, T_QUOTE);
+		append_arg(c, i + 1, k - 1, arg, T_QUOTE);
 		return (k);
 	}
 	return (0);
