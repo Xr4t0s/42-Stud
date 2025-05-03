@@ -6,7 +6,7 @@
 /*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 11:45:52 by nitadros          #+#    #+#             */
-/*   Updated: 2025/05/03 08:21:56 by nitadros         ###   ########.fr       */
+/*   Updated: 2025/05/03 18:08:25 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@ t_cmd	*append_new_cmd(t_cmd **head, t_cmd **last)
 		return (NULL);
 	}
 	new->pipe = 0;
-	new->input_fd = 0;
-	new->output_fd = 0;
+	new->input_fd = -1;
+	new->output_fd = -1;
 	new->redirection = NULL;
 	new->next = NULL;
 	if (!*head)
