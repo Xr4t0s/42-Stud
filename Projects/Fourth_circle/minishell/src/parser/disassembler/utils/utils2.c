@@ -6,62 +6,64 @@
 /*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 03:09:30 by engiacom          #+#    #+#             */
-/*   Updated: 2025/05/04 00:50:43 by nitadros         ###   ########.fr       */
+/*   Updated: 2025/05/04 06:57:12 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	append_arg(char *c, int start, int len, t_arg **arg, t_token_type type)
+void	append_arg(t_parse *parse, int len, t_arg **arg, t_token_type type)
 {
 	char	*s;
 	
-	s = ft_substr(c, start, len);
+	s = ft_substr(parse->s, parse->i, len); // carré
 	if (!s)
 		return ;
 	ft_lstadd_back_m(arg, ft_lstnew_m(type, s));
 	free(s);
 }
 
-int	check_cmd(char *s, t_arg **arg)
+int	check_cmd(t_parse *parse, t_arg **arg, int o)
 {
-	int		i;
 	int		k;
 	int		q;
+	int		tmp;
 
-	i = 0;
 	k = 0;
 	q = 0;
-	while (s[i] && s[i] == ' ')
+	tmp = 0;
+	(void)o;
+	while (parse->s[parse->i] && parse->s[parse->i] == ' ')
 	{
 		k++;
-		i++;
+		parse->i++;
 	}
-	while (s[i] && !(s[i] == '<' || s[i] == '>' || s[i] == '=' || s[i] == ' ' || s[i] == '|' || s[i] == '$'))
+	while (parse->s[parse->i + tmp] && !(parse->s[parse->i + tmp] == '<'
+			|| parse->s[parse->i + tmp] == '>' || parse->s[parse->i + tmp] == '='
+			|| parse->s[parse->i + tmp] == ' ' || parse->s[parse->i + tmp] == '|'
+			|| parse->s[parse->i + tmp] == '$'))
 	{
-		if (s[i] == '\"' || s[i] == '\'')
+		if (parse->s[parse->i + tmp] == '\"' || parse->s[parse->i + tmp] == '\'')
 		{
-			if (s[i] == '\"')
+			if (parse->s[parse->i + tmp] == '\"')
 			{
-				i++;
+				tmp++;
 				k++;
-				while (s[i] && s[i] != '\"')
-					i++;
+				while (parse->s[parse->i + tmp] && parse->s[parse->i + tmp] != '\"')
+					tmp++;
 			}
-			if (s[i] == '\'')
+			if (parse->s[parse->i + tmp] == '\'')
 			{
-				i++;
+				tmp++;
 				k++;
-				while (s[i] && s[i] != '\'')
-					i++;
+				while (parse->s[parse->i + tmp] && parse->s[parse->i + tmp] != '\'')
+					tmp++;
 			}
 			q = 1;
 		}
-		i++;
+		tmp++;
 	}
-	if (s[k] != '|' && s[k] != '$')
-	{
-		append_arg(s, k, (i - k) - q, arg, T_WORD);
-	}
-	return (i);
+	if (parse->s[parse->i + k] != '|' && parse->s[parse->i + k] != '$')
+		append_arg(parse, (tmp), arg, T_WORD);
+	return (tmp);
 }

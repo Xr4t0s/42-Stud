@@ -6,7 +6,7 @@
 /*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 02:34:32 by nitadros          #+#    #+#             */
-/*   Updated: 2025/05/04 02:55:14 by nitadros         ###   ########.fr       */
+/*   Updated: 2025/05/04 05:01:45 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	execute_commands(t_cmd *cmds, char **envp)
 	// Setup des pipes entre commandes
 	while (tmp)
 	{
-		if (tmp->pipe && tmp->redirection->type != R_APPEND && tmp->redirection->type != R_OUT)
+		if (tmp->pipe && (tmp->type != R_APPEND || tmp->type != R_OUT))
 		{
 			if (pipe(fd) == -1)
 				return (perror("pipe"), 0);

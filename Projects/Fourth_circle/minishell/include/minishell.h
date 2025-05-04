@@ -6,7 +6,7 @@
 /*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 17:22:24 by engiacom          #+#    #+#             */
-/*   Updated: 2025/05/04 03:26:40 by nitadros         ###   ########.fr       */
+/*   Updated: 2025/05/04 05:52:55 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ typedef struct s_cmd
 	int				pipe;
 	char			**bin;
 	t_redir			*redirection;
+	t_redir_type	type;
 	int				input_fd;
 	int				output_fd;
 	struct s_cmd	*next;
@@ -104,6 +105,15 @@ typedef struct s_heredoc
 	int		fd;
 }	t_heredoc;
 
+typedef struct s_parse
+{
+	int		i;
+	int		k;
+	int		start;
+	int		len;
+	char	*s;
+}	t_parse;
+
 
 int		read_input(t_data *data, char **envp);
 
@@ -129,12 +139,12 @@ int		reassembler(t_data *data);
 int		check_token_redir(t_token_type token);
 int		check_token_word(t_token_type token);
 int		check_redir_legit(t_arg *arg);
-int		token_r_right(char *c, int i, t_arg **arg);
-int		token_r_left(char *c, int i, t_arg **arg);
-int		token_word(char *c, int i, t_arg **arg, int v);
+int		token_r_right(t_parse *parse, t_arg **arg);
+int		token_r_left(t_parse *parse, t_arg **arg);
+int		token_word(t_parse *parse, t_arg **arg, int v);
 void	reassembler_check(t_arg **arg, t_cmd **cmd);
-void	append_arg(char *c, int start, int len, t_arg **arg, t_token_type type);
-int		check_cmd(char *s, t_arg **arg);
+void	append_arg(t_parse *parse, int len, t_arg **arg, t_token_type type);
+int		check_cmd(t_parse *parse, t_arg **arg, int o);
 int		io_config(t_cmd *cmds);
 int		io_redirect(t_io *io, t_cmd **cmd);
 int 	heredoc(t_redir *redir);
