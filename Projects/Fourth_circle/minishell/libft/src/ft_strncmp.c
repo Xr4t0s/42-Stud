@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strncmp.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: engiacom <engiacom@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 16:33:45 by engiacom          #+#    #+#             */
-/*   Updated: 2025/04/29 15:48:06 by engiacom         ###   ########.fr       */
+/*   Updated: 2025/05/04 17:11:52 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

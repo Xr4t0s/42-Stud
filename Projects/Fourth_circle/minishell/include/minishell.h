@@ -6,7 +6,7 @@
 /*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 17:22:24 by engiacom          #+#    #+#             */
-/*   Updated: 2025/05/04 05:52:55 by nitadros         ###   ########.fr       */
+/*   Updated: 2025/05/04 17:55:35 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,8 +132,9 @@ void	ft_lstclear_c(t_cmd **lst);
 void	ft_lstclear_r(t_redir **lst);
 int		check_pipe(t_arg *arg);
 int		check_quote(char *line);
+void    dequote(t_arg **arg);
 int		parser(char *line, t_arg **arg);
-void	expanser(t_arg **arg);
+void	expanser(t_arg **arg, t_data *data);
 int		is_separator(char c);
 int		reassembler(t_data *data);
 int		check_token_redir(t_token_type token);

@@ -90,13 +90,16 @@ int	read_input(t_data *data, char **envp)
 		{
 			add_history(line);
 			parser(line, &data->arg);
+			dequote(&data->arg);
 			if (!check_pipe(data->arg) && !check_redir_legit(data->arg))
 			{
-				expanser(&data->arg);
+				expanser(&data->arg, data);
 				reassembler(data);
 				if (io_config(data->cmd))
-					execute_commands(data->cmd, envp);
-				print_data_cmds(data);
+					data->last_code = execute_commands(data->cmd, envp);
+				else
+					data->last_code = 1;
+				// print_data_cmds(data);
 			}
 			else
 				printf("rl_on_new_line\n");

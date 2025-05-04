@@ -6,7 +6,7 @@
 /*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 02:34:32 by nitadros          #+#    #+#             */
-/*   Updated: 2025/05/04 05:01:45 by nitadros         ###   ########.fr       */
+/*   Updated: 2025/05/04 17:42:25 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ int	execute_commands(t_cmd *cmds, char **envp)
 	pid_t	pid;
 	char	*joined;
 	int		fd[2];
+	int		status_code;
 
 	// Setup des pipes entre commandes
 	while (tmp)
@@ -44,7 +45,7 @@ int	execute_commands(t_cmd *cmds, char **envp)
 		if (tmp->pipe && (tmp->type != R_APPEND || tmp->type != R_OUT))
 		{
 			if (pipe(fd) == -1)
-				return (perror("pipe"), 0);
+				return (perror("pipe"), 1);
 			tmp->output_fd = fd[1];
 			tmp->next->input_fd = fd[0];
 		}
@@ -56,7 +57,7 @@ int	execute_commands(t_cmd *cmds, char **envp)
 	{
 		pid = fork();
 		if (pid == -1)
-			return (perror("fork"), 0);
+			return (perror("fork"), 1);
 		else if (pid == 0)
 		{
 			if (tmp->input_fd != -1)
@@ -71,9 +72,8 @@ int	execute_commands(t_cmd *cmds, char **envp)
 			}
 			joined = ft_strjoin("/usr/bin/", tmp->bin[0]);
 			execve(joined, tmp->bin, envp);
-			perror("execve");
 			free(joined);
-			exit(EXIT_FAILURE);
+			return (1);
 		}
 		else
 		{
@@ -90,8 +90,12 @@ int	execute_commands(t_cmd *cmds, char **envp)
 	tmp = cmds;
 	while (tmp)
 	{
-		wait(NULL);
+		wait(&status_code);
+		if (status_code == 127)
+			printf("command not found");
+		else if (status_code == 126)
+			printf("permission denied");
 		tmp = tmp->next;
 	}
-	return (1);
+	return (status_code);
 }
