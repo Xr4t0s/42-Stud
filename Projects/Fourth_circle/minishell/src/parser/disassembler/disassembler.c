@@ -6,7 +6,7 @@
 /*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 01:57:12 by engiacom          #+#    #+#             */
-/*   Updated: 2025/05/04 07:06:12 by nitadros         ###   ########.fr       */
+/*   Updated: 2025/05/04 19:44:02 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,7 @@ int	parser(char *line, t_arg **arg)
 		parse.i += token_r_left(&parse, arg);
 		parse.i += token_r_right(&parse, arg);
 		parse.i += token_other(&parse, arg);
-		if (ft_lstlast_a(*arg)->type == T_PIPE)
+		if (ft_lstlast_a(*arg) && ft_lstlast_a(*arg)->type == T_PIPE)
 			parse.i += check_cmd(&parse, arg, parse.i);
 		parse.i += token_var_word(&parse, arg);
 		parse.i += token_word(&parse, arg, 0);

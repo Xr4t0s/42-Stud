@@ -6,7 +6,7 @@
 /*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 02:34:32 by nitadros          #+#    #+#             */
-/*   Updated: 2025/05/04 17:42:25 by nitadros         ###   ########.fr       */
+/*   Updated: 2025/05/04 20:39:33 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,9 @@ int	execute_commands(t_cmd *cmds, char **envp)
 	char	*joined;
 	int		fd[2];
 	int		status_code;
-
+	int		i;
+	
+	i = 0;
 	// Setup des pipes entre commandes
 	while (tmp)
 	{
@@ -70,8 +72,12 @@ int	execute_commands(t_cmd *cmds, char **envp)
 				dup2(tmp->output_fd, STDOUT_FILENO);
 				close(tmp->output_fd);
 			}
-			joined = ft_strjoin("/usr/bin/", tmp->bin[0]);
-			execve(joined, tmp->bin, envp);
+			while(!tmp->bin[i][0])
+				i++;
+			joined = ft_strjoin("/usr/bin/", tmp->bin[i]);
+			
+			execve(joined, &tmp->bin[i], envp);
+			perror("");
 			free(joined);
 			return (1);
 		}
@@ -91,10 +97,15 @@ int	execute_commands(t_cmd *cmds, char **envp)
 	while (tmp)
 	{
 		wait(&status_code);
-		if (status_code == 127)
-			printf("command not found");
-		else if (status_code == 126)
-			printf("permission denied");
+		status_code = status_code % 256;
+		if (status_code == 127 || status_code == 2)
+			printf("command not found\n");
+		else if (status_code == 2)
+			printf("No such file or directory\n");
+		else if (status_code == 1)
+			printf("Permission denied\n");
+		if (status_code != 0)
+			break ;
 		tmp = tmp->next;
 	}
 	return (status_code);

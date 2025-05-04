@@ -6,7 +6,7 @@
 /*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 01:47:44 by nitadros          #+#    #+#             */
-/*   Updated: 2025/05/04 03:03:53 by nitadros         ###   ########.fr       */
+/*   Updated: 2025/05/04 20:31:10 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int	io_config(t_cmd *cmds)
 			tmp = tmp->next;
 		}
 		if (!io_redirect(&io, &cmds))
-			return (perror(cmds->redirection[io.index_in].target), 0);
+			return (perror(""), 0);
 		cmds = cmds->next;
 	}
 	return (1);

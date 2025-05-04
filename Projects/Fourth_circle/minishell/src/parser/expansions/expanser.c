@@ -6,7 +6,7 @@
 /*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 12:15:52 by nitadros          #+#    #+#             */
-/*   Updated: 2025/05/04 17:11:45 by nitadros         ###   ########.fr       */
+/*   Updated: 2025/05/04 20:16:08 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,10 +55,15 @@ static void	expand(char *str, t_arg **arg, t_data *data)
 	{
 		if (exp.new_str[i] == '$')
 		{
-			k = 1;
-			while (exp.new_str[i + k] && (ft_isalnum(exp.new_str[i + k])
-					|| exp.new_str[i + k] == '_' || str[i + 1] == '?'))
-				k++;
+			if (exp.new_str[i + 1] == '?')
+				k = 2;
+			else
+			{
+				k = 1;
+				while (exp.new_str[i + k] &&
+					(ft_isalnum(exp.new_str[i + k]) || exp.new_str[i + k] == '_'))
+					k++;
+			}
 			expand_utils(&exp, &i, &k, data);
 			i += ft_strlen(exp.env);
 			continue ;
