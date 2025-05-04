@@ -80,7 +80,7 @@ int	read_input(t_data *data, char **envp)
 	{
 		line = readline("minishell$ ");
 		if (!line)
-			break ;
+			break ;	
 		if (*line == '\0')
 		{
 			free(line);

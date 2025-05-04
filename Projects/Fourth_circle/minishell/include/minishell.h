@@ -6,7 +6,7 @@
 /*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 17:22:24 by engiacom          #+#    #+#             */
-/*   Updated: 2025/05/03 22:30:03 by nitadros         ###   ########.fr       */
+/*   Updated: 2025/05/04 03:26:40 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,7 @@ typedef struct s_io_config
 	int		i;
 	int		index_in;
 	int		index_out;
+	char	*tmp;
 }	t_io;
 
 typedef struct s_heredoc

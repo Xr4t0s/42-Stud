@@ -6,7 +6,7 @@
 /*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 01:57:12 by engiacom          #+#    #+#             */
-/*   Updated: 2025/05/04 00:39:32 by nitadros         ###   ########.fr       */
+/*   Updated: 2025/05/04 03:21:39 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ int	token_quote(char *c, int i, t_arg **arg)
 			k++;
 		}
 		k++;
-		append_arg(c, i + 1, k - 1, arg, T_DQUOTE);
+		append_arg(c, i, k, arg, T_DQUOTE);
 		return (k);
 	}
 	return (k);

@@ -6,7 +6,7 @@
 /*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 05:31:57 by nitadros          #+#    #+#             */
-/*   Updated: 2025/05/03 23:40:52 by nitadros         ###   ########.fr       */
+/*   Updated: 2025/05/04 03:28:07 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	io_redirect(t_io *io, t_cmd **cmd)
 			{
 				(*cmd)->input_fd = open(tmp->target, O_RDONLY);
 				if ((*cmd)->input_fd == -1)
-					return (0);
+					return (0);	
 			}
 			else if (tmp->type == R_HEREDOC)
 				(*cmd)->input_fd = heredoc(tmp);
@@ -49,4 +49,3 @@ int	io_redirect(t_io *io, t_cmd **cmd)
 	}
 	return (1);
 }
-

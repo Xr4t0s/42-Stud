@@ -6,7 +6,7 @@
 /*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 07:03:24 by nitadros          #+#    #+#             */
-/*   Updated: 2025/05/03 23:52:03 by nitadros         ###   ########.fr       */
+/*   Updated: 2025/05/04 02:10:11 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static void	heredoc_loop(t_redir **tmp_redir, t_heredoc *hrdc)
 		if ((*hrdc).line)
 			free((*hrdc).line);
 		(*hrdc).line = readline("heredoc> ");
-		if (!(*hrdc).line)
+		if (!(*hrdc).line)// Expand
 			break ;
 		(*hrdc).tmp = (*hrdc).joined;
 		(*hrdc).joined = ft_strjoin((*hrdc).joined, (*hrdc).line);

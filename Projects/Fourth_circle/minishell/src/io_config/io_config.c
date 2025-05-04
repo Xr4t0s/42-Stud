@@ -6,7 +6,7 @@
 /*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 01:47:44 by nitadros          #+#    #+#             */
-/*   Updated: 2025/05/03 23:38:49 by nitadros         ###   ########.fr       */
+/*   Updated: 2025/05/04 03:03:53 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,11 +36,11 @@ int	io_config(t_cmd *cmds)
 	t_io	io;
 	t_redir	*tmp;
 
-	init_io(&io);
 	if (!cmds)
 		return (0);
 	while (cmds)
 	{
+		init_io(&io);
 		if (!cmds->redirection)
 		{
 			cmds = cmds->next;
