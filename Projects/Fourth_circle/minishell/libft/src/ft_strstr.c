@@ -1,22 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   export.c                                           :+:      :+:    :+:   */
+/*   ft_strstr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: engiacom <engiacom@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/04 23:41:43 by engiacom          #+#    #+#             */
-/*   Updated: 2025/05/05 02:37:54 by engiacom         ###   ########.fr       */
+/*   Created: 2024/11/06 17:36:07 by engiacom          #+#    #+#             */
+/*   Updated: 2025/05/05 02:37:56 by engiacom         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "../include/libft.h"
 
-#include "minishell.h"
+char	*ft_strstr(const char *big, const char *little)
+{
+	size_t	i;
+	size_t	j;
 
-// int	export(char **arg, char **envp)
-// {
-// 	int	i;
-
-// 	i = 0;
-// 	while ()
-// }
+	i = 0;
+	if (little[0] == 0)
+		return ((char *)big);
+	while (big[i])
+	{
+		j = 0;
+		while (big[i + j] == little[j])
+		{
+			j++;
+			if (little[j] == 0)
+				return ((char *)&big[i]);
+		}
+		i++;
+	}
+	return (NULL);
+}

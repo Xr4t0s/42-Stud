@@ -90,10 +90,10 @@ int	read_input(t_data *data, char **envp)
 		{
 			add_history(line);
 			parser(line, &data->arg);
-			dequote(&data->arg);
 			if (!check_pipe(data->arg) && !check_redir_legit(data->arg))
 			{
 				expanser(&data->arg, data);
+				slash(&data->arg);
 				reassembler(data);
 				if (io_config(data->cmd))
 					data->last_code = execute_commands(data->cmd, envp);
@@ -102,11 +102,11 @@ int	read_input(t_data *data, char **envp)
 				// print_data_cmds(data);
 			}
 			else
-				printf("rl_on_new_line\n");
+				continue ;
 		}
 		else
 		{
-			printf("rl_on_new_line\n");
+			continue ;
 		}
 		free(line);
 		ft_lstclear_m(&data->arg);

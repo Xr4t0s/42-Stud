@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expanser.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: engiacom <engiacom@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 12:15:52 by nitadros          #+#    #+#             */
-/*   Updated: 2025/05/04 20:16:08 by nitadros         ###   ########.fr       */
+/*   Updated: 2025/05/05 03:52:22 by engiacom         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,10 +77,18 @@ static void	expand(char *str, t_arg **arg, t_data *data)
 static int	need_expansion(char *str)
 {
 	int	i;
+	int	mark;
 
 	i = 0;
+	mark = 0;
 	while (str[i])
 	{
+		if (str[i] == '"')
+			mark = 1;
+		else if (str[i] == '"' && mark == 1)
+			mark = 0;
+		if (str[i] == '\'' && mark != 1)
+			return (0);
 		if (str[i] == '$' && str[i + 1])
 		{
 			if (ft_isalpha(str[i + 1]) || str[i + 1] == '_' || str[i + 1] == '?')
@@ -100,7 +108,7 @@ void	expanser(t_arg **arg, t_data *data)
 	curr = *arg;
 	while (curr)
 	{
-		if (curr->type == T_DQUOTE || curr->type == T_VAR)
+		if (curr->type == T_DQUOTE || curr->type == T_VAR || curr->type == T_WORD)
 		{
 			if (need_expansion(curr->value))
 				expand(curr->value, &curr, data);

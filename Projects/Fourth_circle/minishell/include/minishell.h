@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: engiacom <engiacom@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 17:22:24 by engiacom          #+#    #+#             */
-/*   Updated: 2025/05/05 06:03:27 by nitadros         ###   ########.fr       */
+/*   Updated: 2025/05/05 02:37:56 by engiacom         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,7 +132,7 @@ void	ft_lstclear_c(t_cmd **lst);
 void	ft_lstclear_r(t_redir **lst);
 int		check_pipe(t_arg *arg);
 int		check_quote(char *line);
-void    dequote(t_arg **arg);
+// void    dequote(t_arg **arg);
 int		parser(char *line, t_arg **arg);
 void	expanser(t_arg **arg, t_data *data);
 int		is_separator(char c);
@@ -149,7 +149,7 @@ int		check_cmd(t_parse *parse, t_arg **arg, int o);
 int		io_config(t_cmd *cmds);
 int		io_redirect(t_io *io, t_cmd **cmd);
 int 	heredoc(t_redir *redir);
-
+void	slash(t_arg **arg);
 // Execution
 int	execute_commands(t_cmd *cmds, char **envp);
 

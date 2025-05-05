@@ -6,7 +6,7 @@
 /*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 03:09:30 by engiacom          #+#    #+#             */
-/*   Updated: 2025/05/04 06:57:12 by nitadros         ###   ########.fr       */
+/*   Updated: 2025/05/05 07:30:44 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	append_arg(t_parse *parse, int len, t_arg **arg, t_token_type type)
 {
 	char	*s;
 	
-	s = ft_substr(parse->s, parse->i, len); // carré
+	s = ft_substr(parse->s, parse->i, len);
 	if (!s)
 		return ;
 	ft_lstadd_back_m(arg, ft_lstnew_m(type, s));
@@ -33,15 +33,14 @@ int	check_cmd(t_parse *parse, t_arg **arg, int o)
 	q = 0;
 	tmp = 0;
 	(void)o;
-	while (parse->s[parse->i] && parse->s[parse->i] == ' ')
-	{
-		k++;
-		parse->i++;
-	}
+	// while (parse->s[parse->i] && parse->s[parse->i] == ' ')
+	// {
+	// 	k++;
+	// 	parse->i++;
+	// }
 	while (parse->s[parse->i + tmp] && !(parse->s[parse->i + tmp] == '<'
-			|| parse->s[parse->i + tmp] == '>' || parse->s[parse->i + tmp] == '='
-			|| parse->s[parse->i + tmp] == ' ' || parse->s[parse->i + tmp] == '|'
-			|| parse->s[parse->i + tmp] == '$'))
+			|| parse->s[parse->i + tmp] == '>' || parse->s[parse->i + tmp] == ' '
+			|| parse->s[parse->i + tmp] == '|' || parse->s[parse->i + tmp] == '$'))
 	{
 		if (parse->s[parse->i + tmp] == '\"' || parse->s[parse->i + tmp] == '\'')
 		{
@@ -63,7 +62,7 @@ int	check_cmd(t_parse *parse, t_arg **arg, int o)
 		}
 		tmp++;
 	}
-	if (parse->s[parse->i + k] != '|' && parse->s[parse->i + k] != '$')
+	if (tmp > 0)
 		append_arg(parse, (tmp), arg, T_WORD);
 	return (tmp);
 }
