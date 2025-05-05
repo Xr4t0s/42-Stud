@@ -6,16 +6,16 @@
 /*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 21:01:25 by nitadros          #+#    #+#             */
-/*   Updated: 2025/05/04 21:02:49 by nitadros         ###   ########.fr       */
+/*   Updated: 2025/05/05 04:17:56 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	unset(char **var, char **envp)
-{
-	int	i;
+// int	unset(char **var, char **envp)
+// {
+// 	int	i;
 
-	i = 0;
-	while ()
-}
+// 	i = 0;
+// 	while ()
+// }
