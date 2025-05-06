@@ -6,7 +6,7 @@
 /*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 11:45:52 by nitadros          #+#    #+#             */
-/*   Updated: 2025/05/04 03:28:32 by nitadros         ###   ########.fr       */
+/*   Updated: 2025/05/05 23:22:51 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ t_cmd	*append_new_cmd(t_cmd **head, t_cmd **last)
 	new->input_fd = -1;
 	new->output_fd = -1;
 	new->redirection = NULL;
+	new->exec = 1;
 	new->next = NULL;
 	if (!*head)
 		*head = new;

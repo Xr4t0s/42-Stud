@@ -6,7 +6,7 @@
 /*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 02:34:32 by nitadros          #+#    #+#             */
-/*   Updated: 2025/05/05 19:04:28 by nitadros         ###   ########.fr       */
+/*   Updated: 2025/05/06 04:36:32 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,56 +40,66 @@ int	execute_commands(t_cmd *cmds, char **envp)
 	int		status_code;
 	int		i;
 
-	while (tmp)
-	{
-		if (tmp->pipe && (tmp->type != R_APPEND && tmp->type != R_OUT))
+		while (tmp)
 		{
-			if (pipe(fd) == -1)
-				return (perror("pipe"), 1);
-			tmp->output_fd = fd[1];
-			if (tmp->next)
-				tmp->next->input_fd = fd[0];
-		}
-		tmp = tmp->next;
-	}
-	tmp = cmds;
-	while (tmp)
-	{
-		pid = fork();
-		if (pid == -1)
-			return (perror("fork"), 1);
-		else if (pid == 0)
-		{
-			if (tmp->input_fd != -1 && tmp->input_fd != STDIN_FILENO)
+			if (tmp->pipe && (tmp->type != R_APPEND && tmp->type != R_OUT))
 			{
-				dup2(tmp->input_fd, STDIN_FILENO);
-				close(tmp->input_fd);
+				if (!tmp->exec)
+				{
+					tmp = tmp->next;
+					continue;
+				}
+				if (pipe(fd) == -1)
+					return (perror("pipe"), 1);
+				tmp->output_fd = fd[1];
+				if (tmp->next)
+					tmp->next->input_fd = fd[0];
 			}
-			if (tmp->output_fd != -1 && tmp->output_fd != STDOUT_FILENO)
-			{
-				dup2(tmp->output_fd, STDOUT_FILENO);
-				close(tmp->output_fd);
-			}
-			if (tmp->next && tmp->next->input_fd > 2)
-				close(tmp->next->input_fd);
-			i = 0;
-			while (tmp->bin[i] && !tmp->bin[i][0])
-				i++;
-			joined = ft_strjoin("/usr/bin/", tmp->bin[i]);
-			execve(joined, &tmp->bin[i], envp);
-			perror("execve");
-			free(joined);
-			exit(127);
+			tmp = tmp->next;
 		}
-		else
+		tmp = cmds;
+		while (tmp)
 		{
-			if (tmp->input_fd != -1 && tmp->input_fd != STDIN_FILENO)
-				close(tmp->input_fd);
-			if (tmp->output_fd != -1 && tmp->output_fd != STDOUT_FILENO)
-				close(tmp->output_fd);
+			if (!tmp->exec)
+			{
+				tmp = tmp->next;
+				continue ;
+			}
+			pid = fork();
+			if (pid == -1)
+				return (perror("fork"), 1);
+			else if (pid == 0)
+			{
+				if (tmp->input_fd != -1 && tmp->input_fd != STDIN_FILENO)
+				{
+					dup2(tmp->input_fd, STDIN_FILENO);
+					close(tmp->input_fd);
+				}
+				if (tmp->output_fd != -1 && tmp->output_fd != STDOUT_FILENO)
+				{
+					dup2(tmp->output_fd, STDOUT_FILENO);
+					close(tmp->output_fd);
+				}
+				if (tmp->next && tmp->next->input_fd > 2)
+					close(tmp->next->input_fd);
+				i = 0;
+				while (tmp->bin[i] && !tmp->bin[i][0])
+					i++;
+				joined = ft_strjoin("/usr/bin/", tmp->bin[i]);
+				execve(joined, &tmp->bin[i], envp);
+				perror("");
+				free(joined);
+				exit(127);
+			}
+			else
+			{
+				if (tmp->input_fd != -1 && tmp->input_fd != STDIN_FILENO)
+					close(tmp->input_fd);
+				if (tmp->output_fd != -1 && tmp->output_fd != STDOUT_FILENO)
+					close(tmp->output_fd);
+			}
+			tmp = tmp->next;
 		}
-		tmp = tmp->next;
-	}
 	tmp = cmds;
 	while (tmp)
 	{
