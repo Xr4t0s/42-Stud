@@ -6,7 +6,7 @@
 /*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 02:14:32 by engiacom          #+#    #+#             */
-/*   Updated: 2025/05/04 05:15:50 by nitadros         ###   ########.fr       */
+/*   Updated: 2025/05/06 18:57:22 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ int	token_r_left(t_parse *parse, t_arg **arg)
 {
 	if (parse->s[parse->i] && parse->s[parse->i] == '<')
 	{
-		if (parse->s[parse->i + 1] &&parse->s[parse->i + 1] == '<')
+		if (parse->s[parse->i + 1] && parse->s[parse->i + 1] == '<')
 		{
 			ft_lstadd_back_m(arg, ft_lstnew_m(T_HEREDOC, "<<"));
 			return (2);

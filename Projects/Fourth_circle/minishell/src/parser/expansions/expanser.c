@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expanser.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: engiacom <engiacom@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 12:15:52 by nitadros          #+#    #+#             */
-/*   Updated: 2025/05/05 03:52:22 by engiacom         ###   ########.fr       */
+/*   Updated: 2025/05/06 18:59:49 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,8 @@ static void	expand(char *str, t_arg **arg, t_data *data)
 			else
 			{
 				k = 1;
-				while (exp.new_str[i + k] &&
-					(ft_isalnum(exp.new_str[i + k]) || exp.new_str[i + k] == '_'))
+				while (exp.new_str[i + k] && (ft_isalnum(exp.new_str[i + k])
+						|| exp.new_str[i + k] == '_'))
 					k++;
 			}
 			expand_utils(&exp, &i, &k, data);
@@ -91,7 +91,8 @@ static int	need_expansion(char *str)
 			return (0);
 		if (str[i] == '$' && str[i + 1])
 		{
-			if (ft_isalpha(str[i + 1]) || str[i + 1] == '_' || str[i + 1] == '?')
+			if (ft_isalpha(str[i + 1]) || str[i + 1] == '_'
+				|| str[i + 1] == '?')
 				return (1);
 		}
 		i++;
@@ -108,7 +109,8 @@ void	expanser(t_arg **arg, t_data *data)
 	curr = *arg;
 	while (curr)
 	{
-		if (curr->type == T_DQUOTE || curr->type == T_VAR || curr->type == T_WORD)
+		if (curr->type == T_DQUOTE || curr->type == T_VAR
+			|| curr->type == T_WORD)
 		{
 			if (need_expansion(curr->value))
 				expand(curr->value, &curr, data);

@@ -6,7 +6,7 @@
 /*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 03:09:30 by engiacom          #+#    #+#             */
-/*   Updated: 2025/05/05 07:30:44 by nitadros         ###   ########.fr       */
+/*   Updated: 2025/05/06 18:58:41 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	append_arg(t_parse *parse, int len, t_arg **arg, t_token_type type)
 {
 	char	*s;
-	
+
 	s = ft_substr(parse->s, parse->i, len);
 	if (!s)
 		return ;
@@ -23,7 +23,7 @@ void	append_arg(t_parse *parse, int len, t_arg **arg, t_token_type type)
 	free(s);
 }
 
-int	check_cmd(t_parse *parse, t_arg **arg, int o)
+int	check_cmd(t_parse *prs, t_arg **arg, int o)
 {
 	int		k;
 	int		q;
@@ -33,29 +33,24 @@ int	check_cmd(t_parse *parse, t_arg **arg, int o)
 	q = 0;
 	tmp = 0;
 	(void)o;
-	// while (parse->s[parse->i] && parse->s[parse->i] == ' ')
-	// {
-	// 	k++;
-	// 	parse->i++;
-	// }
-	while (parse->s[parse->i + tmp] && !(parse->s[parse->i + tmp] == '<'
-			|| parse->s[parse->i + tmp] == '>' || parse->s[parse->i + tmp] == ' '
-			|| parse->s[parse->i + tmp] == '|' || parse->s[parse->i + tmp] == '$'))
+	while (prs->s[prs->i + tmp] && !(prs->s[prs->i + tmp] == '<'
+			|| prs->s[prs->i + tmp] == '>' || prs->s[prs->i + tmp] == ' '
+			|| prs->s[prs->i + tmp] == '|' || prs->s[prs->i + tmp] == '$'))
 	{
-		if (parse->s[parse->i + tmp] == '\"' || parse->s[parse->i + tmp] == '\'')
+		if (prs->s[prs->i + tmp] == '\"' || prs->s[prs->i + tmp] == '\'')
 		{
-			if (parse->s[parse->i + tmp] == '\"')
+			if (prs->s[prs->i + tmp] == '\"')
 			{
 				tmp++;
 				k++;
-				while (parse->s[parse->i + tmp] && parse->s[parse->i + tmp] != '\"')
+				while (prs->s[prs->i + tmp] && prs->s[prs->i + tmp] != '\"')
 					tmp++;
 			}
-			if (parse->s[parse->i + tmp] == '\'')
+			if (prs->s[prs->i + tmp] == '\'')
 			{
 				tmp++;
 				k++;
-				while (parse->s[parse->i + tmp] && parse->s[parse->i + tmp] != '\'')
+				while (prs->s[prs->i + tmp] && prs->s[prs->i + tmp] != '\'')
 					tmp++;
 			}
 			q = 1;
@@ -63,6 +58,6 @@ int	check_cmd(t_parse *parse, t_arg **arg, int o)
 		tmp++;
 	}
 	if (tmp > 0)
-		append_arg(parse, (tmp), arg, T_WORD);
+		append_arg(prs, (tmp), arg, T_WORD);
 	return (tmp);
 }

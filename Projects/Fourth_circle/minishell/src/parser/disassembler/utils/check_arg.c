@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_arg.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: engiacom <engiacom@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 14:32:01 by engiacom          #+#    #+#             */
-/*   Updated: 2025/05/03 04:23:14 by engiacom         ###   ########.fr       */
+/*   Updated: 2025/05/06 18:56:57 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,8 @@ int	check_pipe(t_arg *arg)
 	while (arg)
 	{
 		if (arg->type == T_WORD || arg->type == T_QUOTE
-			|| arg->type == T_DQUOTE || arg->type == T_VAR || check_token_redir(arg->type))
+			|| arg->type == T_DQUOTE || arg->type == T_VAR
+			|| check_token_redir(arg->type))
 			w = 1;
 		if (w == 1)
 		{

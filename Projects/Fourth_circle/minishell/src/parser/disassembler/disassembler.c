@@ -6,7 +6,7 @@
 /*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 01:57:12 by engiacom          #+#    #+#             */
-/*   Updated: 2025/05/05 07:11:12 by nitadros         ###   ########.fr       */
+/*   Updated: 2025/05/06 18:56:36 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,12 @@ int	token_var_word(t_parse *parse, t_arg **arg)
 	{
 		if (parse->s[parse->i + k] && parse->s[parse->i + k] == '?')
 			return (token_var_qmark(parse, arg));
-		else if (parse->s[parse->i + k] && (ft_isalpha(parse->s[parse->i + k]) || parse->s[parse->i + k] == '_'))
+		else if (parse->s[parse->i + k] && (ft_isalpha(parse->s[parse->i + k])
+				|| parse->s[parse->i + k] == '_'))
 		{
 			k++;
-			while (parse->s[parse->i + k] && (ft_isalnum(parse->s[parse->i + k]) || parse->s[parse->i + k] == '_'))
+			while (parse->s[parse->i + k] && (ft_isalnum(parse->s[parse->i + k])
+					|| parse->s[parse->i + k] == '_'))
 				k++;
 			append_arg(parse, k, arg, T_VAR);
 		}
@@ -88,7 +90,6 @@ int	token_other(t_parse *parse, t_arg **arg)
 			k++;
 		k++;
 		append_arg(parse, k, arg, T_QUOTE);
-		// (parse, arg, k, type)
 		return (k);
 	}
 	return (0);
@@ -114,7 +115,6 @@ int	parser(char *line, t_arg **arg)
 {
 	t_parse	parse;
 
-
 	parse.s = line;
 	init_parse(&parse);
 	parse.i += check_cmd(&parse, arg, 0);
@@ -126,7 +126,6 @@ int	parser(char *line, t_arg **arg)
 		parse.i += check_cmd(&parse, arg, parse.i);
 		parse.i += token_var_word(&parse, arg);
 		parse.i += token_quote(&parse, arg);
-		//parse.i += token_word(&parse, arg, 0);
 	}
 	return (0);
 }
