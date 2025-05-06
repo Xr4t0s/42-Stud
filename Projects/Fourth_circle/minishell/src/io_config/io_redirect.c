@@ -6,27 +6,29 @@
 /*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 05:31:57 by nitadros          #+#    #+#             */
-/*   Updated: 2025/05/06 04:36:26 by nitadros         ###   ########.fr       */
+/*   Updated: 2025/05/06 05:41:46 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 /* Fonction pour check les perm avant douvrir les fichiers */
-int	check_permissions(t_redir redir, t_cmd **cmds)
+int	check_permissions(t_redir *redir, t_cmd **cmds)
 {
-	if (redir.type == R_IN)
+	if (redir->type == R_IN)
 	{
-		if (access(redir.target, F_OK) == -1 || access(redir.target, R_OK) == -1)
+		if (access(redir->target, F_OK) == -1 || access(redir->target, R_OK) == -1)
 		{
-			(*cmds)->exec = 0;
+			if (redir->next)
+				(*cmds)->bin[1] = ft_strdup(redir->target);
+			return (-1);
 		}
 	}
-	else if (redir.type == R_OUT || redir.type == R_APPEND)
+	else if (redir->type == R_OUT || redir->type == R_APPEND)
 	{
-		if (access(redir.target, F_OK) != -1)
+		if (access(redir->target, F_OK) != -1)
 		{
-			if (access(redir.target, W_OK | R_OK) == -1)
+			if (access(redir->target, W_OK | R_OK) == -1)
 			{
 				(*cmds)->exec = 0;
 				return (0);
@@ -44,10 +46,15 @@ int	io_redirect(t_io *io, t_cmd **cmd)
 	int		fd;
 
 	redir_tmp = (*cmd)->redirection;
-	while (tmp->redirection)
+	while (tmp && tmp->redirection)
 	{
-		if (!check_permissions(*tmp->redirection, cmd))
+		if (!check_permissions(tmp->redirection, cmd))
 			return (0);
+		if (check_permissions(tmp->redirection, cmd) == -1)
+		{
+			tmp->redirection = tmp->redirection->next;
+			continue ;
+		}
 		if (i == io->index_in && tmp->exec)
 		{
 			if (tmp->redirection->type == R_IN)

@@ -6,7 +6,7 @@
 /*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 02:34:32 by nitadros          #+#    #+#             */
-/*   Updated: 2025/05/06 04:36:32 by nitadros         ###   ########.fr       */
+/*   Updated: 2025/05/06 05:33:12 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int	execute_commands(t_cmd *cmds, char **envp)
 				if (pipe(fd) == -1)
 					return (perror("pipe"), 1);
 				tmp->output_fd = fd[1];
-				if (tmp->next)
+				if (tmp->next && tmp->next->input_fd == -1)
 					tmp->next->input_fd = fd[0];
 			}
 			tmp = tmp->next;
