@@ -6,7 +6,7 @@
 /*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 17:22:27 by engiacom          #+#    #+#             */
-/*   Updated: 2025/05/04 21:01:09 by nitadros         ###   ########.fr       */
+/*   Updated: 2025/05/06 22:08:39 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,15 +35,13 @@ char	**copy_env(char **envp)
 int	main(int ac, char **av, char **env)
 {
 	t_data	data;
-	char	**envp;
 
-	envp = copy_env(env);
+	data.envp = copy_env(env);
 	(void)ac;
 	(void)av;
-	// data = malloc(sizeof(t_data));
 	data.arg = NULL;
 	data.cmd = NULL;
 	data.last_code = 0;
-	read_input(&data, envp);
+	read_input(&data, data.envp);
 	rl_clear_history();
 }
