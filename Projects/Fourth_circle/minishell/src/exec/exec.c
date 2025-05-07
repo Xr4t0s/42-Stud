@@ -6,21 +6,21 @@
 /*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 02:34:32 by nitadros          #+#    #+#             */
-/*   Updated: 2025/05/06 22:10:05 by nitadros         ###   ########.fr       */
+/*   Updated: 2025/05/07 19:45:55 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// int	is_builtin(const char *cmd)
-// {
-// 	if (!cmd)
-// 		return (0);
-// 	return (!ft_strcmp(cmd, "echo") || !ft_strcmp(cmd, "cd")
-// 		|| !ft_strcmp(cmd, "pwd") || !ft_strcmp(cmd, "export")
-// 		|| !ft_strcmp(cmd, "unset") || !ft_strcmp(cmd, "env")
-// 		|| !ft_strcmp(cmd, "exit"));
-// }
+int	is_builtin(const char *cmd)
+{
+	if (!cmd)
+		return (0);
+	return (!ft_strcmp(cmd, "echo") || !ft_strcmp(cmd, "cd")
+		|| !ft_strcmp(cmd, "pwd") || !ft_strcmp(cmd, "export")
+		|| !ft_strcmp(cmd, "unset") || !ft_strcmp(cmd, "env")
+		|| !ft_strcmp(cmd, "exit"));
+}
 
 // int	exec_builtin(char **args)
 // {
@@ -66,6 +66,7 @@ int	execute_commands(t_cmd *cmds, char **envp)
 			tmp = tmp->next;
 			continue ;
 		}
+		find_path(envp, tmp->bin[0]);
 		pid = fork();
 		if (pid == -1)
 			return (perror("fork"), 1);
@@ -86,9 +87,10 @@ int	execute_commands(t_cmd *cmds, char **envp)
 			i = 0;
 			while (tmp->bin[i] && !tmp->bin[i][0])
 				i++;
-			joined = ft_strjoin("/usr/bin/", tmp->bin[i]);
+			joined = find_path(envp, tmp->bin[i]);
+			printf("%s\n", joined);
 			execve(joined, &tmp->bin[i], envp);
-			perror("");
+			perror("Command not found");
 			free(joined);
 			exit(127);
 		}

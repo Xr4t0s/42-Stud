@@ -6,7 +6,7 @@
 /*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 17:22:24 by engiacom          #+#    #+#             */
-/*   Updated: 2025/05/07 04:17:54 by nitadros         ###   ########.fr       */
+/*   Updated: 2025/05/07 17:29:57 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,9 @@
 # include "../libft/include/libft.h"
 # include <readline/readline.h>
 # include <readline/history.h>
-# include <fcntl.h>
 # include <sys/wait.h>
+# include <fcntl.h>
+# include <dirent.h>
 
 // Disassembler
 typedef enum e_token_type
@@ -160,5 +161,6 @@ char	**ft_unset(char **bin, char **env);
 char	**duplicate_env(char *str, char **env);
 char	*ft_pwd(char **bin);
 char	**add_var(char *str, char **env);
+char	*find_path(char **env, char *bin);
 
 #endif
