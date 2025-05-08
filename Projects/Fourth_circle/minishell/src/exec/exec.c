@@ -6,7 +6,7 @@
 /*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 02:34:32 by nitadros          #+#    #+#             */
-/*   Updated: 2025/05/07 20:57:18 by nitadros         ###   ########.fr       */
+/*   Updated: 2025/05/08 04:31:30 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,9 @@ int	execute_commands(t_cmd *cmds, char ***envp)
 	int		fd[2];
 	int		status_code;
 	int		i;
+	char **tmpenv = *envp;
 
+	joined = NULL;
 	tmp = cmds;
 	while (tmp)
 	{
@@ -111,9 +113,10 @@ int	execute_commands(t_cmd *cmds, char ***envp)
 			i = 0;
 			while (tmp->bin[i] && !tmp->bin[i][0])
 				i++;
-			joined = find_path(*envp, tmp->bin[i]);
+			joined = find_path(tmpenv, tmp->bin[i]);
 			if (is_builtin(tmp->bin[0]))
 			{
+				free(joined);
 				if (is_builtin(tmp->bin[0]) == 1)
 					*envp = exec_env_builtin(tmp->bin, *envp);
 				else if (is_builtin(tmp->bin[0]) == 2)
@@ -123,13 +126,14 @@ int	execute_commands(t_cmd *cmds, char ***envp)
 			else
 			{
 				execve(joined, &tmp->bin[i], *envp);
-				perror("Command not found");
 				free(joined);
+				perror("Command not found");
 				exit(127);
 			}
 		}
 		else
 		{
+			free(joined);
 			if (tmp->input_fd != -1 && tmp->input_fd != STDIN_FILENO)
 				close(tmp->input_fd);
 			if (tmp->output_fd != -1 && tmp->output_fd != STDOUT_FILENO)
@@ -137,6 +141,7 @@ int	execute_commands(t_cmd *cmds, char ***envp)
 		}
 		tmp = tmp->next;
 	}
+	
 	tmp = cmds;
 	while (tmp)
 	{

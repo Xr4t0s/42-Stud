@@ -6,7 +6,7 @@
 /*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 17:25:41 by nitadros          #+#    #+#             */
-/*   Updated: 2025/05/07 19:37:02 by nitadros         ###   ########.fr       */
+/*   Updated: 2025/05/08 04:29:23 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ char	**split_path(char **env)
 {
 	int		i;
 	char	*path;
+	char	**ret;
 
 	i = 0;
 	while (env[i])
@@ -35,7 +36,8 @@ char	**split_path(char **env)
 		i++;
 	}
 	path = ft_substr(path, 5, ft_strlen(path) - 5);
-	return (ft_split(path, ':'));
+	ret = ft_split(path, ':');
+	return (free(path), ret);
 }
 
 char	*read_path(char **path_dir, char *bin)
@@ -44,6 +46,7 @@ char	*read_path(char **path_dir, char *bin)
 	DIR				*dir;
 	struct dirent	*entry;
 	char			*ret;
+	
 
 	i = 0;
 	while (path_dir[i])
@@ -57,7 +60,8 @@ char	*read_path(char **path_dir, char *bin)
 			if (!ft_strncmp(entry->d_name, bin, ft_strlen(bin) + 1))
 			{
 				ret = ft_strjoin(path_dir[i], "/");
-				return (closedir(dir), ft_strjoin(ret, bin));
+				ret = ft_strjoin(ret, bin);
+				return (closedir(dir), ret);
 			}
 			entry = readdir(dir);
 		}
@@ -96,10 +100,11 @@ char	*find_path(char **env, char *bin)
 	if (!path_file)
 	{
 		free_split(path_dir);
+		free(path_file);
 		path_file = read_current_dir(bin);
 		if (!path_file)
-			return (NULL);
+			return (free(path_file), NULL);
 		return (path_file);
 	}
-	return (path_file);
+	return (free_split(path_dir), path_file);
 }
