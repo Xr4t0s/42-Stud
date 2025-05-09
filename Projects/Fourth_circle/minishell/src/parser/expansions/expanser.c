@@ -6,7 +6,7 @@
 /*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 12:15:52 by nitadros          #+#    #+#             */
-/*   Updated: 2025/05/06 18:59:49 by nitadros         ###   ########.fr       */
+/*   Updated: 2025/05/09 23:37:08 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static void	expand_utils(t_expansion *exp, int *i, int *k, t_data *data)
 	if (ft_strncmp(exp->ret, "\?", 1) == 0)
 		exp->env = ft_itoa(data->last_code);
 	else
-		exp->env = getenv(exp->ret);
+		exp->env = find_var(data->envp, exp->ret);
 	free(exp->ret);
 	if (!exp->env)
 		exp->env = "";

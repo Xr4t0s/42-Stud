@@ -6,7 +6,7 @@
 /*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 03:40:32 by nitadros          #+#    #+#             */
-/*   Updated: 2025/05/08 04:33:48 by nitadros         ###   ########.fr       */
+/*   Updated: 2025/05/09 23:36:01 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,8 @@
 
 char	**ft_cd(char **bin, char **env)
 {
-	char	*pwd[2];
-	char	**tmp;
+	char *pwd[2];
 
-	i = 0;
 	if (bin[2])
 	{
 		printf("Too many arguments\n");
@@ -25,13 +23,14 @@ char	**ft_cd(char **bin, char **env)
 	}
 	pwd[0] = "PWD";
 	pwd[1] = NULL;
-	tmp = duplicate_env("PWD", env);
-	tmp = duplicate_env("OLDPWD", tmp);
-	tmp = add_var(ft_strjoin("OLDPWD=", ft_pwd(pwd)), tmp);
+	env = duplicate_env("PWD", env);
+	env = duplicate_env("OLDPWD", env);
+	env = add_var(ft_strjoin("OLDPWD=", ft_pwd(pwd)), env);
+	if (!bin[1])
+		bin[1] = ft_strdup(find_var(env, "HOME="));
 	if (chdir(bin[1]) == -1)
-		return (perror(""), env);
-	env = add_var(ft_strjoin("PWD=", ft_pwd(pwd)), tmp);
-	env = tmp;
+		return (perror("cd"), env);
+	env = add_var(ft_strjoin("PWD=", ft_pwd(pwd)), env);
 	return (env);
 }
 

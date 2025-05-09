@@ -6,7 +6,7 @@
 /*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 17:25:41 by nitadros          #+#    #+#             */
-/*   Updated: 2025/05/08 04:29:23 by nitadros         ###   ########.fr       */
+/*   Updated: 2025/05/09 22:18:45 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,10 @@ char	*read_path(char **path_dir, char *bin)
 	{
 		dir = opendir(path_dir[i]);
 		if (!dir)
-			return (NULL);
+		{
+			i++;
+			continue ;
+		}
 		entry = readdir(dir);
 		while(entry)
 		{

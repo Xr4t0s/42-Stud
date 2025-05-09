@@ -6,7 +6,7 @@
 /*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 02:34:32 by nitadros          #+#    #+#             */
-/*   Updated: 2025/05/08 04:31:30 by nitadros         ###   ########.fr       */
+/*   Updated: 2025/05/09 23:57:25 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	is_builtin(const char *cmd)
 	if (!ft_strcmp(cmd, "export") || !ft_strcmp(cmd, "cd")
 			|| !ft_strcmp(cmd, "unset"))
 		return (1);
-	else if (!ft_strcmp(cmd, "env"))
+	else if (!ft_strcmp(cmd, "env")|| !ft_strcmp(cmd, "echo"))
 		return (2);
 	return (0);
 }
@@ -50,7 +50,7 @@ char	**exec_env_builtin(char **args, char **env)
 	return (env);
 }
 
-int	execute_commands(t_cmd *cmds, char ***envp)
+int	execute_commands(t_cmd *cmds, char **envp)
 {
 	t_cmd	*tmp;
 	pid_t	pid;
@@ -58,7 +58,6 @@ int	execute_commands(t_cmd *cmds, char ***envp)
 	int		fd[2];
 	int		status_code;
 	int		i;
-	char **tmpenv = *envp;
 
 	joined = NULL;
 	tmp = cmds;
@@ -89,7 +88,7 @@ int	execute_commands(t_cmd *cmds, char ***envp)
 		}
 		if (is_builtin(tmp->bin[0]) == 1)
 		{
-			*envp = exec_env_builtin(tmp->bin, *envp);
+			envp = exec_env_builtin(tmp->bin, envp);
 			tmp = tmp->next;
 			continue ;
 		}
@@ -113,19 +112,19 @@ int	execute_commands(t_cmd *cmds, char ***envp)
 			i = 0;
 			while (tmp->bin[i] && !tmp->bin[i][0])
 				i++;
-			joined = find_path(tmpenv, tmp->bin[i]);
+			joined = find_path(envp, tmp->bin[i]);
 			if (is_builtin(tmp->bin[0]))
 			{
 				free(joined);
 				if (is_builtin(tmp->bin[0]) == 1)
-					*envp = exec_env_builtin(tmp->bin, *envp);
+					envp = exec_env_builtin(tmp->bin, envp);
 				else if (is_builtin(tmp->bin[0]) == 2)
-					exec_void_builtin(tmp->bin, *envp);
+					exec_void_builtin(tmp->bin, envp);
 				exit(0);
 			}
 			else
 			{
-				execve(joined, &tmp->bin[i], *envp);
+				execve(joined, &tmp->bin[i], envp);
 				free(joined);
 				perror("Command not found");
 				exit(127);

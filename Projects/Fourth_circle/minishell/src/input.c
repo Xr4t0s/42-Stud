@@ -103,10 +103,18 @@ int	read_input(t_data *data, char **envp)
 					data->last_code = 1;
 			}
 			else
+			{
+				free(line);
+				ft_lstclear_m(&data->arg);
+				ft_lstclear_c(&data->cmd);
 				continue ;
+			}
 		}
 		else
 		{
+			free(line);
+			ft_lstclear_m(&data->arg);
+			ft_lstclear_c(&data->cmd);
 			continue ;
 		}
 		free(line);
