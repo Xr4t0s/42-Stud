@@ -6,7 +6,7 @@
 /*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 02:34:32 by nitadros          #+#    #+#             */
-/*   Updated: 2025/05/09 23:57:25 by nitadros         ###   ########.fr       */
+/*   Updated: 2025/05/10 02:44:50 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,105 +50,135 @@ char	**exec_env_builtin(char **args, char **env)
 	return (env);
 }
 
-int	execute_commands(t_cmd *cmds, char **envp)
+int	execute_commands(t_data *data)
 {
-	t_cmd	*tmp;
+	t_cmd	*cmd = data->cmd;
 	pid_t	pid;
-	char	*joined;
-	int		fd[2];
-	int		status_code;
-	int		i;
+	int		status_code = 0;
 
-	joined = NULL;
-	tmp = cmds;
-	while (tmp)
+	// 1. Créer les pipes
+	while (cmd && cmd->next)
 	{
-		if (tmp->pipe && (tmp->type != R_APPEND && tmp->type != R_OUT))
+		if (cmd->pipe)
 		{
-			if (!tmp->exec)
-			{
-				tmp = tmp->next;
-				continue ;
-			}
-			if (pipe(fd) == -1)
+			int pipe_fd[2];
+			if (pipe(pipe_fd) == -1)
 				return (perror("pipe"), 1);
-			tmp->output_fd = fd[1];
-			if (tmp->next && tmp->next->input_fd == -1)
-				tmp->next->input_fd = fd[0];
+			cmd->output_fd = pipe_fd[1];
+			cmd->next->input_fd = pipe_fd[0];
 		}
-		tmp = tmp->next;
+		cmd = cmd->next;
 	}
-	tmp = cmds;
-	while (tmp)
+
+	// 2. Exécuter chaque commande
+	cmd = data->cmd;
+	while (cmd)
 	{
-		if (!tmp->exec)
+		if (!cmd->exec)
 		{
-			tmp = tmp->next;
-			continue ;
+			cmd = cmd->next;
+			continue;
 		}
-		if (is_builtin(tmp->bin[0]) == 1)
+
+		int is_env_builtin = (is_builtin(cmd->bin[0]) == 1);
+
+		if (is_env_builtin)
 		{
-			envp = exec_env_builtin(tmp->bin, envp);
-			tmp = tmp->next;
-			continue ;
+			int saved_in = dup(STDIN_FILENO);
+			int saved_out = dup(STDOUT_FILENO);
+
+			if (cmd->input_fd != -1)
+			{
+				dup2(cmd->input_fd, STDIN_FILENO);
+				close(cmd->input_fd);
+			}
+			if (cmd->output_fd != -1)
+			{
+				dup2(cmd->output_fd, STDOUT_FILENO);
+				close(cmd->output_fd);
+			}
+			data->envp = exec_env_builtin(cmd->bin, data->envp);
+
+			dup2(saved_in, STDIN_FILENO);
+			dup2(saved_out, STDOUT_FILENO);
+			close(saved_in);
+			close(saved_out);
+
+			cmd = cmd->next;
+			continue;
 		}
+
 		pid = fork();
 		if (pid == -1)
 			return (perror("fork"), 1);
-		else if (pid == 0)
+
+		if (pid == 0) // Child
 		{
-			if (tmp->input_fd != -1 && tmp->input_fd != STDIN_FILENO)
+			if (cmd->input_fd != -1)
 			{
-				dup2(tmp->input_fd, STDIN_FILENO);
-				close(tmp->input_fd);
+				dup2(cmd->input_fd, STDIN_FILENO);
+				close(cmd->input_fd);
 			}
-			if (tmp->output_fd != -1 && tmp->output_fd != STDOUT_FILENO)
+			if (cmd->output_fd != -1)
 			{
-				dup2(tmp->output_fd, STDOUT_FILENO);
-				close(tmp->output_fd);
+				dup2(cmd->output_fd, STDOUT_FILENO);
+				close(cmd->output_fd);
 			}
-			if (tmp->next && tmp->next->input_fd > 2)
-				close(tmp->next->input_fd);
-			i = 0;
-			while (tmp->bin[i] && !tmp->bin[i][0])
-				i++;
-			joined = find_path(envp, tmp->bin[i]);
-			if (is_builtin(tmp->bin[0]))
+
+			// Fermer tous les autres fds des autres commandes
+			t_cmd *c = data->cmd;
+			while (c)
 			{
-				free(joined);
-				if (is_builtin(tmp->bin[0]) == 1)
-					envp = exec_env_builtin(tmp->bin, envp);
-				else if (is_builtin(tmp->bin[0]) == 2)
-					exec_void_builtin(tmp->bin, envp);
+				if (c != cmd)
+				{
+					if (c->input_fd > 2)
+						close(c->input_fd);
+					if (c->output_fd > 2)
+						close(c->output_fd);
+				}
+				c = c->next;
+			}
+
+			if (is_builtin(cmd->bin[0]) == 2)
+			{
+				exec_void_builtin(cmd->bin, data->envp);
 				exit(0);
 			}
-			else
+
+			int i = 0;
+			while (cmd->bin[i] && !cmd->bin[i][0])
+				i++;
+			char *path = find_path(data->envp, cmd->bin[i]);
+			if (!path)
 			{
-				execve(joined, &tmp->bin[i], envp);
-				free(joined);
-				perror("Command not found");
+				perror("command not found");
 				exit(127);
 			}
+			execve(path, &cmd->bin[i], data->envp);
+			perror("execve failed");
+			exit(127);
 		}
-		else
+		else // Parent
 		{
-			free(joined);
-			if (tmp->input_fd != -1 && tmp->input_fd != STDIN_FILENO)
-				close(tmp->input_fd);
-			if (tmp->output_fd != -1 && tmp->output_fd != STDOUT_FILENO)
-				close(tmp->output_fd);
+			if (cmd->input_fd > 2)
+				close(cmd->input_fd);
+			if (cmd->output_fd > 2)
+				close(cmd->output_fd);
 		}
-		tmp = tmp->next;
+		cmd = cmd->next;
 	}
-	
-	tmp = cmds;
-	while (tmp)
+
+	// 3. Wait
+	cmd = data->cmd;
+	while (cmd)
 	{
-		
-		wait(&status_code);
-		status_code = status_code % 127;
-		tmp = tmp->next;
+		if (cmd->exec && is_builtin(cmd->bin[0]) != 1)
+			wait(&status_code);
+		cmd = cmd->next;
 	}
 	return (status_code);
 }
+
+
+
 

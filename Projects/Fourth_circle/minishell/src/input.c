@@ -97,7 +97,7 @@ int	read_input(t_data *data, char **envp)
 				if (io_config(data->cmd))
 				{
 					// print_data_cmds(data);
-					data->last_code = execute_commands(data->cmd, &envp);
+					data->last_code = execute_commands(data);
 				}
 				else
 					data->last_code = 1;

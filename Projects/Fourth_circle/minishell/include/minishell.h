@@ -6,7 +6,7 @@
 /*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 17:22:24 by engiacom          #+#    #+#             */
-/*   Updated: 2025/05/09 23:57:39 by nitadros         ###   ########.fr       */
+/*   Updated: 2025/05/10 00:21:56 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,7 +154,7 @@ int		io_redirect(t_io *io, t_cmd **cmd);
 int 	heredoc(t_redir *redir);
 void	slash(t_arg **arg);
 // Execution
-int	execute_commands(t_cmd *cmds, char **envp);
+int	execute_commands(t_data *data);
 
 char	**ft_cd(char **bin, char **env);
 char	**ft_export(char **bin, char **env);
