@@ -6,7 +6,7 @@
 /*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 01:47:44 by nitadros          #+#    #+#             */
-/*   Updated: 2025/05/11 02:32:08 by nitadros         ###   ########.fr       */
+/*   Updated: 2025/05/11 05:13:52 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,20 @@ static void	init_io(t_io *io)
 
 static void	io_loop(t_redir *tmp, t_io *io)
 {
-	if (tmp->type == R_IN)
-		io->index_in = io->i;
-	else if (tmp->type == R_HEREDOC)
-		io->index_in = io->i;
-	else if (tmp->type == R_OUT)
-		io->index_out = io->i;
-	else if (tmp->type == R_APPEND)
-		io->index_out = io->i;
+	while (tmp)
+	{
+		if (tmp->type == R_IN)
+			io->index_in = io->i;
+		else if (tmp->type == R_HEREDOC)
+			io->index_in = io->i;
+		else if (tmp->type == R_OUT)
+			io->index_out = io->i;
+		else if (tmp->type == R_APPEND)
+			io->index_out = io->i;
+		if (tmp->next)
+			io->i++;
+		tmp = tmp->next;
+	}
 }
 
 int	io_config(t_cmd *cmds)
@@ -48,16 +54,10 @@ int	io_config(t_cmd *cmds)
 		}
 		io.i = 0;
 		tmp = cmds->redirection;
-		while (tmp)
-		{
-			io_loop(tmp, &io);
-			if (tmp->next)
-				io.i++;
-			tmp = tmp->next;
-		}
+		io_loop(tmp, &io);
 		if (!io_redirect(&io, &cmds))
 		{
-			perror("IO_confgig");
+			perror("");
 			(*cmds).exec = 0;
 		}
 		cmds = cmds->next;

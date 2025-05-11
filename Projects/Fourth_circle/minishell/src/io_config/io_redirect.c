@@ -6,7 +6,7 @@
 /*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 05:31:57 by nitadros          #+#    #+#             */
-/*   Updated: 2025/05/11 02:30:08 by nitadros         ###   ########.fr       */
+/*   Updated: 2025/05/11 05:08:28 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,7 @@ int	check_permissions(t_redir *redir, t_cmd **cmds)
 	{
 		if (access(redir->target, F_OK) == -1
 			|| access(redir->target, R_OK) == -1)
-		{
-			// if (redir->next)
-			// 	(*cmds)->bin[1] = ft_strdup(redir->target);
 			return (0);
-		}
 	}
 	else if (redir->type == R_OUT || redir->type == R_APPEND)
 	{
@@ -38,12 +34,58 @@ int	check_permissions(t_redir *redir, t_cmd **cmds)
 	return (1);
 }
 
+int	r_in(t_cmd **cmd, t_cmd *tmp)
+{
+	if (tmp->redirection->type == R_IN)
+	{
+		(*cmd)->input_fd = open(tmp->redirection->target, O_RDONLY);
+		(*cmd)->type = R_IN;
+		if ((*cmd)->input_fd == -1)
+			return (0);
+	}
+	else if (tmp->redirection->type == R_HEREDOC)
+	{
+		(*cmd)->type = R_HEREDOC;
+		(*cmd)->input_fd = heredoc(tmp->redirection);
+	}
+	return (1);
+}
+
+void	r_out(t_cmd **cmd, t_cmd *tmp)
+{
+	if (tmp->redirection->type == R_OUT)
+	{
+		(*cmd)->type = R_OUT;
+		(*cmd)->output_fd = open(tmp->redirection->target,
+				O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	}
+	else if (tmp->redirection->type == R_APPEND)
+	{
+		(*cmd)->type = R_APPEND;
+		(*cmd)->output_fd = open(tmp->redirection->target,
+				O_WRONLY | O_CREAT | O_APPEND, 0644);
+	}
+}
+
+void	open_and_close(t_cmd *tmp)
+{
+	int	fd;
+
+	if (tmp->redirection->type == R_OUT
+		|| tmp->redirection->type == R_APPEND)
+	{
+		fd = open(tmp->redirection->target,
+				O_WRONLY | O_CREAT | O_TRUNC, 0644);
+		if (fd != -1)
+			close(fd);
+	}
+}
+
 int	io_redirect(t_io *io, t_cmd **cmd)
 {
 	t_cmd	*tmp;
 	t_redir	*redir_tmp;
 	int		i;
-	int		fd;
 
 	i = 0;
 	tmp = *cmd;
@@ -52,49 +94,15 @@ int	io_redirect(t_io *io, t_cmd **cmd)
 	{
 		if (!check_permissions(tmp->redirection, cmd))
 			return (0);
-		// if (check_permissions(tmp->redirection, cmd) == -1)
-		// {
-		// 	tmp->redirection = tmp->redirection->next;
-		// 	continue ;
-		// }
 		if (i == io->index_in && tmp->exec)
 		{
-			if (tmp->redirection->type == R_IN)
-			{
-				(*cmd)->input_fd = open(tmp->redirection->target, O_RDONLY);
-				(*cmd)->type = R_IN;
-				if ((*cmd)->input_fd == -1)
-					return (0);
-			}
-			else if (tmp->redirection->type == R_HEREDOC)
-			{
-				(*cmd)->type = R_HEREDOC;
-				(*cmd)->input_fd = heredoc(tmp->redirection);
-			}
+			if (!r_in(cmd, tmp))
+				return (0);
 		}
 		else if (i == io->index_out)
-		{
-			if (tmp->redirection->type == R_OUT)
-			{
-				(*cmd)->type = R_OUT;
-				(*cmd)->output_fd = open(tmp->redirection->target,
-						O_WRONLY | O_CREAT | O_TRUNC, 0644);
-			}
-			else if (tmp->redirection->type == R_APPEND)
-			{
-				(*cmd)->type = R_APPEND;
-				(*cmd)->output_fd = open(tmp->redirection->target,
-						O_WRONLY | O_CREAT | O_APPEND, 0644);
-			}
-		}
-		else if (tmp->redirection->type == R_OUT
-			|| tmp->redirection->type == R_APPEND)
-		{
-			fd = open(tmp->redirection->target,
-					O_WRONLY | O_CREAT | O_TRUNC, 0644);
-			if (fd != -1)
-				close(fd);
-		}
+			r_out(cmd, tmp);
+		else
+			open_and_close(tmp);
 		tmp->redirection = tmp->redirection->next;
 		i++;
 	}
