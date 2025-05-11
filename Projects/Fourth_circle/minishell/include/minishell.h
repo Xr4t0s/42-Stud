@@ -6,7 +6,7 @@
 /*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 17:22:24 by engiacom          #+#    #+#             */
-/*   Updated: 2025/05/11 04:16:18 by nitadros         ###   ########.fr       */
+/*   Updated: 2025/05/11 06:33:36 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,8 +131,10 @@ int		read_input(t_data *data);
 
 // Execution
 int		is_builtin(const char *cmd);
-int		exec_builtin(char **args, char **envp);
+char	**exec_env_builtin(char **args, char **env);
+void	exec_void_builtin(char **args, char **env);
 int		echo(char **arg);
+int		pipe_creation(t_cmd *cmd);
 
 // Parser
 void	ft_lstadd_back_m(t_arg **arg, t_arg *new);
