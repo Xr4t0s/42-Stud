@@ -68,7 +68,7 @@ void    print(t_arg *arg)
 	printf("\n");
 }
 
-int	read_input(t_data *data, char **envp)
+int	read_input(t_data *data)
 {
 	char	*line;
 	//int		i;

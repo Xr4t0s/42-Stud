@@ -6,10 +6,9 @@
 /*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 23:41:43 by engiacom          #+#    #+#             */
-/*   Updated: 2025/05/07 04:17:59 by nitadros         ###   ########.fr       */
+/*   Updated: 2025/05/11 02:40:29 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "minishell.h"
 
@@ -35,7 +34,7 @@ static int	env_len(char **env)
 
 char	**add_var(char *str, char **env)
 {
-	int	i;
+	int		i;
 	char	**new_env;
 
 	i = 0;
@@ -48,7 +47,6 @@ char	**add_var(char *str, char **env)
 	new_env[i] = ft_strdup(str);
 	new_env[i + 1] = NULL;
 	return (free_env(env), new_env);
-	
 }
 
 int	check_var(char *str)
@@ -58,7 +56,7 @@ int	check_var(char *str)
 	if (!(ft_isalpha(str[0]) || str[0] == '_'))
 		return (0);
 	i = 1;
-	while(str[i] && str[i] != '=')
+	while (str[i] && str[i] != '=')
 	{
 		if (!(ft_isalnum(str[i]) || str[i] == '_'))
 			return (0);
@@ -71,8 +69,8 @@ int	check_var(char *str)
 
 char	**ft_export(char **bin, char **env)
 {
-	int	i;
-	int	index;
+	int		i;
+	int		index;
 	char	*var;
 
 	i = 0;
@@ -105,7 +103,6 @@ char	**ft_export(char **bin, char **env)
 // 	env[2] = ft_strdup("ARG3=12346");
 // 	env[3] = ft_strdup("ARG=4=12347");
 // 	env[4] = NULL;
-
 // 	tmp = env;
 // 	env = ft_export(av, env);
 // 	if (!env)

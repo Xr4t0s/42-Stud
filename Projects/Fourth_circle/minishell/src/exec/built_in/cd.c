@@ -6,7 +6,7 @@
 /*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 03:40:32 by nitadros          #+#    #+#             */
-/*   Updated: 2025/05/10 00:34:04 by nitadros         ###   ########.fr       */
+/*   Updated: 2025/05/11 02:37:23 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 char	**ft_cd(char **bin, char **env)
 {
-	char *pwd[2];
+	char	*pwd[2];
 
 	if (bin[2])
 	{

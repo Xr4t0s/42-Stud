@@ -6,7 +6,7 @@
 /*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 01:57:12 by engiacom          #+#    #+#             */
-/*   Updated: 2025/05/06 18:56:36 by nitadros         ###   ########.fr       */
+/*   Updated: 2025/05/11 03:18:49 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,22 +93,6 @@ int	token_other(t_parse *parse, t_arg **arg)
 		return (k);
 	}
 	return (0);
-}
-
-void	init_parse(t_parse *parse)
-{
-	parse->i = 0;
-	parse->start = 0;
-	parse->len = 0;
-}
-
-t_arg	*ft_lstlast_a(t_arg *lst)
-{
-	if (lst == NULL)
-		return (lst);
-	while (lst->next != NULL)
-		lst = lst->next;
-	return (lst);
 }
 
 int	parser(char *line, t_arg **arg)

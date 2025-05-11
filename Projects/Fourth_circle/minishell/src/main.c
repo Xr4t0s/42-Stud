@@ -6,7 +6,7 @@
 /*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 17:22:27 by engiacom          #+#    #+#             */
-/*   Updated: 2025/05/08 04:26:06 by nitadros         ###   ########.fr       */
+/*   Updated: 2025/05/11 03:21:41 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,6 @@ int	main(int ac, char **av, char **env)
 	data->arg = NULL;
 	data->cmd = NULL;
 	data->last_code = 0;
-	read_input(data, data->envp);
+	read_input(data);
 	rl_clear_history();
 }

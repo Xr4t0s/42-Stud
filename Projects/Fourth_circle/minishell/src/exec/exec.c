@@ -6,7 +6,7 @@
 /*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 02:34:32 by nitadros          #+#    #+#             */
-/*   Updated: 2025/05/10 02:44:50 by nitadros         ###   ########.fr       */
+/*   Updated: 2025/05/11 02:57:04 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,9 @@ int	is_builtin(const char *cmd)
 	if (!cmd)
 		return (0);
 	if (!ft_strcmp(cmd, "export") || !ft_strcmp(cmd, "cd")
-			|| !ft_strcmp(cmd, "unset"))
+		|| !ft_strcmp(cmd, "unset"))
 		return (1);
-	else if (!ft_strcmp(cmd, "env")|| !ft_strcmp(cmd, "echo"))
+	else if (!ft_strcmp(cmd, "env") || !ft_strcmp(cmd, "echo"))
 		return (2);
 	return (0);
 }

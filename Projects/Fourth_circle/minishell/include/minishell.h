@@ -6,7 +6,7 @@
 /*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 17:22:24 by engiacom          #+#    #+#             */
-/*   Updated: 2025/05/10 00:21:56 by nitadros         ###   ########.fr       */
+/*   Updated: 2025/05/11 03:20:57 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,7 @@ typedef struct s_parse
 }	t_parse;
 
 
-int		read_input(t_data *data, char **envp);
+int		read_input(t_data *data);
 
 // Execution
 int		is_builtin(const char *cmd);
@@ -164,6 +164,7 @@ char	**duplicate_env(char *str, char **env);
 char	*ft_pwd(char **bin);
 char	**add_var(char *str, char **env);
 char	*find_path(char **env, char *bin);
-char *find_var(char **env, char *str);
+char	*find_var(char **env, char *str);
+void	init_parse(t_parse *parse);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 07:12:26 by engiacom          #+#    #+#             */
-/*   Updated: 2025/05/06 18:55:21 by nitadros         ###   ########.fr       */
+/*   Updated: 2025/05/11 03:20:28 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ char	*ft_unquote(char *str, int start, int end)
 	char	*end_s;
 	char	*ret;
 
-	if (start == 0 && end == ft_strlen(str) - 1)
+	if (start == 0 && end == (int)ft_strlen(str) - 1)
 	{
 		ret = ft_substr(str, 1, ft_strlen(str) - 2);
 		return (ret);

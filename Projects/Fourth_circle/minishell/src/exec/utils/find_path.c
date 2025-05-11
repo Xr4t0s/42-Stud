@@ -6,7 +6,7 @@
 /*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 17:25:41 by nitadros          #+#    #+#             */
-/*   Updated: 2025/05/09 22:18:45 by nitadros         ###   ########.fr       */
+/*   Updated: 2025/05/11 02:47:26 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	free_split(char **split)
 	int	i;
 
 	i = 0;
-	while(split[i])
+	while (split[i])
 		free(split[i++]);
 	free(split);
 }
@@ -42,23 +42,19 @@ char	**split_path(char **env)
 
 char	*read_path(char **path_dir, char *bin)
 {
-	int		i;
+	int				i;
 	DIR				*dir;
 	struct dirent	*entry;
 	char			*ret;
-	
 
 	i = 0;
-	while (path_dir[i])
+	while (path_dir[i++])
 	{
 		dir = opendir(path_dir[i]);
 		if (!dir)
-		{
-			i++;
 			continue ;
-		}
 		entry = readdir(dir);
-		while(entry)
+		while (entry)
 		{
 			if (!ft_strncmp(entry->d_name, bin, ft_strlen(bin) + 1))
 			{
@@ -69,7 +65,6 @@ char	*read_path(char **path_dir, char *bin)
 			entry = readdir(dir);
 		}
 		closedir(dir);
-		i++; 
 	}
 	return (NULL);
 }

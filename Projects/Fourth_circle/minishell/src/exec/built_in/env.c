@@ -6,7 +6,7 @@
 /*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 02:17:10 by nitadros          #+#    #+#             */
-/*   Updated: 2025/05/07 20:25:04 by nitadros         ###   ########.fr       */
+/*   Updated: 2025/05/11 02:37:31 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,6 @@ void	ft_env(char **env)
 	int	i;
 
 	i = 0;
-	while(env[i])
+	while (env[i])
 		printf("%s\n", env[i++]);
 }
