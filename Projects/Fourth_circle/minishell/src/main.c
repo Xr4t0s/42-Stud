@@ -6,7 +6,7 @@
 /*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 17:22:27 by engiacom          #+#    #+#             */
-/*   Updated: 2025/05/11 08:33:36 by nitadros         ###   ########.fr       */
+/*   Updated: 2025/05/11 12:52:39 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,10 @@ char	**copy_env(char **envp)
 
 int	main(int ac, char **av, char **env)
 {
+	int		i;
 	t_data	*data;
 
+	i = 0;
 	signal(SIGINT, handle_sigint);
 	signal(SIGQUIT, SIG_IGN);
 	data = malloc(sizeof(t_data));
@@ -56,8 +58,8 @@ int	main(int ac, char **av, char **env)
 	data->cmd = NULL;
 	data->last_code = 0;
 	read_input(data);
-	for (int i = 0; data->envp[i]; i++)
-		free(data->envp[i]);
+	while (data->envp[i])
+		free(data->envp[i++]);
 	free(data->envp);
 	ft_lstclear_m(&data->arg);
 	ft_lstclear_c(&data->cmd);
