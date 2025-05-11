@@ -6,7 +6,7 @@
 /*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 17:22:24 by engiacom          #+#    #+#             */
-/*   Updated: 2025/05/11 12:32:21 by nitadros         ###   ########.fr       */
+/*   Updated: 2025/05/11 14:36:24 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define MINISHELL_H
 # define BOLD    "\001\033[1m\002"
 # define GREEN "\001\033[0;32m\002"
+# define RED   "\001\033[31m\002"
 # define BLUE  "\001\033[0;34m\002"
 # define RESET "\001\033[0m\002"
 
@@ -167,10 +168,10 @@ void	append_arg(t_parse *parse, int len, t_arg **arg, t_token_type type);
 int		check_cmd(t_parse *parse, t_arg **arg);
 int		io_config(t_cmd *cmds);
 int		io_redirect(t_io *io, t_cmd **cmd);
-int 	heredoc(t_redir *redir);
+int		heredoc(t_redir *redir);
 void	slash(t_arg **arg);
 // Execution
-int	execute_commands(t_data *data);
+int		execute_commands(t_data *data);
 
 char	**ft_cd(char **bin, char **env);
 char	**ft_export(char **bin, char **env);
