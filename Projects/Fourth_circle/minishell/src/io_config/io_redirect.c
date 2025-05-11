@@ -6,7 +6,7 @@
 /*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 05:31:57 by nitadros          #+#    #+#             */
-/*   Updated: 2025/05/06 19:03:44 by nitadros         ###   ########.fr       */
+/*   Updated: 2025/05/11 02:30:08 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,9 @@ int	check_permissions(t_redir *redir, t_cmd **cmds)
 		if (access(redir->target, F_OK) == -1
 			|| access(redir->target, R_OK) == -1)
 		{
-			if (redir->next)
-				(*cmds)->bin[1] = ft_strdup(redir->target);
-			return (-1);
+			// if (redir->next)
+			// 	(*cmds)->bin[1] = ft_strdup(redir->target);
+			return (0);
 		}
 	}
 	else if (redir->type == R_OUT || redir->type == R_APPEND)
@@ -52,11 +52,11 @@ int	io_redirect(t_io *io, t_cmd **cmd)
 	{
 		if (!check_permissions(tmp->redirection, cmd))
 			return (0);
-		if (check_permissions(tmp->redirection, cmd) == -1)
-		{
-			tmp->redirection = tmp->redirection->next;
-			continue ;
-		}
+		// if (check_permissions(tmp->redirection, cmd) == -1)
+		// {
+		// 	tmp->redirection = tmp->redirection->next;
+		// 	continue ;
+		// }
 		if (i == io->index_in && tmp->exec)
 		{
 			if (tmp->redirection->type == R_IN)
