@@ -6,12 +6,16 @@
 /*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 17:22:24 by engiacom          #+#    #+#             */
-/*   Updated: 2025/05/11 06:51:33 by nitadros         ###   ########.fr       */
+/*   Updated: 2025/05/11 12:32:21 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
+# define BOLD    "\001\033[1m\002"
+# define GREEN "\001\033[0;32m\002"
+# define BLUE  "\001\033[0;34m\002"
+# define RESET "\001\033[0m\002"
 
 # include "../libft/include/libft.h"
 # include <readline/readline.h>
@@ -173,7 +177,7 @@ char	**ft_export(char **bin, char **env);
 char	**ft_unset(char **bin, char **env);
 void	ft_env(char **env);
 char	**duplicate_env(char *str, char **env);
-char	*ft_pwd(char **bin);
+void	ft_pwd(char **bin);
 char	**add_var(char *str, char **env);
 char	*find_path(char **env, char *bin);
 char	*find_var(char **env, char *str);

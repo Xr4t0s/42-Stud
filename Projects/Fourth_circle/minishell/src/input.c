@@ -6,7 +6,7 @@
 /*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 05:32:34 by nitadros          #+#    #+#             */
-/*   Updated: 2025/05/11 05:32:36 by nitadros         ###   ########.fr       */
+/*   Updated: 2025/05/11 12:37:01 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ int	read_input(t_data *data)
 	line = NULL;
 	while (1)
 	{
-		line = readline("minishell$ ");
+		line = readline(GREEN "minishell$" BLUE "-engiacom@nitadros-" GREEN ">>> " RESET);
 		if (!line)
 			break ;
 		if (*line == '\0')

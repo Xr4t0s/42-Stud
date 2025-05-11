@@ -6,7 +6,7 @@
 /*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 05:33:13 by nitadros          #+#    #+#             */
-/*   Updated: 2025/05/11 06:33:18 by nitadros         ###   ########.fr       */
+/*   Updated: 2025/05/11 12:04:51 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ int	is_builtin(const char *cmd)
 	if (!ft_strcmp(cmd, "export") || !ft_strcmp(cmd, "cd")
 		|| !ft_strcmp(cmd, "unset"))
 		return (1);
-	else if (!ft_strcmp(cmd, "env") || !ft_strcmp(cmd, "echo"))
+	else if (!ft_strcmp(cmd, "env") || !ft_strcmp(cmd, "echo")
+		|| !ft_strcmp(cmd, "pwd"))
 		return (2);
 	return (0);
 }
@@ -32,6 +33,8 @@ void	exec_void_builtin(char **arg, char **env)
 		ft_env(env);
 	if (!ft_strcmp(arg[0], "echo"))
 		echo(arg);
+	if (!ft_strcmp(arg[0], "pwd"))
+		ft_pwd(arg);
 	return ;
 }
 

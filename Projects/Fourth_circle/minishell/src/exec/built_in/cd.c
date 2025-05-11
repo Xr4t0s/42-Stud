@@ -6,7 +6,7 @@
 /*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 03:40:32 by nitadros          #+#    #+#             */
-/*   Updated: 2025/05/11 02:37:23 by nitadros         ###   ########.fr       */
+/*   Updated: 2025/05/11 12:21:10 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,23 +14,30 @@
 
 char	**ft_cd(char **bin, char **env)
 {
-	char	*pwd[2];
+	char	*pwd;
+	char	*cwd;
 
 	if (bin[2])
 	{
 		printf("Too many arguments\n");
 		return (env);
 	}
-	pwd[0] = "PWD";
-	pwd[1] = NULL;
 	env = duplicate_env("PWD", env);
 	env = duplicate_env("OLDPWD", env);
-	env = add_var(ft_strjoin("OLDPWD=", ft_pwd(pwd)), env);
+	cwd = getcwd(NULL, 0);
+	pwd = ft_strjoin("OLDPWD=", cwd);
+	env = add_var(pwd, env);
+	free(pwd);
+	free(cwd);
 	if (!bin[1])
 		bin[1] = ft_strdup(find_var(env, "HOME="));
 	if (chdir(bin[1]) == -1)
 		return (perror("cd"), env);
-	env = add_var(ft_strjoin("PWD=", ft_pwd(pwd)), env);
+	cwd = getcwd(NULL, 0);
+	pwd = ft_strjoin("PWD=", cwd);
+	env = add_var(pwd, env);
+	free(pwd);
+	free(cwd);
 	return (env);
 }
 
