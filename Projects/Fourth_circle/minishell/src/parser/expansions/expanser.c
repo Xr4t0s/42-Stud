@@ -6,7 +6,7 @@
 /*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 12:15:52 by nitadros          #+#    #+#             */
-/*   Updated: 2025/05/10 00:34:51 by nitadros         ###   ########.fr       */
+/*   Updated: 2025/05/11 03:52:57 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ static void	expand_utils(t_expansion *exp, int *i, int *k, t_data *data)
 
 static void	init_expansions(t_expansion *exp, char *str)
 {
+	exp->i = 0;
+	exp->k = 0;
 	exp->ret = NULL;
 	exp->env = NULL;
 	exp->left = NULL;
@@ -46,30 +48,28 @@ static void	init_expansions(t_expansion *exp, char *str)
 
 static void	expand(char *str, t_arg **arg, t_data *data)
 {
-	int			i;
-	int			k;
 	t_expansion	exp;
 
-	i = 0;
 	init_expansions(&exp, str);
-	while (exp.new_str[i])
+	while (exp.new_str[exp.i])
 	{
-		if (exp.new_str[i] == '$')
+		if (exp.new_str[exp.i] == '$')
 		{
-			if (exp.new_str[i + 1] == '?')
-				k = 2;
+			if (exp.new_str[exp.i + 1] == '?')
+				exp.k = 2;
 			else
 			{
-				k = 1;
-				while (exp.new_str[i + k] && (ft_isalnum(exp.new_str[i + k])
-						|| exp.new_str[i + k] == '_'))
-					k++;
+				exp.k = 1;
+				while (exp.new_str[exp.i + exp.k]
+					&& (ft_isalnum(exp.new_str[exp.i + exp.k])
+						|| exp.new_str[exp.i + exp.k] == '_'))
+					exp.k++;
 			}
-			expand_utils(&exp, &i, &k, data);
-			i += ft_strlen(exp.env);
+			expand_utils(&exp, &exp.i, &exp.k, data);
+			exp.i += ft_strlen(exp.env);
 			continue ;
 		}
-		i++;
+		exp.i++;
 	}
 	free((*arg)->value);
 	(*arg)->value = exp.new_str;

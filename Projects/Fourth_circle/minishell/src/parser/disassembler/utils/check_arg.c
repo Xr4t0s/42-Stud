@@ -6,7 +6,7 @@
 /*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 14:32:01 by engiacom          #+#    #+#             */
-/*   Updated: 2025/05/06 18:56:57 by nitadros         ###   ########.fr       */
+/*   Updated: 2025/05/11 03:46:22 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,7 @@ int	check_pipe(t_arg *arg)
 	w = 0;
 	while (arg)
 	{
-		if (arg->type == T_WORD || arg->type == T_QUOTE
-			|| arg->type == T_DQUOTE || arg->type == T_VAR
-			|| check_token_redir(arg->type))
+		if (check_type(arg))
 			w = 1;
 		if (w == 1)
 		{
@@ -55,9 +53,7 @@ int	check_pipe(t_arg *arg)
 				return (1);
 			else if (arg->type == T_PIPE)
 				p = 1;
-			if ((!arg->next || !(arg->next->type == T_WORD
-						|| arg->next->type == T_QUOTE
-						|| arg->next->type == T_DQUOTE)) && p == 1)
+			if (check_type2(arg) && p == 1)
 				return (1);
 			else
 				p = 0;

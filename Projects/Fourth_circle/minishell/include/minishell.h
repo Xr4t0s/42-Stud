@@ -6,7 +6,7 @@
 /*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 17:22:24 by engiacom          #+#    #+#             */
-/*   Updated: 2025/05/11 03:20:57 by nitadros         ###   ########.fr       */
+/*   Updated: 2025/05/11 03:51:21 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,8 @@ typedef struct s_data
 // ISOLATED
 typedef struct s_expansion
 {
+	int		i;
+	int		k;
 	char	*ret;
 	char	*env;
 	char	*left;
@@ -165,6 +167,9 @@ char	*ft_pwd(char **bin);
 char	**add_var(char *str, char **env);
 char	*find_path(char **env, char *bin);
 char	*find_var(char **env, char *str);
+
 void	init_parse(t_parse *parse);
+int		check_type(t_arg *arg);
+int		check_type2(t_arg *arg);
 
 #endif
