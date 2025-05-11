@@ -6,7 +6,7 @@
 /*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 02:14:32 by engiacom          #+#    #+#             */
-/*   Updated: 2025/05/06 18:57:22 by nitadros         ###   ########.fr       */
+/*   Updated: 2025/05/11 08:52:48 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,15 @@ t_arg	*ft_lstnew_m(t_token_type type, char *value)
 	t_arg	*new;
 
 	new = malloc(sizeof(t_arg));
-	if (new == NULL)
+	if (!new || !value)
 		return (NULL);
-	new->type = type;
 	new->value = ft_strdup(value);
+	if (!new->value)
+	{
+		free(new);
+		return (NULL);
+	}
+	new->type = type;
 	new->next = NULL;
 	return (new);
 }

@@ -6,7 +6,7 @@
 /*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 02:34:32 by nitadros          #+#    #+#             */
-/*   Updated: 2025/05/11 07:20:46 by nitadros         ###   ########.fr       */
+/*   Updated: 2025/05/11 08:27:20 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ void	exec_child_process(t_cmd *cmd, t_data *data)
 		perror("command not found");
 		exit(127);
 	}
+	printf("%s\n", path);
 	execve(path, &cmd->bin[i], data->envp);
 	perror("");
 	exit(127);
