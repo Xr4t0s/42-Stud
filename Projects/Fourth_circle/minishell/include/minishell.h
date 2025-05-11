@@ -6,7 +6,7 @@
 /*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 17:22:24 by engiacom          #+#    #+#             */
-/*   Updated: 2025/05/11 03:51:21 by nitadros         ###   ########.fr       */
+/*   Updated: 2025/05/11 04:16:18 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,6 +119,13 @@ typedef struct s_parse
 	char	*s;
 }	t_parse;
 
+typedef struct s_dequote
+{
+	int		q;
+	int		dq;
+	int		end;
+	char	*str;
+}	t_dequote;
 
 int		read_input(t_data *data);
 
@@ -150,7 +157,7 @@ int		token_r_left(t_parse *parse, t_arg **arg);
 int		token_word(t_parse *parse, t_arg **arg, int v);
 void	reassembler_check(t_arg **arg, t_cmd **cmd);
 void	append_arg(t_parse *parse, int len, t_arg **arg, t_token_type type);
-int		check_cmd(t_parse *parse, t_arg **arg, int o);
+int		check_cmd(t_parse *parse, t_arg **arg);
 int		io_config(t_cmd *cmds);
 int		io_redirect(t_io *io, t_cmd **cmd);
 int 	heredoc(t_redir *redir);

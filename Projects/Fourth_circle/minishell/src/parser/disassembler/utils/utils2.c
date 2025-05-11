@@ -6,7 +6,7 @@
 /*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 03:09:30 by engiacom          #+#    #+#             */
-/*   Updated: 2025/05/11 03:22:19 by nitadros         ###   ########.fr       */
+/*   Updated: 2025/05/11 04:23:33 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,14 +23,19 @@ void	append_arg(t_parse *parse, int len, t_arg **arg, t_token_type type)
 	free(s);
 }
 
-int	check_cmd(t_parse *prs, t_arg **arg, int o)
+int	check_cmd_utils(t_parse *prs, int tmp, int c)
 {
-	int		k;
+	tmp++;
+	while (prs->s[prs->i + tmp] && prs->s[prs->i + tmp] != c)
+		tmp++;
+	return (tmp);
+}
+
+int	check_cmd(t_parse *prs, t_arg **arg)
+{
 	int		tmp;
 
-	k = 0;
 	tmp = 0;
-	(void)o;
 	while (prs->s[prs->i + tmp] && !(prs->s[prs->i + tmp] == '<'
 			|| prs->s[prs->i + tmp] == '>' || prs->s[prs->i + tmp] == ' '
 			|| prs->s[prs->i + tmp] == '|' || prs->s[prs->i + tmp] == '$'))
@@ -38,19 +43,9 @@ int	check_cmd(t_parse *prs, t_arg **arg, int o)
 		if (prs->s[prs->i + tmp] == '\"' || prs->s[prs->i + tmp] == '\'')
 		{
 			if (prs->s[prs->i + tmp] == '\"')
-			{
-				tmp++;
-				k++;
-				while (prs->s[prs->i + tmp] && prs->s[prs->i + tmp] != '\"')
-					tmp++;
-			}
+				tmp = check_cmd_utils(prs, tmp, '\"');
 			if (prs->s[prs->i + tmp] == '\'')
-			{
-				tmp++;
-				k++;
-				while (prs->s[prs->i + tmp] && prs->s[prs->i + tmp] != '\'')
-					tmp++;
-			}
+				tmp = check_cmd_utils(prs, tmp, '\'');
 		}
 		tmp++;
 	}

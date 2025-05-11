@@ -6,7 +6,7 @@
 /*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 07:12:26 by engiacom          #+#    #+#             */
-/*   Updated: 2025/05/11 03:20:28 by nitadros         ###   ########.fr       */
+/*   Updated: 2025/05/11 04:28:52 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,44 +35,46 @@ char	*ft_unquote(char *str, int start, int end)
 	return (free(start_s), free(mid_s), free(end_s), ret);
 }
 
+int	init_dequote(t_dequote *d, char *tmp, int start)
+{
+	d->q = 0;
+	d->dq = 0;
+	d->end = 0;
+	d->str = tmp;
+	while (d->str[start] && d->str[start] != '\"' && d->str[start] != '\'')
+		start++;
+	if (d->str[start] == '\"' && d->q == 0)
+		d->dq = 1;
+	else if (d->str[start] == '\'' && d->dq == 0)
+		d->q = 1;
+	return (start);
+}
+
 char	*dequote(char *tmp, int start)
 {
-	int		q;
-	int		dq;
-	int		end;
-	char	*str;
+	t_dequote	d;
 
-	q = 0;
-	dq = 0;
-	end = 0;
-	str = tmp;
-	while (str[start] && str[start] != '\"' && str[start] != '\'')
-		start++;
-	if (str[start] == '\"' && q == 0)
-		dq = 1;
-	else if (str[start] == '\'' && dq == 0)
-		q = 1;
-	if (q == 1)
+	start = init_dequote(&d, tmp, start);
+	if (d.q == 1)
 	{
-		if (!str[start + 1])
+		if (!d.str[start + 1])
 			return (tmp);
-		end = start + 1;
-		while (str[end] != '\'')
-			end++;
+		d.end = start + 1;
+		while (d.str[d.end] != '\'')
+			d.end++;
 	}
-	else if (dq == 1)
+	else if (d.dq == 1)
 	{
-		if (!str[start + 1])
+		if (!d.str[start + 1])
 			return (tmp);
-		end = start + 1;
-		while (str[end] != '\"')
-			end++;
+		d.end = start + 1;
+		while (d.str[d.end] != '\"')
+			d.end++;
 	}
-	if (!str[start])
+	if (!d.str[start])
 		return (tmp);
-	tmp = ft_unquote(tmp, start, end);
-	start = end - 2;
-	return (dequote(tmp, start));
+	return (tmp = ft_unquote(tmp, start, d.end),
+		start = d.end - 2, dequote(tmp, start));
 }
 
 void	slash(t_arg **arg)

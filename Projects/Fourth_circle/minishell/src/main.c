@@ -6,7 +6,7 @@
 /*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 17:22:27 by engiacom          #+#    #+#             */
-/*   Updated: 2025/05/11 03:21:41 by nitadros         ###   ########.fr       */
+/*   Updated: 2025/05/11 04:29:41 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,13 @@ char	**copy_env(char **envp)
 	int		i;
 
 	i = 0;
-	while(envp[i])
+	while (envp[i])
 		i++;
 	env = malloc(sizeof(char *) * i + 1);
 	if (!env)
 		return (NULL);
 	i = 0;
-	while(envp[i])
+	while (envp[i])
 	{
 		env[i] = ft_strdup(envp[i]);
 		i++;
