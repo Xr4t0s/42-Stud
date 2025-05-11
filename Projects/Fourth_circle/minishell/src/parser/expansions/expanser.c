@@ -6,7 +6,7 @@
 /*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 12:15:52 by nitadros          #+#    #+#             */
-/*   Updated: 2025/05/11 03:52:57 by nitadros         ###   ########.fr       */
+/*   Updated: 2025/05/12 00:34:07 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,11 @@
 
 static void	expand_utils(t_expansion *exp, int *i, int *k, t_data *data)
 {
-	exp->ret = ft_substr(exp->new_str, *i + 1, *k - 1);
-	exp->ret = ft_strjoin(exp->ret, "=");
+	char	*tmp;
+
+	tmp = ft_substr(exp->new_str, *i + 1, *k - 1);
+	exp->ret = ft_strjoin(tmp, "=");
+	free(tmp);
 	if (ft_strncmp(exp->ret, "\?", 1) == 0)
 		exp->env = ft_itoa(data->last_code);
 	else
