@@ -6,7 +6,7 @@
 /*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 03:09:30 by engiacom          #+#    #+#             */
-/*   Updated: 2025/05/11 08:50:17 by nitadros         ###   ########.fr       */
+/*   Updated: 2025/05/11 23:52:59 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,18 @@
 void	append_arg(t_parse *parse, int len, t_arg **arg, t_token_type type)
 {
 	char	*s;
+	t_arg	*node;
 
 	s = ft_substr(parse->s, parse->i, len);
 	if (!s)
 		return ;
-	ft_lstadd_back_m(arg, ft_lstnew_m(type, s));
+	node = ft_lstnew_m(type, s);
+	if (!node)
+	{
+		free(s);
+		return ;
+	}
+	ft_lstadd_back_m(arg, node);
 	free(s);
 }
 

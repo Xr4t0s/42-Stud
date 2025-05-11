@@ -6,7 +6,7 @@
 /*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 07:12:26 by engiacom          #+#    #+#             */
-/*   Updated: 2025/05/11 04:28:52 by nitadros         ###   ########.fr       */
+/*   Updated: 2025/05/12 00:11:12 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,12 @@ char	*ft_unquote(char *str, int start, int end)
 	char	*mid_s;
 	char	*end_s;
 	char	*ret;
+	char	*tmp;
 
 	if (start == 0 && end == (int)ft_strlen(str) - 1)
 	{
 		ret = ft_substr(str, 1, ft_strlen(str) - 2);
-		return (ret);
+		return (free(str), ret);
 	}
 	if (start == 0)
 		start_s = ft_calloc(8, 1);
@@ -31,8 +32,8 @@ char	*ft_unquote(char *str, int start, int end)
 	mid_s = ft_substr(str, start + 1, (end - start - 1));
 	end_s = ft_substr(str, end + 1, ft_strlen(str) - end);
 	ret = ft_strjoin(start_s, mid_s);
-	ret = ft_strjoin(ret, end_s);
-	return (free(start_s), free(mid_s), free(end_s), ret);
+	tmp = ft_strjoin(ret, end_s);
+	return (free(start_s), free(mid_s), free(end_s), free(str), free(ret), tmp);
 }
 
 int	init_dequote(t_dequote *d, char *tmp, int start)
@@ -54,6 +55,8 @@ char	*dequote(char *tmp, int start)
 {
 	t_dequote	d;
 
+	if (start < 0)
+		start = 0;
 	start = init_dequote(&d, tmp, start);
 	if (d.q == 1)
 	{

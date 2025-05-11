@@ -6,7 +6,7 @@
 /*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 17:25:41 by nitadros          #+#    #+#             */
-/*   Updated: 2025/05/11 08:34:35 by nitadros         ###   ########.fr       */
+/*   Updated: 2025/05/11 23:46:35 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ char	*read_current_dir(char *bin)
 	while (entry)
 	{
 		if (!ft_strncmp(entry->d_name, tmp, ft_strlen(tmp)))
-			return (closedir(dir), bin);
+			return (closedir(dir), free(tmp), bin);
 		entry = readdir(dir);
 	}
 	closedir(dir);
