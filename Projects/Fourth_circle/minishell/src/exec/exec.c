@@ -6,7 +6,7 @@
 /*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 02:34:32 by nitadros          #+#    #+#             */
-/*   Updated: 2025/05/11 06:33:07 by nitadros         ###   ########.fr       */
+/*   Updated: 2025/05/11 07:20:46 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void	exec_child_process(t_cmd *cmd, t_data *data)
 		exit(127);
 	}
 	execve(path, &cmd->bin[i], data->envp);
-	perror("execve failed");
+	perror("");
 	exit(127);
 }
 

@@ -6,7 +6,7 @@
 /*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 17:22:24 by engiacom          #+#    #+#             */
-/*   Updated: 2025/05/11 06:33:36 by nitadros         ###   ########.fr       */
+/*   Updated: 2025/05/11 06:51:33 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <sys/wait.h>
 # include <fcntl.h>
 # include <dirent.h>
+# include <signal.h>
 
 // Disassembler
 typedef enum e_token_type
