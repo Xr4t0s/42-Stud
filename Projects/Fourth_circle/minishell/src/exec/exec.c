@@ -6,7 +6,7 @@
 /*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 02:34:32 by nitadros          #+#    #+#             */
-/*   Updated: 2025/05/11 12:12:21 by nitadros         ###   ########.fr       */
+/*   Updated: 2025/05/12 04:32:15 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	init_env_builtin(t_data **data, t_cmd **cmd)
 		dup2((*cmd)->output_fd, STDOUT_FILENO);
 		close((*cmd)->output_fd);
 	}
-	(*data)->envp = exec_env_builtin((*cmd)->bin, (*data)->envp);
+	(*data)->envp = exec_env_builtin((*cmd)->bin, (*data)->envp, *data);
 	dup2(saved_in, STDIN_FILENO);
 	dup2(saved_out, STDOUT_FILENO);
 	close(saved_in);
@@ -58,7 +58,7 @@ void	exec_child_process(t_cmd *cmd, t_data *data)
 	}
 	execve(path, &cmd->bin[i], data->envp);
 	perror("");
-	exit(127);
+	exit(1);
 }
 
 void	init_child_process(t_cmd *cmd, t_data *data)

@@ -6,16 +6,22 @@
 /*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 23:00:35 by nitadros          #+#    #+#             */
-/*   Updated: 2025/05/07 23:02:20 by nitadros         ###   ########.fr       */
+/*   Updated: 2025/05/12 04:22:31 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_exit(char **bin)
+int	ft_exit(t_data *data)
 {
-	int	code;
+	int	i;
 
-	code = ft_atoi(bin[1]);
-	return (code);
+	i = 0;
+	while (data->envp[i])
+		free(data->envp[i++]);
+	free(data->envp);
+	ft_lstclear_m(&data->arg);
+	ft_lstclear_c(&data->cmd);
+	free(data);
+	exit(0);
 }

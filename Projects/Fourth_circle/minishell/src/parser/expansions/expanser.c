@@ -6,7 +6,7 @@
 /*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 12:15:52 by nitadros          #+#    #+#             */
-/*   Updated: 2025/05/12 00:34:07 by nitadros         ###   ########.fr       */
+/*   Updated: 2025/05/12 04:51:17 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ static void	expand_utils(t_expansion *exp, int *i, int *k, t_data *data)
 	free(exp->right);
 	free(exp->new_str);
 	exp->new_str = exp->left;
+	exp->i += ft_strlen(exp->env);
+	free(exp->env);
 }
 
 static void	init_expansions(t_expansion *exp, char *str)
@@ -69,7 +71,6 @@ static void	expand(char *str, t_arg **arg, t_data *data)
 					exp.k++;
 			}
 			expand_utils(&exp, &exp.i, &exp.k, data);
-			exp.i += ft_strlen(exp.env);
 			continue ;
 		}
 		exp.i++;

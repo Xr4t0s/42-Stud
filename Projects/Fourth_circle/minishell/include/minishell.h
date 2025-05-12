@@ -6,7 +6,7 @@
 /*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 17:22:24 by engiacom          #+#    #+#             */
-/*   Updated: 2025/05/11 14:36:24 by nitadros         ###   ########.fr       */
+/*   Updated: 2025/05/12 04:42:57 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,7 +137,7 @@ int		read_input(t_data *data);
 
 // Execution
 int		is_builtin(const char *cmd);
-char	**exec_env_builtin(char **args, char **env);
+char	**exec_env_builtin(char **args, char **env, t_data *data);
 void	exec_void_builtin(char **args, char **env);
 int		echo(char **arg);
 int		pipe_creation(t_cmd *cmd);
@@ -177,6 +177,7 @@ char	**ft_cd(char **bin, char **env);
 char	**ft_export(char **bin, char **env);
 char	**ft_unset(char **bin, char **env);
 void	ft_env(char **env);
+int		ft_exit(t_data *data);
 char	**duplicate_env(char *str, char **env);
 void	ft_pwd(char **bin);
 char	**add_var(char *str, char **env);

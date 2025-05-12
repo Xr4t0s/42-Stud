@@ -6,7 +6,7 @@
 /*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 05:33:13 by nitadros          #+#    #+#             */
-/*   Updated: 2025/05/11 12:04:51 by nitadros         ###   ########.fr       */
+/*   Updated: 2025/05/12 04:25:39 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	is_builtin(const char *cmd)
 	if (!cmd)
 		return (0);
 	if (!ft_strcmp(cmd, "export") || !ft_strcmp(cmd, "cd")
-		|| !ft_strcmp(cmd, "unset"))
+		|| !ft_strcmp(cmd, "unset") || !ft_strcmp(cmd, "exit"))
 		return (1);
 	else if (!ft_strcmp(cmd, "env") || !ft_strcmp(cmd, "echo")
 		|| !ft_strcmp(cmd, "pwd"))
@@ -38,7 +38,7 @@ void	exec_void_builtin(char **arg, char **env)
 	return ;
 }
 
-char	**exec_env_builtin(char **args, char **env)
+char	**exec_env_builtin(char **args, char **env, t_data *data)
 {
 	if (!args || !args[0])
 		return (0);
@@ -48,8 +48,8 @@ char	**exec_env_builtin(char **args, char **env)
 		return (ft_export(args, env));
 	else if (!ft_strcmp(args[0], "unset"))
 		return (ft_unset(args, env));
-	// else if (!ft_strcmp(args[0], "exit"))
-	// 	return (echo(args));
+	if (!ft_strcmp(args[0], "exit"))
+		ft_exit(data);
 	return (env);
 }
 
