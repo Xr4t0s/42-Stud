@@ -6,7 +6,7 @@
 /*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 05:32:34 by nitadros          #+#    #+#             */
-/*   Updated: 2025/05/12 04:42:48 by nitadros         ###   ########.fr       */
+/*   Updated: 2025/05/12 04:55:58 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,10 +78,7 @@ void	parse_and_execute(t_data *data, char *line)
 		slash(&data->arg);
 		reassembler(data);
 		if (io_config(data->cmd))
-		{
-			// print_data_cmds(data);
 			data->last_code = execute_commands(data);
-		}
 		else
 			data->last_code = 1;
 	}
