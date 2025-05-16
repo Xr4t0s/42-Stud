@@ -6,7 +6,7 @@
 /*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 17:22:24 by engiacom          #+#    #+#             */
-/*   Updated: 2025/05/12 04:42:57 by nitadros         ###   ########.fr       */
+/*   Updated: 2025/05/16 22:11:49 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,6 +132,15 @@ typedef struct s_dequote
 	int		end;
 	char	*str;
 }	t_dequote;
+
+typedef struct s_tmp_path
+{
+	int				i;
+	DIR				*dir;
+	struct dirent	*entry;
+	char			*ret;
+	char			*tmp;
+}	t_tmp_path;
 
 int		read_input(t_data *data);
 

@@ -6,7 +6,7 @@
 /*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 05:31:57 by nitadros          #+#    #+#             */
-/*   Updated: 2025/05/11 05:08:28 by nitadros         ###   ########.fr       */
+/*   Updated: 2025/05/16 22:21:50 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,8 @@ int	r_in(t_cmd **cmd, t_cmd *tmp)
 	{
 		(*cmd)->type = R_HEREDOC;
 		(*cmd)->input_fd = heredoc(tmp->redirection);
+		if (!(*cmd)->bin[0])
+			(*cmd)->exec = 0;
 	}
 	return (1);
 }

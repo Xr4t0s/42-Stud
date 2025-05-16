@@ -6,7 +6,7 @@
 /*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 17:25:41 by nitadros          #+#    #+#             */
-/*   Updated: 2025/05/11 23:46:35 by nitadros         ###   ########.fr       */
+/*   Updated: 2025/05/16 22:17:32 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,29 +42,26 @@ char	**split_path(char **env)
 
 char	*read_path(char **path_dir, char *bin)
 {
-	int				i;
-	DIR				*dir;
-	struct dirent	*entry;
-	char			*ret;
+	t_tmp_path	tmp;
 
-	i = -1;
-	while (path_dir[++i])
+	tmp.i = -1;
+	while (path_dir[++tmp.i])
 	{
-		dir = opendir(path_dir[i]);
-		if (!dir)
+		tmp.dir = opendir(path_dir[tmp.i]);
+		if (!tmp.dir)
 			continue ;
-		entry = readdir(dir);
-		while (entry)
+		tmp.entry = readdir(tmp.dir);
+		while (tmp.entry)
 		{
-			if (!ft_strncmp(entry->d_name, bin, ft_strlen(bin) + 1))
+			if (!ft_strncmp(tmp.entry->d_name, bin, ft_strlen(bin) + 1))
 			{
-				ret = ft_strjoin(path_dir[i], "/");
-				ret = ft_strjoin(ret, bin);
-				return (closedir(dir), ret);
+				tmp.ret = ft_strjoin(path_dir[tmp.i], "/");
+				tmp.tmp = ft_strjoin(tmp.ret, bin);
+				return (closedir(tmp.dir), free(tmp.ret), tmp.tmp);
 			}
-			entry = readdir(dir);
+			tmp.entry = readdir(tmp.dir);
 		}
-		closedir(dir);
+		closedir(tmp.dir);
 	}
 	return (NULL);
 }

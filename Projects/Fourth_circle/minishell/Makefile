@@ -13,7 +13,7 @@ NAME            = minishell
 
 # Compilateur et flags
 CC              = cc -g
-CFLAGS          = -Wall -Wextra -I include
+CFLAGS          = -Wall -Wextra -Werror -I include
 
 # Commandes
 RM              = rm -rf
