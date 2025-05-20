@@ -6,7 +6,7 @@
 /*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 02:34:32 by nitadros          #+#    #+#             */
-/*   Updated: 2025/05/12 04:32:15 by nitadros         ###   ########.fr       */
+/*   Updated: 2025/05/19 23:10:48 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,10 @@ void	exec_child_process(t_cmd *cmd, t_data *data)
 	}
 	while (cmd->bin[i] && !cmd->bin[i][0])
 		i++;
-	path = find_path(data->envp, cmd->bin[i]);
+	if (cmd->bin[i][0] && cmd->bin[i][0] != '/')
+		path = find_path(data->envp, cmd->bin[i]);
+	else
+		path = ft_strdup(cmd->bin[i]);
 	if (!path)
 	{
 		perror("command not found");
@@ -99,11 +102,15 @@ int	execute_loop(t_cmd *cmd, t_data *data, pid_t *pid)
 		init_env_builtin(&data, &cmd);
 		return (0);
 	}
+	signal(SIGINT, SIG_IGN);
 	*pid = fork();
 	if (*pid == -1)
 		return (perror("fork"), 1);
 	if (*pid == 0)
+	{
+		signal(SIGINT, SIG_DFL);
 		init_child_process(cmd, data);
+	}
 	else
 	{
 		if (cmd->input_fd > 2)
@@ -135,6 +142,8 @@ int	execute_commands(t_data *data)
 	{
 		if (cmd->exec && is_builtin(cmd->bin[0]) != 1)
 			wait(&status_code);
+		if (WIFSIGNALED(status_code) && WTERMSIG(status_code) == SIGINT)
+			write(STDOUT_FILENO, "\n", 1);
 		cmd = cmd->next;
 	}
 	return (status_code);

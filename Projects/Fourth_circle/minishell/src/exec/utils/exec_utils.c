@@ -6,7 +6,7 @@
 /*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 05:33:13 by nitadros          #+#    #+#             */
-/*   Updated: 2025/05/12 04:25:39 by nitadros         ###   ########.fr       */
+/*   Updated: 2025/05/19 23:35:09 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ char	**exec_env_builtin(char **args, char **env, t_data *data)
 	else if (!ft_strcmp(args[0], "unset"))
 		return (ft_unset(args, env));
 	if (!ft_strcmp(args[0], "exit"))
-		ft_exit(data);
+		ft_exit(data, args);
 	return (env);
 }
 
@@ -67,6 +67,20 @@ int	pipe_creation(t_cmd *cmd)
 			cmd->next->input_fd = pipe_fd[0];
 		}
 		cmd = cmd->next;
+	}
+	return (0);
+}
+
+int	ft_strsrch(char *s, int c)
+{
+	int	i;
+
+	i = 0;
+	while (s[i])
+	{
+		if (s[i] == c)
+			return (1);
+		i++;
 	}
 	return (0);
 }

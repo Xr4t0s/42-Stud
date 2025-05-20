@@ -6,7 +6,7 @@
 /*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 17:22:24 by engiacom          #+#    #+#             */
-/*   Updated: 2025/05/16 22:11:49 by nitadros         ###   ########.fr       */
+/*   Updated: 2025/05/19 23:35:19 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -186,7 +186,7 @@ char	**ft_cd(char **bin, char **env);
 char	**ft_export(char **bin, char **env);
 char	**ft_unset(char **bin, char **env);
 void	ft_env(char **env);
-int		ft_exit(t_data *data);
+int		ft_exit(t_data *data, char **bin);
 char	**duplicate_env(char *str, char **env);
 void	ft_pwd(char **bin);
 char	**add_var(char *str, char **env);
@@ -196,5 +196,7 @@ char	*find_var(char **env, char *str);
 void	init_parse(t_parse *parse);
 int		check_type(t_arg *arg);
 int		check_type2(t_arg *arg);
+void	handle_sigint(int sig);
+int		ft_strsrch(char *s, int c);
 
 #endif

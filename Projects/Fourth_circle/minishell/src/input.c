@@ -6,7 +6,7 @@
 /*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 05:32:34 by nitadros          #+#    #+#             */
-/*   Updated: 2025/05/12 04:55:58 by nitadros         ###   ########.fr       */
+/*   Updated: 2025/05/19 23:04:45 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,8 @@ int	read_input(t_data *data)
 		free(line);
 		ft_lstclear_m(&data->arg);
 		ft_lstclear_c(&data->cmd);
+		signal(SIGINT, handle_sigint);
+		signal(SIGQUIT, SIG_IGN);
 	}
 	ft_lstclear_m(&data->arg);
 	ft_lstclear_c(&data->cmd);

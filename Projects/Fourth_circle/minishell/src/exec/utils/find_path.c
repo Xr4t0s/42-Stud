@@ -6,7 +6,7 @@
 /*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 17:25:41 by nitadros          #+#    #+#             */
-/*   Updated: 2025/05/16 22:17:32 by nitadros         ###   ########.fr       */
+/*   Updated: 2025/05/19 23:35:01 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,20 +71,26 @@ char	*read_current_dir(char *bin)
 	DIR				*dir;
 	struct dirent	*entry;
 	char			*tmp;
+	char			*relative;
+	int				i;
 
-	tmp = ft_substr(bin, 2, ft_strlen(bin) - 2);
-	dir = opendir(".");
+	i = 0;
+	while (ft_strsrch(&bin[i], '/'))
+		i++;
+	relative = ft_substr(bin, 0, i - 1);
+	tmp = ft_substr(bin, i, ft_strlen(bin) - i);
+	dir = opendir(relative);
 	if (!dir)
-		return (free(tmp), NULL);
+		return (free(tmp), free(relative), NULL);
 	entry = readdir(dir);
 	while (entry)
 	{
 		if (!ft_strncmp(entry->d_name, tmp, ft_strlen(tmp)))
-			return (closedir(dir), free(tmp), bin);
+			return (closedir(dir), free(tmp), free(relative), bin);
 		entry = readdir(dir);
 	}
 	closedir(dir);
-	return (free(tmp), NULL);
+	return (free(tmp), free(relative), NULL);
 }
 
 char	*find_path(char **env, char *bin)
