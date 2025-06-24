@@ -2,29 +2,17 @@
 
 int main() {
 	PhoneBook phonebook;
-	// std::string infos[5];
 
-	// infos[0] = "helloworldcjkhdjkd";
-	// infos[1] = "world";
-	// infos[2] = "test";
-	// infos[3] = "+33";
-	// infos[4] = "fuckyou";
-	// phonebook.addContact(infos);
-	// infos[0] = "test";
-	// infos[1] = "test";
-	// infos[2] = "test";
-	// infos[3] = "+test";
-	// infos[4] = "test";
-	// phonebook.addContact(infos);
-	// phonebook.displayContacts();
-	// phonebook.searchContact(1);
 	while (1)
 	{
 		std::string input;
 
-		std::cout << "Que souhaitez-vous faire ? (ADD, SEARCH, EXIT)\n> ";
+		std::cout << "What do you want to do ? (ADD, SEARCH, EXIT)\n> ";
 		std::cin >> input;
-		if (input == "ADD")
+		for (int i = 0; input[i]; i++)
+			input[i] = std::tolower(input[i]);
+		std::cout << "\033[2J\033[H";
+		if (input == "add")
 		{
 			std::string infos[5];
 			std::cout << "Enter the new contact information :" << std::endl;
@@ -35,14 +23,32 @@ int main() {
 			std::cout << "\tDarkest secret : "; std::cin >> infos[4];
 			phonebook.addContact(infos);
 		}
-		if (input == "SEARCH")
+		if (input == "search")
 		{
 			std::string index;
 			phonebook.displayContacts();
 			std::cout << "Enter the contact index you want to display : "; std::cin >> index;
-			int	i = atof(index);
+			std::cout << "\033[2J\033[H";
+			if (index == "1")
+				phonebook.searchContact(1);
+			else if (index == "2")
+				phonebook.searchContact(2);
+			else if (index == "3")
+				phonebook.searchContact(3);
+			else if (index == "4")
+				phonebook.searchContact(4);
+			else if (index == "5")
+				phonebook.searchContact(5);
+			else if (index == "6")
+				phonebook.searchContact(6);
+			else if (index == "7")
+				phonebook.searchContact(7);
+			else if (index == "8")
+				phonebook.searchContact(8);
+			else
+				std::cout << "Phonebook can only store 8 contacts !" << std::endl;
 		}
-		if (input == "EXIT")
-			
+		if (input == "exit")
+			return 0;			
 	}
 }
