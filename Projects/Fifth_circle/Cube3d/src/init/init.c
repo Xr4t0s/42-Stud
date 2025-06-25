@@ -1,35 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cube3d.h                                           :+:      :+:    :+:   */
+/*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/24 02:16:22 by nitadros          #+#    #+#             */
-/*   Updated: 2025/06/25 00:18:34 by nitadros         ###   ########.fr       */
+/*   Created: 2025/06/25 00:15:14 by nitadros          #+#    #+#             */
+/*   Updated: 2025/06/25 00:15:42 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CUBE3D_H
-# define CUBE3D_H
-# include <stdio.h>
-# include "libs/libft.h"
-# include "libs/get_next_line.h"
-# include "libs/get_next_line_bonus.h"
-# include "libs/mlx.h"
-# include "map.h"
-# include "init.h"
+#include "cube3d.h"
 
-typedef struct s_mlx
+void	init_map(t_map *map)
 {
-	void	*mlx;
-	void	*win;
-}	t_mlx;
+	int	i;
+	int	j;
 
-typedef struct s_data
-{
-	t_map	map;
-	t_mlx	mlx;	
-}	t_data;
-
-#endif
+	i = 0;
+	j = 0;
+	map->fd_file = 0;
+	map->map = malloc(sizeof(char *) * 101);
+	if (!map->map)
+		return ;
+	map->textures.no.img = NULL;
+	map->textures.so.img = NULL;
+	map->textures.we.img = NULL;
+	map->textures.ea.img = NULL;
+	while (j < 2)
+	{
+		while (i < 3)
+		{
+			map->textures.fc[j][i] = -1;
+			i++;
+		}
+		i = 0;
+		j++;
+	}
+}

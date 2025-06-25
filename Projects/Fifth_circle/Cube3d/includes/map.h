@@ -6,13 +6,12 @@
 /*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 02:10:57 by nitadros          #+#    #+#             */
-/*   Updated: 2025/06/24 09:04:13 by nitadros         ###   ########.fr       */
+/*   Updated: 2025/06/25 01:46:38 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MAP_H
 # define MAP_H
-# include "mlx.h"
 # include <fcntl.h>
 
 typedef struct s_data t_data;
@@ -23,7 +22,6 @@ typedef struct s_direction
 	int		width;
 	int		height;
 }	t_direction;
-
 
 typedef struct s_textures
 {
@@ -47,5 +45,8 @@ void	handle_no(t_data *d, char *trimed);
 void	handle_so(t_data *d, char *trimed);
 void	handle_we(t_data *d, char *trimed);
 void	handle_ea(t_data *d, char *trimed);
+
+// CHECK FUNCTIONS
+int	check_map_data(t_map map);
 
 #endif

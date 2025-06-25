@@ -6,38 +6,11 @@
 /*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 02:09:52 by nitadros          #+#    #+#             */
-/*   Updated: 2025/06/24 09:04:57 by nitadros         ###   ########.fr       */
+/*   Updated: 2025/06/25 01:49:42 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cube3d.h"
-
-static void	init_map(t_map *map)
-{
-	int	i;
-	int	j;
-
-	i = 0;
-	j = 0;
-	map->fd_file = 0;
-	map->map = malloc(sizeof(char *) * 101);
-	if (!map->map)
-		return ;
-	map->textures.no.img = NULL;
-	map->textures.so.img = NULL;
-	map->textures.we.img = NULL;
-	map->textures.ea.img = NULL;
-	while (j < 2)
-	{
-		while (i < 3)
-		{
-			map->textures.fc[j][i] = -1;
-			i++;
-		}
-		i = 0;
-		j++;
-	}
-}
 
 static void	parse_param_utils(t_data *d, char **fc, char *trimed, char **param)
 {
@@ -130,20 +103,22 @@ int	parse_file(t_data *d, char *filename)
 	return (free(line), 1);
 }
 
-// int	main()
-// {
-// 	t_data	data;
-// 	char *map = "./map.cub";
+int	main()
+{
+	t_data	data;
+	char *map = "./map.cub";
 
-// 	init_map(&data.map);
-// 	data.mlx.mlx = mlx_init();
-// 	parse_file(&data, map);
-// 	if (data.map.textures.no.img == NULL)
-// 		printf("pas dimage\n");
-// 	mlx_destroy_image(data.mlx.mlx, data.map.textures.no.img);
-// 	mlx_destroy_display(data.mlx.mlx);
-// 	free(data.mlx.mlx);
-// 	for (int i = 0; data.map.map[i]; i++)
-// 		printf("%s\n", data.map.map[i]);
-// 	ft_free_split(data.map.map);
-// }
+	init_map(&data.map);
+	data.mlx.mlx = mlx_init();
+	parse_file(&data, map);
+	if (data.map.textures.no.img == NULL)
+		printf("pas dimage\n");
+	if (!check_map_data(data.map))
+		return (printf("Data is false\n"));
+	mlx_destroy_image(data.mlx.mlx, data.map.textures.no.img);
+	mlx_destroy_display(data.mlx.mlx);
+	free(data.mlx.mlx);
+	for (int i = 0; data.map.map[i]; i++)
+		printf("%s\n", data.map.map[i]);
+	ft_free_split(data.map.map);
+}
