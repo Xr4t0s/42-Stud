@@ -1,38 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cube3d.h                                           :+:      :+:    :+:   */
+/*   check_data.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/24 02:16:22 by nitadros          #+#    #+#             */
-/*   Updated: 2025/06/26 01:01:20 by nitadros         ###   ########.fr       */
+/*   Created: 2025/06/25 23:50:56 by nitadros          #+#    #+#             */
+/*   Updated: 2025/06/26 00:20:47 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CUBE3D_H
-# define CUBE3D_H
-# include <stdio.h>
-# include "libs/libft.h"
-# include "libs/get_next_line.h"
-# include "libs/get_next_line_bonus.h"
-# include "libs/mlx.h"
-# include "init.h"
-# include "map.h"
-# include "player.h"
-# include "free.h"
+#include "cube3d.h"
 
-typedef struct s_mlx
+int	check_data(t_data *d, char *filename)
 {
-	void	*mlx;
-	void	*win;
-}	t_mlx;
-
-typedef struct s_data
-{
-	t_map		map;
-	t_mlx		mlx;
-	t_player	player;
-}	t_data;
-
-#endif
+	parse_file(d, filename);
+	if (!check_map_data(*d) ||!check_param(*d))
+		return (0);
+	return (1);
+}

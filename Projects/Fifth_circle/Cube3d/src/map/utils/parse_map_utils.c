@@ -6,7 +6,7 @@
 /*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 08:04:33 by nitadros          #+#    #+#             */
-/*   Updated: 2025/06/25 10:03:17 by nitadros         ###   ########.fr       */
+/*   Updated: 2025/06/26 00:33:11 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,10 @@ void	normalize_map(t_data *d)
 		j = 0;
 		copy[i] = malloc(sizeof(char) * (d->map.width + 1));
 		if (!copy[i])
+		{
+			ft_free_split(copy);
 			return ;
+		}
 		while (d->map.map[i][j])
 		{
 			if (d->map.map[i][j] == ' ' || d->map.map[i][j] == '\t')

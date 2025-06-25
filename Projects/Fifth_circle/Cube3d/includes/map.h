@@ -6,7 +6,7 @@
 /*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 02:10:57 by nitadros          #+#    #+#             */
-/*   Updated: 2025/06/25 07:02:08 by nitadros         ###   ########.fr       */
+/*   Updated: 2025/06/26 00:20:42 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,8 @@ void	handle_no_so(t_data *d, char *trimed, int target);
 void	handle_we_ea(t_data *d, char *trimed, int target);
 
 // CHECK FUNCTIONS
+int	check_data(t_data *d, char *filename);
 int	check_map_data(t_data d);
-int	flood_check(char **map, int i, int j);
+int	check_param(t_data d);
 
 #endif
