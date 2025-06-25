@@ -6,7 +6,7 @@
 /*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 02:09:52 by nitadros          #+#    #+#             */
-/*   Updated: 2025/06/25 01:49:42 by nitadros         ###   ########.fr       */
+/*   Updated: 2025/06/25 06:51:55 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,13 @@
 static void	parse_param_utils(t_data *d, char **fc, char *trimed, char **param)
 {
 	if (!ft_strncmp(param[0], "NO", 2))
-		handle_no(d, trimed);
+		handle_no_so(d, trimed, 1);
 	else if (!ft_strncmp(param[0], "SO", 2))
-		handle_so(d, trimed);
+		handle_no_so(d, trimed, 2);
 	else if (!ft_strncmp(param[0], "WE", 2))
-		handle_we(d, trimed);
+		handle_we_ea(d, trimed, 1);
 	else if (!ft_strncmp(param[0], "EA", 2))
-		handle_ea(d, trimed);
+		handle_we_ea(d, trimed, 2);
 	else if (!ft_strncmp(param[0], "F", 1))
 	{
 		fc = ft_split(param[1], ',');
@@ -67,8 +67,9 @@ static char	*parse_map(t_data *d, char *line, int *i)
 {
 	char	*trimed;
 
-	trimed = remove_spaces(line);
+	trimed = ft_strtrim(line, "\n");
 	d->map.map[(*i)++] = ft_strdup(trimed);
+	
 	free(trimed);
 	free(line);
 	line = get_next_line(d->map.fd_file);
@@ -91,34 +92,18 @@ int	parse_file(t_data *d, char *filename)
 		return (0);
 	while (line)
 	{
-		if (!ft_strncmp(line, "1", 1) || !ft_strncmp(line, "0", 1))
+		while (line[i] == ' ' || line[i] == '\t')
+			i++;
+		if (!ft_strncmp(&line[i], "1", 1) || !ft_strncmp(&line[i], "0", 1))
 			break ;
 		parse_param(d, line);
 		free(line);
 		line = get_next_line(d->map.fd_file);
 	}
+	i = 0;
 	while (line && ft_strncmp(line, "\n", 1))
 		line = parse_map(d, line, &i);
 	d->map.map[i] = NULL;
+	normalize_map(d);
 	return (free(line), 1);
-}
-
-int	main()
-{
-	t_data	data;
-	char *map = "./map.cub";
-
-	init_map(&data.map);
-	data.mlx.mlx = mlx_init();
-	parse_file(&data, map);
-	if (data.map.textures.no.img == NULL)
-		printf("pas dimage\n");
-	if (!check_map_data(data.map))
-		return (printf("Data is false\n"));
-	mlx_destroy_image(data.mlx.mlx, data.map.textures.no.img);
-	mlx_destroy_display(data.mlx.mlx);
-	free(data.mlx.mlx);
-	for (int i = 0; data.map.map[i]; i++)
-		printf("%s\n", data.map.map[i]);
-	ft_free_split(data.map.map);
 }

@@ -6,7 +6,7 @@
 /*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 02:16:22 by nitadros          #+#    #+#             */
-/*   Updated: 2025/06/25 00:18:34 by nitadros         ###   ########.fr       */
+/*   Updated: 2025/06/25 06:49:05 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,9 @@
 # include "libs/get_next_line.h"
 # include "libs/get_next_line_bonus.h"
 # include "libs/mlx.h"
-# include "map.h"
 # include "init.h"
+# include "map.h"
+# include "player.h"
 
 typedef struct s_mlx
 {
@@ -28,8 +29,9 @@ typedef struct s_mlx
 
 typedef struct s_data
 {
-	t_map	map;
-	t_mlx	mlx;	
+	t_map		map;
+	t_mlx		mlx;
+	t_player	player;
 }	t_data;
 
 #endif

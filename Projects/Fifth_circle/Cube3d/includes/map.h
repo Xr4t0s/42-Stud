@@ -6,7 +6,7 @@
 /*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 02:10:57 by nitadros          #+#    #+#             */
-/*   Updated: 2025/06/25 01:46:38 by nitadros         ###   ########.fr       */
+/*   Updated: 2025/06/25 07:02:08 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,17 +36,20 @@ typedef struct s_map
 {
 	int			fd_file;
 	char		**map;
+	int			width;
+	int			height;
 	t_textures	textures;
 }	t_map;
 
-// PARSING UTILS
+// PARSING
+int		parse_file(t_data *d, char *filename);
 char	*remove_spaces(char *line);
-void	handle_no(t_data *d, char *trimed);
-void	handle_so(t_data *d, char *trimed);
-void	handle_we(t_data *d, char *trimed);
-void	handle_ea(t_data *d, char *trimed);
+void	normalize_map(t_data *d);
+void	handle_no_so(t_data *d, char *trimed, int target);
+void	handle_we_ea(t_data *d, char *trimed, int target);
 
 // CHECK FUNCTIONS
-int	check_map_data(t_map map);
+int	check_map_data(t_data d);
+int	flood_check(char **map, int i, int j);
 
 #endif

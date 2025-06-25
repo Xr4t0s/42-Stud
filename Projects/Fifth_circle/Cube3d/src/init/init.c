@@ -6,7 +6,7 @@
 /*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 00:15:14 by nitadros          #+#    #+#             */
-/*   Updated: 2025/06/25 00:15:42 by nitadros         ###   ########.fr       */
+/*   Updated: 2025/06/25 07:38:50 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ void	init_map(t_map *map)
 	map->map = malloc(sizeof(char *) * 101);
 	if (!map->map)
 		return ;
+	map->width = 0;
+	map->height = 0;
 	map->textures.no.img = NULL;
 	map->textures.so.img = NULL;
 	map->textures.we.img = NULL;
@@ -37,4 +39,18 @@ void	init_map(t_map *map)
 		i = 0;
 		j++;
 	}
+}
+
+void	init_player(t_player *player)
+{
+	player->x = 0;
+	player->xP = 0;
+	player->y = 0;
+	player->yP = 0;
+}
+
+void	init(t_data *data)
+{
+	init_map(&data->map);
+	init_player(&data->player);
 }
