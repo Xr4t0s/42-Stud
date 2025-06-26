@@ -6,7 +6,7 @@
 /*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 08:04:33 by nitadros          #+#    #+#             */
-/*   Updated: 2025/06/26 00:33:11 by nitadros         ###   ########.fr       */
+/*   Updated: 2025/06/26 02:51:08 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,9 @@ void	normalize_map(t_data *d)
 			if (d->map.map[i][j] == 'S' || d->map.map[i][j] == 'N' || d->map.map[i][j] == 'E' || d->map.map[i][j] == 'W')
 			{
 				d->player.x = j;
+				d->player.xP = d->player.x * 10 + 4;
 				d->player.y = i;
+				d->player.yP = d->player.y * 10 + 4;
 			}
 			j++;
 		}

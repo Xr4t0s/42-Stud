@@ -6,7 +6,7 @@
 /*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 00:15:14 by nitadros          #+#    #+#             */
-/*   Updated: 2025/06/25 07:38:50 by nitadros         ###   ########.fr       */
+/*   Updated: 2025/06/26 02:59:29 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,20 @@ void	init_player(t_player *player)
 	player->yP = 0;
 }
 
+int	init_txt(t_data *data)
+{
+	int	h;
+	int	w;
+	
+	data->minimap.player = mlx_xpm_file_to_image(data->mlx.mlx, "src/render/minimap/textures/player.xpm", &w, &h);
+	data->minimap.bg = mlx_xpm_file_to_image(data->mlx.mlx, "src/render/minimap/textures/white.xpm", &w, &h);
+	data->minimap.wall = mlx_xpm_file_to_image(data->mlx.mlx, "src/render/minimap/textures/blue.xpm", &w, &h);
+	data->minimap.bg4 = mlx_xpm_file_to_image(data->mlx.mlx, "src/render/minimap/textures/bg4.xpm", &w, &h);
+	return (1);
+}
 void	init(t_data *data)
 {
 	init_map(&data->map);
 	init_player(&data->player);
+	init_txt(data);
 }

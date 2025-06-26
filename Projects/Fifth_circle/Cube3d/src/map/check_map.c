@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_map.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: engiacom <engiacom@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 06:54:02 by nitadros          #+#    #+#             */
-/*   Updated: 2025/06/26 00:29:15 by nitadros         ###   ########.fr       */
+/*   Updated: 2025/06/26 02:23:15 by engiacom         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

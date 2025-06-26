@@ -6,7 +6,7 @@
 /*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 02:16:22 by nitadros          #+#    #+#             */
-/*   Updated: 2025/06/26 01:01:20 by nitadros         ###   ########.fr       */
+/*   Updated: 2025/06/26 15:48:34 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include "map.h"
 # include "player.h"
 # include "free.h"
+# include "raycast.h"
 
 typedef struct s_mlx
 {
@@ -33,6 +34,8 @@ typedef struct s_data
 	t_map		map;
 	t_mlx		mlx;
 	t_player	player;
+	t_minimap	minimap;
+	t_raycast	raycast;
 }	t_data;
 
 #endif
