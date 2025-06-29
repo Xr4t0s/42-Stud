@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mlx_hotkey.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 23:17:57 by engiacom          #+#    #+#             */
-/*   Updated: 2025/06/26 15:28:31 by nitadros         ###   ########.fr       */
+/*   Updated: 2025/06/29 18:16:28 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ int	handle_keypress(int keycode, t_data *data)
 	else if (keycode == 2 || keycode == 65363 || keycode == 100)
 		go_right(data);
 	else if (keycode == 65307)
-		free_all(data), exit(0);
+		free_all(data, 1), exit(0);
 	return (1);
 }
 

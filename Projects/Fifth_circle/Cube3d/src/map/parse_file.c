@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_file.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 02:09:52 by nitadros          #+#    #+#             */
-/*   Updated: 2025/06/26 00:53:46 by nitadros         ###   ########.fr       */
+/*   Updated: 2025/06/26 18:51:11 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,7 @@ int	parse_file(t_data *d, char *filename)
 	while (line && ft_strncmp(line, "\n", 1))
 		line = parse_map(d, line, &i);
 	d->map.map[i] = NULL;
-	normalize_map(d);
+	if (!normalize_map(d))
+		return (0);
 	return (free(line), 1);
 }

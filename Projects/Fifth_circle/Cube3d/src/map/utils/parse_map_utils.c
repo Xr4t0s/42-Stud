@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_map_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 08:04:33 by nitadros          #+#    #+#             */
-/*   Updated: 2025/06/26 02:51:08 by nitadros         ###   ########.fr       */
+/*   Updated: 2025/06/29 18:17:00 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,16 +55,18 @@ static void	establish_map_size(t_data *d)
 	d->map.width = max_width;	
 }
 
-void	normalize_map(t_data *d)
+int	normalize_map(t_data *d)
 {
 	int		i;
 	int		j;
 	char	**copy;
+	int		count;
 
 	establish_map_size(d);
+	count = 0;
 	copy = malloc(sizeof(char *) * (d->map.height + 1));
 	if (!copy)
-		return ;	
+		return (0);	
 	i = 0;
 	while (d->map.map[i])
 	{
@@ -73,7 +75,7 @@ void	normalize_map(t_data *d)
 		if (!copy[i])
 		{
 			ft_free_split(copy);
-			return ;
+			return (0);
 		}
 		while (d->map.map[i][j])
 		{
@@ -83,6 +85,9 @@ void	normalize_map(t_data *d)
 				copy[i][j] = d->map.map[i][j];
 			if (d->map.map[i][j] == 'S' || d->map.map[i][j] == 'N' || d->map.map[i][j] == 'E' || d->map.map[i][j] == 'W')
 			{
+				count++;
+				if (count > 1)
+					return (0);
 				d->player.x = j;
 				d->player.xP = d->player.x * 10 + 4;
 				d->player.y = i;
@@ -98,6 +103,7 @@ void	normalize_map(t_data *d)
 	copy[i] = NULL;
 	ft_free_split(d->map.map);
 	d->map.map = copy;
+	return (1);
 }
 
 void	handle_no_so(t_data *d, char *trimed, int target)

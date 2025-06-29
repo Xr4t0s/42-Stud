@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 00:52:03 by nitadros          #+#    #+#             */
-/*   Updated: 2025/06/26 01:00:51 by nitadros         ###   ########.fr       */
+/*   Updated: 2025/06/29 18:14:48 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,6 @@
 # define FREE_H
 # include "cube3d.h"
 
-void	free_all(t_data *d);
+void	free_all(t_data *d, int x);
 
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 00:52:48 by nitadros          #+#    #+#             */
-/*   Updated: 2025/06/26 15:54:33 by nitadros         ###   ########.fr       */
+/*   Updated: 2025/06/29 18:15:27 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,14 +36,21 @@ static void	free_directions(t_data *d)
 		mlx_destroy_image((*d).mlx.mlx, (*d).map.textures.ea.img);
 }
 
-void	free_all(t_data *d)
+void	free_all(t_data *d, int x)
 {
 	if (d->map.map)
 		ft_free_split(d->map.map);
 	free_directions(d);
 	free_textures(d);
-	mlx_loop_end(d->mlx.mlx);
-	mlx_destroy_window(d->mlx.mlx, d->mlx.win);
-	mlx_destroy_display(d->mlx.mlx);
-	free(d->mlx.mlx);
+	if (x == 1)
+	{
+		if (d->mlx.mlx)
+			mlx_loop_end(d->mlx.mlx);
+		if (!d->mlx.win)
+			mlx_destroy_window(d->mlx.mlx, d->mlx.win);
+		if (!d->mlx.mlx)
+			mlx_destroy_display(d->mlx.mlx);
+		if (!d->mlx.mlx)
+			free(d->mlx.mlx);
+	}
 }

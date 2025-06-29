@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 02:10:57 by nitadros          #+#    #+#             */
-/*   Updated: 2025/06/26 00:20:42 by nitadros         ###   ########.fr       */
+/*   Updated: 2025/06/26 18:50:38 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ typedef struct s_map
 // PARSING
 int		parse_file(t_data *d, char *filename);
 char	*remove_spaces(char *line);
-void	normalize_map(t_data *d);
+int	normalize_map(t_data *d);
 void	handle_no_so(t_data *d, char *trimed, int target);
 void	handle_we_ea(t_data *d, char *trimed, int target);
 
