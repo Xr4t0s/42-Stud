@@ -6,7 +6,7 @@
 /*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 00:17:11 by engiacom          #+#    #+#             */
-/*   Updated: 2025/09/18 03:06:48 by nitadros         ###   ########.fr       */
+/*   Updated: 2025/09/18 04:01:19 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "raycast.h"
 #include <math.h>
 
-#define MAX_DIST 5.0
+#define MAX_DIST 15.0
 
 void	draw_line(char *addr, int x0, int y0, int x1, int y1, int color, int bpp, int line_len)
 {
@@ -51,7 +51,7 @@ int	render(void *param)
 		img = mlx_new_image(data->mlx.mlx, 1080, 720);
 		addr = mlx_get_data_addr(img, &bpp, &line_len, &endian);
 	}
-	minimap(data->map.map, data, addr, bpp, line_len);
+	
 
 	int x = 0;
 	while (x < 1080)
@@ -126,6 +126,37 @@ int	render(void *param)
 		else
 			finalDist = MAX_DIST;
 
+		// double dist = hit ? raycast.perpWallDist : 1e9;   // sécurité si pas de hit
+
+		// int lineHeight = (dist > 0.0) ? (int)(720 / dist) : 720;
+		// int drawStart  = (720 - lineHeight) / 2;
+		// int drawEnd    = drawStart + lineHeight - 1;
+		// if (drawStart < 0)      drawStart = 0;
+		// if (drawEnd   >= 720) drawEnd   = 720 - 1;
+
+		// // optionnel: couleurs plafond/sol
+		// unsigned int ceil_col = 0x00303030;
+		// unsigned int floor_col= 0x00605030;
+
+		// // remplir plafond
+		// for (int y = 0; y < drawStart; ++y) {
+		// 	char *p = addr + (y * line_len + x * (bpp / 8));
+		// 	*(unsigned int *)p = ceil_col;
+		// }
+
+		// // mur (ombrage léger selon le côté touché)
+		// unsigned int wall_col = (raycast.side == 1) ? 0x00777777 : 0x00AAAAAA;
+		// for (int y = drawStart; y <= drawEnd; ++y) {
+		// 	char *p = addr + (y * line_len + x * (bpp / 8));
+		// 	*(unsigned int *)p = wall_col;
+		// }
+
+		// // remplir sol
+		// for (int y = drawEnd + 1; y < 720; ++y) {
+		// 	char *p = addr + (y * line_len + x * (bpp / 8));
+		// 	*(unsigned int *)p = floor_col;
+		// }
+		
 		hitX = raycast.posX + raycast.rayDirX * finalDist;
 		hitY = raycast.posY + raycast.rayDirY * finalDist;
 
@@ -137,7 +168,7 @@ int	render(void *param)
 
 		x++;
 	}
-
+	minimap(data->map.map, data, addr, bpp, line_len);
 	mlx_put_image_to_window(data->mlx.mlx, data->mlx.win, img, 0, 0);
 	return (0);
 }
