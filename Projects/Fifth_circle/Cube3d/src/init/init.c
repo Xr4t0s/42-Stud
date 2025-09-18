@@ -6,7 +6,7 @@
 /*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 00:15:14 by nitadros          #+#    #+#             */
-/*   Updated: 2025/06/26 02:59:29 by nitadros         ###   ########.fr       */
+/*   Updated: 2025/09/18 00:39:37 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,10 @@ void	init_player(t_player *player)
 	player->xP = 0;
 	player->y = 0;
 	player->yP = 0;
+	player->angle = 2.355;
+	player->fov = 1.1519;
+	player->rot = 0.05;
+	player->move_speed = 1;
 }
 
 int	init_txt(t_data *data)

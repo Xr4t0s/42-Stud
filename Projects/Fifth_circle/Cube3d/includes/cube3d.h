@@ -6,7 +6,7 @@
 /*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 02:16:22 by nitadros          #+#    #+#             */
-/*   Updated: 2025/06/26 15:48:34 by nitadros         ###   ########.fr       */
+/*   Updated: 2025/09/17 23:00:51 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # include "player.h"
 # include "free.h"
 # include "raycast.h"
+# include "math.h"
 
 typedef struct s_mlx
 {

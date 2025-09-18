@@ -4,6 +4,7 @@
 		"get_next_line.h": "c",
 		"map.h": "c",
 		"init.h": "c",
-		"player.h": "c"
+		"player.h": "c",
+		"raycast.h": "c"
 	}
 }

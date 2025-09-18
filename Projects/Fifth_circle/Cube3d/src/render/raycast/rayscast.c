@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rayscast.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 00:17:11 by engiacom          #+#    #+#             */
-/*   Updated: 2025/06/29 18:20:05 by marvin           ###   ########.fr       */
+/*   Updated: 2025/09/18 03:06:48 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,6 @@ int	render(void *param)
 		img = mlx_new_image(data->mlx.mlx, 1080, 720);
 		addr = mlx_get_data_addr(img, &bpp, &line_len, &endian);
 	}
-
 	minimap(data->map.map, data, addr, bpp, line_len);
 
 	int x = 0;
@@ -62,14 +61,14 @@ int	render(void *param)
 		raycast.posX = data->player.xP / 10.0;
 		raycast.posY = data->player.yP / 10.0;
 
-		raycast.dirX = 0;// X = 0 Y = -1 == NORTH
-		raycast.dirY = -1;
+		raycast.dirX = cos(data->player.angle);// X = 0 Y = -1 == NORTH
+		raycast.dirY = sin(data->player.angle);
 		
-		raycast.planeX = 0.66;// same here
-		raycast.planeY = 0;
+		raycast.planeX = -raycast.dirY * tan(data->player.fov/2); // same here
+		raycast.planeY = raycast.dirX * tan(data->player.fov/2);
 
 		raycast.cameraX = 2 * x / (float)1080 - 1;
-		
+		 
 		raycast.rayDirX = raycast.dirX + raycast.planeX * raycast.cameraX;
 		raycast.rayDirY = raycast.dirY + raycast.planeY * raycast.cameraX;
 

@@ -6,7 +6,7 @@
 /*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 06:38:38 by nitadros          #+#    #+#             */
-/*   Updated: 2025/06/25 06:56:17 by nitadros         ###   ########.fr       */
+/*   Updated: 2025/09/17 23:13:59 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,12 @@ typedef struct s_player
  int x;
  int y;
 
- int xP;
- int yP;
+ double xP;
+ double yP;
+ double angle;
+ double fov;
+ double	rot;
+ double move_speed;
 } t_player;
 
 // typedef struct s_minimap
