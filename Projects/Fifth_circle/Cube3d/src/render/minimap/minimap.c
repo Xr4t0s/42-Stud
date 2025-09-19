@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minimap.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 22:46:34 by engiacom          #+#    #+#             */
-/*   Updated: 2025/06/29 18:25:37 by marvin           ###   ########.fr       */
+/*   Updated: 2025/09/19 01:41:51 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,8 @@ void	minimap_draw_pixel(char *addr, int x, int y, int color, int bpp, int line_l
 	if (x >= 0 && x < 1080 && y >= 0 && y < 720)
 	{
 		char *dst = addr + (y * line_len + x * (bpp / 8));
-		*(unsigned int *)dst = color;
+		if (*(unsigned int *)dst != 0x00FFFF00)
+			*(unsigned int *)dst = color;
 	}
 }
 

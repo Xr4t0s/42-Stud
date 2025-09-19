@@ -6,7 +6,7 @@
 /*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 23:17:57 by engiacom          #+#    #+#             */
-/*   Updated: 2025/09/18 00:44:33 by nitadros         ###   ########.fr       */
+/*   Updated: 2025/09/19 02:24:49 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,33 @@ int	go_up(t_data *data)
 		return (0);
 	// printf("%c\n", data->map.map[yP1 / 10][xP1 / 10]);
 	if (data->map.map[yP1 / 10][xP1 / 10] == '1')
+	{
+		if (data->player.angle >= 3.14 && data->player.angle <= 4.71)
+		{
+			data->player.yP += sin(data->player.angle) * 1;
+			data->player.y = data->player.yP / 10;
+			return (1);
+		}
+		else if (data->player.angle >= 4.71 && data->player.angle <= 6.28)
+		{
+			data->player.xP -= sin(data->player.angle) * 1;
+			data->player.x = data->player.yP / 10;
+			return (1);
+		}
+		else if (data->player.angle >= 0 && data->player.angle <= 1.57)
+		{
+			data->player.xP += cos(data->player.angle) * 1;
+			data->player.x = data->player.yP / 10;
+			return (1);
+		}
+		else
+		{
+			data->player.xP -= cos(data->player.angle) * 1;
+			data->player.x = data->player.yP / 10;
+			return (1);
+		}
 		return (0);
+	}
 	// if (data->map.map[yP1 / 10][(data->player.xP + 3) / 10] == '1')
 	// 	return (0);
 	data->player.yP += sin(data->player.angle) * 1;
@@ -68,11 +94,19 @@ int	go_down(t_data *data)
 	int yP1 = data->player.yP - ny;
 	double nx = cos(data->player.angle) * 1;
 	int xP1 = data->player.xP - nx;
-	if (!check_angle(data))
-		return (0);
-	// printf("%c\n", data->map.map[yP1 / 10][xP1 / 10]);
 	if (data->map.map[yP1 / 10][xP1 / 10] == '1')
 		return (0);
+	if (!check_angle(data))
+	{
+		if (data->player.angle >= 3.14 && data->player.angle <= 4.71)
+		{
+			data->player.yP -= sin(data->player.angle) * 1;
+			data->player.y = data->player.yP / 10;
+			return (1);
+		}
+	}
+	// printf("%c\n", data->map.map[yP1 / 10][xP1 / 10]);
+	
 	// if (data->map.map[yP1 / 10][(data->player.xP + 3) / 10] == '1')
 	// 	return (0);
 	data->player.yP -= sin(data->player.angle) * 1;
@@ -85,12 +119,16 @@ int	go_down(t_data *data)
 int	go_left(t_data *data)
 {
 	data->player.angle -= data->player.rot;
+	if (data->player.angle < 0)
+		data->player.angle = 6.28;
 	return (1);
 }
 
 int	go_right(t_data *data)
 {
 	data->player.angle += data->player.rot;
+	if (data->player.angle > 6.28)
+		data->player.angle = 0;
 	return (1);
 }
 

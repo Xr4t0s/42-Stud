@@ -6,7 +6,7 @@
 /*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 00:17:11 by engiacom          #+#    #+#             */
-/*   Updated: 2025/09/18 04:01:19 by nitadros         ###   ########.fr       */
+/*   Updated: 2025/09/19 01:41:25 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,10 +105,20 @@ int	render(void *param)
 				distance_travelled = raycast.sideDistY;
 				raycast.sideDistY += raycast.deltaDistY;
 				raycast.mapY += raycast.stepY;
-				raycast.side = 1;
+				raycast.side = 2;
 			}
 			if (data->map.map[raycast.mapY][raycast.mapX] == '1')
 				hit = 1;
+			if (raycast.side == 2)
+			{
+				if (raycast.posY > raycast.mapY)
+					raycast.side = 3;
+			}
+			else
+			{
+				if (raycast.posX > raycast.mapX)
+					raycast.side = 1;
+			}
 		}
 
 		
@@ -116,7 +126,7 @@ int	render(void *param)
 		float finalDist;
 		if (hit)
 		{
-			if (raycast.side == 0)
+			if (raycast.side <= 1)
 				raycast.perpWallDist = (raycast.mapX - raycast.posX + (1 - raycast.stepX) / 2) / raycast.rayDirX;
 			else
 				raycast.perpWallDist = (raycast.mapY - raycast.posY + (1 - raycast.stepY) / 2) / raycast.rayDirY;
@@ -126,36 +136,36 @@ int	render(void *param)
 		else
 			finalDist = MAX_DIST;
 
-		// double dist = hit ? raycast.perpWallDist : 1e9;   // sécurité si pas de hit
+		double dist = hit ? raycast.perpWallDist : 1e9;   // sécurité si pas de hit
 
-		// int lineHeight = (dist > 0.0) ? (int)(720 / dist) : 720;
-		// int drawStart  = (720 - lineHeight) / 2;
-		// int drawEnd    = drawStart + lineHeight - 1;
-		// if (drawStart < 0)      drawStart = 0;
-		// if (drawEnd   >= 720) drawEnd   = 720 - 1;
+		int lineHeight = (dist > 0.0) ? (int)(720 / dist) : 720;
+		int drawStart  = (720 - lineHeight) / 2;
+		int drawEnd    = drawStart + lineHeight - 1;
+		if (drawStart < 0)      drawStart = 0;
+		if (drawEnd   >= 720) drawEnd   = 720 - 1;
 
-		// // optionnel: couleurs plafond/sol
-		// unsigned int ceil_col = 0x00303030;
-		// unsigned int floor_col= 0x00605030;
+		// optionnel: couleurs plafond/sol
+		unsigned int ceil_col = 0x00303030;
+		unsigned int floor_col= 0x00605030;
 
-		// // remplir plafond
-		// for (int y = 0; y < drawStart; ++y) {
-		// 	char *p = addr + (y * line_len + x * (bpp / 8));
-		// 	*(unsigned int *)p = ceil_col;
-		// }
+		// remplir plafond
+		for (int y = 0; y < drawStart; ++y) {
+			char *p = addr + (y * line_len + x * (bpp / 8));
+			*(unsigned int *)p = ceil_col;
+		}
 
-		// // mur (ombrage léger selon le côté touché)
-		// unsigned int wall_col = (raycast.side == 1) ? 0x00777777 : 0x00AAAAAA;
-		// for (int y = drawStart; y <= drawEnd; ++y) {
-		// 	char *p = addr + (y * line_len + x * (bpp / 8));
-		// 	*(unsigned int *)p = wall_col;
-		// }
+		// mur (ombrage léger selon le côté touché)
+		unsigned int wall_col = (raycast.side == 1) ? 0x0457568 : (raycast.side == 2) ? 0x0000FF00 : (raycast.side == 3) ? 0x0000FFFF : 0x00AAAAAA;
+		for (int y = drawStart; y <= drawEnd; ++y) {
+			char *p = addr + (y * line_len + x * (bpp / 8));
+			*(unsigned int *)p = wall_col;
+		}
 
-		// // remplir sol
-		// for (int y = drawEnd + 1; y < 720; ++y) {
-		// 	char *p = addr + (y * line_len + x * (bpp / 8));
-		// 	*(unsigned int *)p = floor_col;
-		// }
+		// remplir sol
+		for (int y = drawEnd + 1; y < 720; ++y) {
+			char *p = addr + (y * line_len + x * (bpp / 8));
+			*(unsigned int *)p = floor_col;
+		}
 		
 		hitX = raycast.posX + raycast.rayDirX * finalDist;
 		hitY = raycast.posY + raycast.rayDirY * finalDist;
