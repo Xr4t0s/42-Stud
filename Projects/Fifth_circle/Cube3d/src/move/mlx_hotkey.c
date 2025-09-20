@@ -6,7 +6,7 @@
 /*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 23:17:57 by engiacom          #+#    #+#             */
-/*   Updated: 2025/09/19 02:24:49 by nitadros         ###   ########.fr       */
+/*   Updated: 2025/09/20 01:20:32 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,75 +44,43 @@ int check_angle(t_data *data)
 
 int	go_up(t_data *data)
 {
-	double ny = sin(data->player.angle) * 1;
+	double ny = sin(data->player.angle) * 3;
 	int yP1 = data->player.yP + ny;
-	double nx = cos(data->player.angle) * 1;
+	double nx = cos(data->player.angle) * 3;
 	int xP1 = data->player.xP + nx;
 	if (!check_angle(data))
 		return (0);
-	// printf("%c\n", data->map.map[yP1 / 10][xP1 / 10]);
-	if (data->map.map[yP1 / 10][xP1 / 10] == '1')
+	if (data->map.map[yP1 / 10][(int)data->player.xP / 10] != '1' && data->map.map[yP1 / 10][(int)data->player.xP / 10] != 'D')
 	{
-		if (data->player.angle >= 3.14 && data->player.angle <= 4.71)
-		{
-			data->player.yP += sin(data->player.angle) * 1;
-			data->player.y = data->player.yP / 10;
-			return (1);
-		}
-		else if (data->player.angle >= 4.71 && data->player.angle <= 6.28)
-		{
-			data->player.xP -= sin(data->player.angle) * 1;
-			data->player.x = data->player.yP / 10;
-			return (1);
-		}
-		else if (data->player.angle >= 0 && data->player.angle <= 1.57)
-		{
-			data->player.xP += cos(data->player.angle) * 1;
-			data->player.x = data->player.yP / 10;
-			return (1);
-		}
-		else
-		{
-			data->player.xP -= cos(data->player.angle) * 1;
-			data->player.x = data->player.yP / 10;
-			return (1);
-		}
-		return (0);
+		data->player.yP += sin(data->player.angle) * 1.5;
+		data->player.y = data->player.yP / 10;
 	}
-	// if (data->map.map[yP1 / 10][(data->player.xP + 3) / 10] == '1')
-	// 	return (0);
-	data->player.yP += sin(data->player.angle) * 1;
-	data->player.xP += cos(data->player.angle) * 1;
-	data->player.y = data->player.yP / 10;
-	data->player.x = data->player.xP / 10;
+	if (data->map.map[(int)data->player.yP / 10][xP1 / 10] != '1' && data->map.map[(int)data->player.yP / 10][xP1 /10] != 'D')
+	{
+		data->player.xP += cos(data->player.angle) * 1.5;
+		data->player.x = data->player.xP / 10;
+	}
 	return (1);
 }
 
 int	go_down(t_data *data)
 {
-	double ny = sin(data->player.angle) * 1;
+	double ny = sin(data->player.angle) * 3;
 	int yP1 = data->player.yP - ny;
-	double nx = cos(data->player.angle) * 1;
+	double nx = cos(data->player.angle) * 3;
 	int xP1 = data->player.xP - nx;
-	if (data->map.map[yP1 / 10][xP1 / 10] == '1')
-		return (0);
 	if (!check_angle(data))
+		return (0);
+	if (data->map.map[yP1 / 10][(int)data->player.xP / 10] != '1' && data->map.map[yP1 / 10][(int)data->player.xP / 10] != 'D')
 	{
-		if (data->player.angle >= 3.14 && data->player.angle <= 4.71)
-		{
-			data->player.yP -= sin(data->player.angle) * 1;
-			data->player.y = data->player.yP / 10;
-			return (1);
-		}
+		data->player.yP -= sin(data->player.angle) * 1.5;
+		data->player.y = data->player.yP / 10;
 	}
-	// printf("%c\n", data->map.map[yP1 / 10][xP1 / 10]);
-	
-	// if (data->map.map[yP1 / 10][(data->player.xP + 3) / 10] == '1')
-	// 	return (0);
-	data->player.yP -= sin(data->player.angle) * 1;
-	data->player.xP -= cos(data->player.angle) * 1;
-	data->player.y = data->player.yP / 10;
-	data->player.x = data->player.xP / 10;
+	if (data->map.map[(int)data->player.yP / 10][xP1 /10] != '1' && data->map.map[(int)data->player.yP / 10][xP1 /10] != 'D')
+	{
+		data->player.xP -= cos(data->player.angle) * 1.5;
+		data->player.x = data->player.xP / 10;
+	}
 	return (1);
 }	
 
@@ -158,7 +126,7 @@ int	go_right(t_data *data)
 
 int	handle_keypress(int keycode, t_data *data)
 {
-	printf("%d\n", keycode);
+	// printf("%d\n", keycode);
 	if (keycode == 13 || keycode == 65362 || keycode == 119)
 		go_up(data);
 	else if (keycode == 1 || keycode == 65364 || keycode == 115)
@@ -167,6 +135,8 @@ int	handle_keypress(int keycode, t_data *data)
 		go_left(data);
 	else if (keycode == 2 || keycode == 65363 || keycode == 100)
 		go_right(data);
+	else if (keycode == 101)
+		data->raycast.door *= -1;
 	else if (keycode == 65307)
 		free_all(data, 1), exit(0);
 	return (1);

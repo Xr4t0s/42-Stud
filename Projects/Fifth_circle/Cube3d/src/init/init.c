@@ -6,7 +6,7 @@
 /*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 00:15:14 by nitadros          #+#    #+#             */
-/*   Updated: 2025/09/19 01:40:27 by nitadros         ###   ########.fr       */
+/*   Updated: 2025/09/20 02:06:36 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	init_player(t_player *player)
 	player->angle = 2.355;
 	player->fov = 1.1519;
 	player->rot = 0.05;
-	player->move_speed = 1;
+	player->move_speed = 1.5;
 }
 
 int	init_txt(t_data *data)
@@ -69,4 +69,5 @@ void	init(t_data *data)
 	init_map(&data->map);
 	init_player(&data->player);
 	init_txt(data);
+	data->raycast.door = -1;
 }

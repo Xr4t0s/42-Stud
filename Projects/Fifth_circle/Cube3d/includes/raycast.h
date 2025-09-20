@@ -6,7 +6,7 @@
 /*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 23:56:10 by engiacom          #+#    #+#             */
-/*   Updated: 2025/06/26 15:36:08 by nitadros         ###   ########.fr       */
+/*   Updated: 2025/09/19 22:38:05 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ typedef struct s_raycast
 	// Début et fin de la ligne à afficher (pixels à l’écran)
 	int		drawStart;
 	int		drawEnd;
-
+	int		door;
 }	t_raycast;
 
 typedef	struct s_minimap
