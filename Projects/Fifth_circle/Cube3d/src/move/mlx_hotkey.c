@@ -6,7 +6,7 @@
 /*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 23:17:57 by engiacom          #+#    #+#             */
-/*   Updated: 2025/09/20 01:20:32 by nitadros         ###   ########.fr       */
+/*   Updated: 2025/09/20 19:52:24 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,13 +86,69 @@ int	go_down(t_data *data)
 
 int	go_left(t_data *data)
 {
+	double a = data->player.angle;
+	/* vecteur strafe gauche = (sin(a), -cos(a)) */
+	double ny = -cos(a) * 3.0;              // look-ahead 3 px
+	int    yP1 = data->player.yP + ny;
+	double nx =  sin(a) * 3.0;
+	int    xP1 = data->player.xP + nx;
+
+	if (!check_angle(data))
+		return (0);
+
+	/* slide sur Y puis sur X, comme go_up */
+	if (data->map.map[yP1 / 10][(int)data->player.xP / 10] != '1'
+	 && data->map.map[yP1 / 10][(int)data->player.xP / 10] != 'D')
+	{
+		data->player.yP += -cos(a) * 1.5;
+		data->player.y = data->player.yP / 10;
+	}
+	if (data->map.map[(int)data->player.yP / 10][xP1 / 10] != '1'
+	 && data->map.map[(int)data->player.yP / 10][xP1 / 10] != 'D')
+	{
+		data->player.xP += sin(a) * 1.5;
+		data->player.x = data->player.xP / 10;
+	}
+	return (1);
+}
+
+int	go_right(t_data *data)
+{
+	double a = data->player.angle;
+	/* vecteur strafe gauche = (sin(a), -cos(a)) */
+	double ny = cos(a) * 3.0;              // look-ahead 3 px
+	int    yP1 = data->player.yP + ny;
+	double nx =  -sin(a) * 3.0;
+	int    xP1 = data->player.xP + nx;
+
+	if (!check_angle(data))
+		return (0);
+
+	/* slide sur Y puis sur X, comme go_up */
+	if (data->map.map[yP1 / 10][(int)data->player.xP / 10] != '1'
+	 && data->map.map[yP1 / 10][(int)data->player.xP / 10] != 'D')
+	{
+		data->player.yP += cos(a) * 1.5;
+		data->player.y = data->player.yP / 10;
+	}
+	if (data->map.map[(int)data->player.yP / 10][xP1 / 10] != '1'
+	 && data->map.map[(int)data->player.yP / 10][xP1 / 10] != 'D')
+	{
+		data->player.xP += -sin(a) * 1.5;
+		data->player.x = data->player.xP / 10;
+	}
+	return (1);
+}
+
+int	view_left(t_data *data)
+{
 	data->player.angle -= data->player.rot;
 	if (data->player.angle < 0)
 		data->player.angle = 6.28;
 	return (1);
 }
 
-int	go_right(t_data *data)
+int	view_right(t_data *data)
 {
 	data->player.angle += data->player.rot;
 	if (data->player.angle > 6.28)
@@ -100,43 +156,27 @@ int	go_right(t_data *data)
 	return (1);
 }
 
-/* int	go_left(t_data *data)
-{
-	if (data->map.map[data->player.y][(data->player.xP - 1) / 10] == '1')
-		return (0);
-	if (data->map.map[(data->player.yP + 3) / 10][(data->player.xP - 1) / 10] == '1')
-		return (0);
-	data->player.xP -= 1;
-	data->player.x = data->player.xP / 10;
-	return (1);
-}
-
-int	go_right(t_data *data)
-{
-	int x_check = (data->player.xP + 4) / 10;
-	int y1 = data->player.yP / 10;
-	int y2 = (data->player.yP + 3) / 10;
-
-	if (data->map.map[y1][x_check] == '1' || data->map.map[y2][x_check] == '1')
-		return (0);
-	data->player.xP += 1;
-	data->player.x = data->player.xP / 10;
-	return (0);
-} */
-
 int	handle_keypress(int keycode, t_data *data)
 {
-	// printf("%d\n", keycode);
+	printf("%d\n", keycode);
 	if (keycode == 13 || keycode == 65362 || keycode == 119)
 		go_up(data);
 	else if (keycode == 1 || keycode == 65364 || keycode == 115)
 		go_down(data);
-	else if (keycode == 0 || keycode == 65361 || keycode == 97)
+	else if (keycode == 0 || keycode == 97)
 		go_left(data);
-	else if (keycode == 2 || keycode == 65363 || keycode == 100)
+	else if (keycode == 2 || keycode == 100)
 		go_right(data);
+	else if (keycode == 65363)
+		view_right(data);
+	else if (keycode == 65361)
+		view_left(data);
 	else if (keycode == 101)
 		data->raycast.door *= -1;
+	else if (keycode == 65453 && data->player.fov >= 0.8)
+		{data->player.fov -= data->player.fov_rot; printf("%f\n", data->player.fov);}
+	else if (keycode == 65451 && data->player.fov <= 2)
+		{data->player.fov += data->player.fov_rot; printf("%f\n", data->player.fov);}
 	else if (keycode == 65307)
 		free_all(data, 1), exit(0);
 	return (1);

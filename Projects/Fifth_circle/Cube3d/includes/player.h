@@ -6,7 +6,7 @@
 /*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 06:38:38 by nitadros          #+#    #+#             */
-/*   Updated: 2025/09/17 23:13:59 by nitadros         ###   ########.fr       */
+/*   Updated: 2025/09/20 19:42:35 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ typedef struct s_player
  double yP;
  double angle;
  double fov;
+ double fov_rot;
  double	rot;
  double move_speed;
 } t_player;
