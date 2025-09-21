@@ -1,28 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free_split.c                                       :+:      :+:    :+:   */
+/*   movements.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/24 05:20:57 by nitadros          #+#    #+#             */
-/*   Updated: 2025/09/21 03:41:19 by nitadros         ###   ########.fr       */
+/*   Created: 2025/09/20 23:38:55 by engiacom          #+#    #+#             */
+/*   Updated: 2025/09/21 01:37:04 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
+#ifndef MOVEMENTS_H
+# define MOVEMENTS_H
 
-void	ft_free_split(char **split)
+typedef	struct s_move
 {
-	int	i;
+	int	w;
+	int	a;
+	int	s;
+	int	d;
+	int	l;
+	int	r;
+	int	m;
 
-	i = 0;
-	if (!split || !*split)
-		return ;
-	while (split && split[i])
-	{
-		free(split[i]);
-		i++;
-	}
-	free(split);
-}
+}	t_move;
+
+typedef struct s_mouse
+{
+	int prev_x;
+	int	warping;
+}	t_mouse;
+
+
+int	key_press(int key, t_data *data);
+int	key_release(int keycode, t_data *data);
+int	handle_keypress(int keycode, t_data *data);
+
+void screen(t_data *data);
+
+#endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: engiacom <engiacom@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 06:37:41 by nitadros          #+#    #+#             */
-/*   Updated: 2025/09/19 16:34:07 by engiacom         ###   ########.fr       */
+/*   Updated: 2025/09/21 02:12:25 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,9 @@ int	main(int ac, char **av)
 			printf("error"), 0);
 	// for (int i = 0; data.map.map[i]; i++)
 	// 	printf("%s\n", data.map.map[i]);
-	data.mlx.win = mlx_new_window(data.mlx.mlx, 1080, 720, "Hello");
+	data.mlx.win = mlx_new_window(data.mlx.mlx, data.mlx.width, data.mlx.height, "Hello");
 	movements(&data);
+	screen(&data);
 	mlx_loop_hook(data.mlx.mlx, render, &data);
 	mlx_loop(data.mlx.mlx);
 	free_all(&data, 1);

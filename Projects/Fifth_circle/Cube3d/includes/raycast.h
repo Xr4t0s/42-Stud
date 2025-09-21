@@ -6,7 +6,7 @@
 /*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 23:56:10 by engiacom          #+#    #+#             */
-/*   Updated: 2025/09/19 22:38:05 by nitadros         ###   ########.fr       */
+/*   Updated: 2025/09/21 03:41:00 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ typedef	struct s_minimap
 } t_minimap;
 
 int		movements(t_data *data);
-void	minimap(char **map, t_data *data, char *addr, int bpp, int line_len);
+void	minimap(char **map, t_data *data, char *addr, int bpp, int line_len	);
 int		render(void *param);
 
 #endif

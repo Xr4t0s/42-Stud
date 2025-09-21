@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 00:52:48 by nitadros          #+#    #+#             */
-/*   Updated: 2025/06/29 18:15:27 by marvin           ###   ########.fr       */
+/*   Updated: 2025/09/21 02:38:58 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,6 @@ void	free_all(t_data *d, int x)
 			mlx_destroy_window(d->mlx.mlx, d->mlx.win);
 		if (!d->mlx.mlx)
 			mlx_destroy_display(d->mlx.mlx);
-		if (!d->mlx.mlx)
-			free(d->mlx.mlx);
 	}
+	free(d->mlx.mlx);
 }

@@ -6,12 +6,13 @@
 /*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 23:17:57 by engiacom          #+#    #+#             */
-/*   Updated: 2025/09/20 19:52:24 by nitadros         ###   ########.fr       */
+/*   Updated: 2025/09/21 02:31:40 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cube3d.h"
 # include "raycast.h"
+
 
 int check_angle(t_data *data)
 {
@@ -52,12 +53,12 @@ int	go_up(t_data *data)
 		return (0);
 	if (data->map.map[yP1 / 10][(int)data->player.xP / 10] != '1' && data->map.map[yP1 / 10][(int)data->player.xP / 10] != 'D')
 	{
-		data->player.yP += sin(data->player.angle) * 1.5;
+		data->player.yP += sin(data->player.angle) * data->player.move_speed;
 		data->player.y = data->player.yP / 10;
 	}
 	if (data->map.map[(int)data->player.yP / 10][xP1 / 10] != '1' && data->map.map[(int)data->player.yP / 10][xP1 /10] != 'D')
 	{
-		data->player.xP += cos(data->player.angle) * 1.5;
+		data->player.xP += cos(data->player.angle) * data->player.move_speed;
 		data->player.x = data->player.xP / 10;
 	}
 	return (1);
@@ -73,12 +74,12 @@ int	go_down(t_data *data)
 		return (0);
 	if (data->map.map[yP1 / 10][(int)data->player.xP / 10] != '1' && data->map.map[yP1 / 10][(int)data->player.xP / 10] != 'D')
 	{
-		data->player.yP -= sin(data->player.angle) * 1.5;
+		data->player.yP -= sin(data->player.angle) * data->player.move_speed;
 		data->player.y = data->player.yP / 10;
 	}
 	if (data->map.map[(int)data->player.yP / 10][xP1 /10] != '1' && data->map.map[(int)data->player.yP / 10][xP1 /10] != 'D')
 	{
-		data->player.xP -= cos(data->player.angle) * 1.5;
+		data->player.xP -= cos(data->player.angle) * data->player.move_speed;
 		data->player.x = data->player.xP / 10;
 	}
 	return (1);
@@ -100,13 +101,13 @@ int	go_left(t_data *data)
 	if (data->map.map[yP1 / 10][(int)data->player.xP / 10] != '1'
 	 && data->map.map[yP1 / 10][(int)data->player.xP / 10] != 'D')
 	{
-		data->player.yP += -cos(a) * 1.5;
+		data->player.yP += -cos(a) * (data->player.move_speed / 1.5);
 		data->player.y = data->player.yP / 10;
 	}
 	if (data->map.map[(int)data->player.yP / 10][xP1 / 10] != '1'
 	 && data->map.map[(int)data->player.yP / 10][xP1 / 10] != 'D')
 	{
-		data->player.xP += sin(a) * 1.5;
+		data->player.xP += sin(a) * (data->player.move_speed / 1.5);
 		data->player.x = data->player.xP / 10;
 	}
 	return (1);
@@ -128,13 +129,13 @@ int	go_right(t_data *data)
 	if (data->map.map[yP1 / 10][(int)data->player.xP / 10] != '1'
 	 && data->map.map[yP1 / 10][(int)data->player.xP / 10] != 'D')
 	{
-		data->player.yP += cos(a) * 1.5;
+		data->player.yP += cos(a) * (data->player.move_speed / 1.5);
 		data->player.y = data->player.yP / 10;
 	}
 	if (data->map.map[(int)data->player.yP / 10][xP1 / 10] != '1'
-	 && data->map.map[(int)data->player.yP / 10][xP1 / 10] != 'D')
+		&& data->map.map[(int)data->player.yP / 10][xP1 / 10] != 'D')
 	{
-		data->player.xP += -sin(a) * 1.5;
+		data->player.xP += -sin(a) * (data->player.move_speed / 1.5);
 		data->player.x = data->player.xP / 10;
 	}
 	return (1);
@@ -158,32 +159,26 @@ int	view_right(t_data *data)
 
 int	handle_keypress(int keycode, t_data *data)
 {
-	printf("%d\n", keycode);
-	if (keycode == 13 || keycode == 65362 || keycode == 119)
+	// printf("%d\n", data->move.w);
+	if (data->move.w == 1)
 		go_up(data);
-	else if (keycode == 1 || keycode == 65364 || keycode == 115)
+	if (data->move.s == 1)
 		go_down(data);
-	else if (keycode == 0 || keycode == 97)
+	if (data->move.a == 1)
 		go_left(data);
-	else if (keycode == 2 || keycode == 100)
+	if (data->move.d == 1)
 		go_right(data);
-	else if (keycode == 65363)
+	if (data->move.r == 1)
 		view_right(data);
-	else if (keycode == 65361)
+	if (data->move.l == 1)
 		view_left(data);
-	else if (keycode == 101)
-		data->raycast.door *= -1;
-	else if (keycode == 65453 && data->player.fov >= 0.8)
-		{data->player.fov -= data->player.fov_rot; printf("%f\n", data->player.fov);}
-	else if (keycode == 65451 && data->player.fov <= 2)
-		{data->player.fov += data->player.fov_rot; printf("%f\n", data->player.fov);}
-	else if (keycode == 65307)
-		free_all(data, 1), exit(0);
+		
 	return (1);
 }
 
 int	movements(t_data *data)
 {
-	mlx_hook(data->mlx.win, 2, 1L << 0, handle_keypress, data);
+	mlx_hook(data->mlx.win, 2, 1L<<0, key_press, data);
+	mlx_hook(data->mlx.win, 3, 1L<<1, key_release, data);
 	return (1);
 }

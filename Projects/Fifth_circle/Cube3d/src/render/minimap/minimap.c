@@ -6,16 +6,16 @@
 /*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 22:46:34 by engiacom          #+#    #+#             */
-/*   Updated: 2025/09/19 01:41:51 by nitadros         ###   ########.fr       */
+/*   Updated: 2025/09/21 02:17:24 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cube3d.h"
 # include "raycast.h"
 
-void	minimap_draw_pixel(char *addr, int x, int y, int color, int bpp, int line_len)
+void	minimap_draw_pixel(char *addr, int x, int y, int color, int bpp, int line_len, t_data *data)
 {
-	if (x >= 0 && x < 1080 && y >= 0 && y < 720)
+	if (x >= 0 && x < data->mlx.width && y >= 0 && y < data->mlx.height)
 	{
 		char *dst = addr + (y * line_len + x * (bpp / 8));
 		if (*(unsigned int *)dst != 0x00FFFF00)
@@ -48,7 +48,7 @@ void	minimap(char **map, t_data *data, char *addr, int bpp, int line_len)
 			{
 				for (px = 0; px < size; px++)
 				{
-					minimap_draw_pixel(addr, x * size + px, y * size + py, color, bpp, line_len);
+					minimap_draw_pixel(addr, x * size + px, y * size + py, color, bpp, line_len, data);
 				}
 			}
 			x++;
@@ -59,7 +59,7 @@ void	minimap(char **map, t_data *data, char *addr, int bpp, int line_len)
 	// Dessine le joueur comme un carré rouge 4x4 centré
 	for (py = 0; py <= 3; py++)
 		for (px = 0; px <= 3; px++)
-			minimap_draw_pixel(addr, data->player.xP + px, data->player.yP + py, 0xFF0000, bpp, line_len);
+			minimap_draw_pixel(addr, data->player.xP + px, data->player.yP + py, 0xFF0000, bpp, line_len, data);
 }
 
 

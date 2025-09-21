@@ -6,7 +6,7 @@
 /*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 08:04:33 by nitadros          #+#    #+#             */
-/*   Updated: 2025/09/17 23:48:38 by nitadros         ###   ########.fr       */
+/*   Updated: 2025/09/21 04:30:19 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,11 +87,19 @@ int	normalize_map(t_data *d)
 			{
 				count++;
 				if (count > 1)
-					return (0);
+					return(copy[i + 1] = NULL, ft_free_split(copy),  0);
 				d->player.x = j;
 				d->player.xP = d->player.x * 10 + 4;
 				d->player.y = i;
 				d->player.yP = d->player.y * 10 + 4;
+				if (d->map.map[i][j] == 'S')
+					d->player.angle = 1.57;
+				if (d->map.map[i][j] == 'E')
+					d->player.angle = 0;
+				if (d->map.map[i][j] == 'N')
+					d->player.angle = 4.71;
+				if (d->map.map[i][j] == 'W')
+					d->player.angle = 3.14;
 			}
 			j++;
 		}
@@ -101,6 +109,8 @@ int	normalize_map(t_data *d)
 		i++;
 	}
 	copy[i] = NULL;
+	if (count == 0)
+		return (ft_free_split(copy), 0);
 	ft_free_split(d->map.map);
 	d->map.map = copy;
 	return (1);

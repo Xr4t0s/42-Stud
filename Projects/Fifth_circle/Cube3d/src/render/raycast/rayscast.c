@@ -6,7 +6,7 @@
 /*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 00:17:11 by engiacom          #+#    #+#             */
-/*   Updated: 2025/09/19 22:41:50 by nitadros         ###   ########.fr       */
+/*   Updated: 2025/09/21 04:34:18 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,22 +68,24 @@ int	render(void *param)
 {
 	// Rendu principal : raycasting colonne par colonne + minimap
 	t_data	*data = (t_data *)param;
-
+	
 	static void *img = NULL;
 	static char *addr;
 	static int bpp, line_len, endian;
 
+	handle_keypress(0, data);
+	
 	// Création du buffer image une seule fois
 	if (img == NULL)
 	{
-		img = mlx_new_image(data->mlx.mlx, 1080, 720);
+		img = mlx_new_image(data->mlx.mlx, data->mlx.width, data->mlx.height);
 		addr = mlx_get_data_addr(img, &bpp, &line_len, &endian);
 	}
 	struct timeval tv;
     gettimeofday(&tv, NULL);
 	long long start = (long long)tv.tv_sec * 1000 + tv.tv_usec / 1000;
 	int x = 0;
-	while (x < 1080)
+	while (x < data->mlx.width)
 	{
 		t_raycast raycast;
 
@@ -100,7 +102,7 @@ int	render(void *param)
 		raycast.planeY =  raycast.dirX * tan(data->player.fov / 2);
 
 		// Coordonnée caméra en X dans l’espace écran [-1, 1]
-		raycast.cameraX = 2.0f * (float)x / 1080.0f - 1.0f;
+		raycast.cameraX = 2.0f * (float)x / (float)data->mlx.width - 1.0f;
 
 		// Direction du rayon pour cette colonne écran
 		raycast.rayDirX = raycast.dirX + raycast.planeX * raycast.cameraX;
@@ -225,17 +227,17 @@ int	render(void *param)
 		// Calcul de la hauteur de la “slice” de mur pour cette colonne
 		int lineHeight;
 		if (dist > 0.0)
-			lineHeight = (int)(720.0 / dist);
+			lineHeight = (int)(data->mlx.height / dist);
 		else
-			lineHeight = 720;
+			lineHeight = data->mlx.height;
 
-		int drawStart  = (720 - lineHeight) / 2;
+		int drawStart  = (data->mlx.height - lineHeight) / 2;
 		int drawEnd    = drawStart + lineHeight - 1;
 
 		if (drawStart < 0)
 			drawStart = 0;
-		if (drawEnd >= 720)
-			drawEnd = 720 - 1;
+		if (drawEnd >= data->mlx.height)
+			drawEnd = data->mlx.height - 1;
 
 		// Couleurs (ARGB 0x00RRGGBB ici, selon ton mlx)
 		unsigned int ceil_col  = 0x00303030; // plafond
@@ -272,7 +274,7 @@ int	render(void *param)
 
 		// --- Remplissage sol (y : drawEnd+1 → 719)
 		y = drawEnd + 1;
-		while (y < 720)
+		while (y < data->mlx.height)
 		{
 			char *p = addr + (y * line_len + x * (bpp / 8));
 			*(unsigned int *)p = floor_col;

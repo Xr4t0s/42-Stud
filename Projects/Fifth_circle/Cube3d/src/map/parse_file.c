@@ -6,7 +6,7 @@
 /*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 02:09:52 by nitadros          #+#    #+#             */
-/*   Updated: 2025/09/20 01:54:40 by nitadros         ###   ########.fr       */
+/*   Updated: 2025/09/21 04:17:40 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,8 +68,10 @@ static char	*parse_map(t_data *d, char *line, int *i)
 	char	*trimed;
 
 	trimed = ft_strtrim(line, "\n");
-	d->map.map[(*i)++] = ft_strdup(trimed);
-	
+	if (trimed[0] != 0)
+	{
+		d->map.map[(*i)++] = ft_strdup(trimed);
+	}
 	free(trimed);
 	free(line);
 	line = get_next_line(d->map.fd_file);
@@ -103,6 +105,12 @@ int	parse_file(t_data *d, char *filename)
 	i = 0;
 	while (line && ft_strncmp(line, "\n", 1))
 		line = parse_map(d, line, &i);
+	while (line)
+	{
+		line = parse_map(d, line, &i);
+		if (line && ft_strncmp(line, "\n", 1))
+			return (d->map.map[i] = NULL, free(line), 0);
+	}
 	d->map.map[i] = NULL;
 	if (!normalize_map(d))
 		return (0);

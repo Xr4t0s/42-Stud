@@ -6,7 +6,7 @@
 /*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 00:15:14 by nitadros          #+#    #+#             */
-/*   Updated: 2025/09/20 19:52:31 by nitadros         ###   ########.fr       */
+/*   Updated: 2025/09/21 04:07:18 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	init_map(t_map *map)
 	i = 0;
 	j = 0;
 	map->fd_file = 0;
-	map->map = malloc(sizeof(char *) * 101);
+	map->map = malloc(sizeof(char *) * 1000);
 	if (!map->map)
 		return ;
 	map->width = 0;
@@ -65,10 +65,31 @@ int	init_txt(t_data *data)
 	data->minimap.bg4 = mlx_xpm_file_to_image(data->mlx.mlx, "src/render/minimap/textures/bg4.xpm", &w, &h);
 	return (1);
 }
+
+void	init_move(t_move *move)
+{
+	move->w = 0;
+	move->a = 0;
+	move->s = 0;
+	move->d = 0;
+	move->l = 0;
+	move->r = 0;
+	move->m = -1;
+}
+
+void	init_mouse(t_mouse *mouse)
+{
+	mouse->prev_x = 0;
+}
+
 void	init(t_data *data)
 {
+	data->mlx.width = 2160;
+	data->mlx.height = 1440;
 	init_map(&data->map);
 	init_player(&data->player);
 	init_txt(data);
+	init_move(&data->move);
+	init_mouse(&data->mouse);
 	data->raycast.door = -1;
 }
