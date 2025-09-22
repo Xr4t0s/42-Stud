@@ -6,7 +6,7 @@
 /*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 23:17:57 by engiacom          #+#    #+#             */
-/*   Updated: 2025/09/21 02:31:40 by nitadros         ###   ########.fr       */
+/*   Updated: 2025/09/22 15:24:55 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,6 +159,7 @@ int	view_right(t_data *data)
 
 int	handle_keypress(int keycode, t_data *data)
 {
+	(void)keycode;
 	// printf("%d\n", data->move.w);
 	if (data->move.w == 1)
 		go_up(data);

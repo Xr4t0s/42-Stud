@@ -6,7 +6,7 @@
 /*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/21 00:54:39 by nitadros          #+#    #+#             */
-/*   Updated: 2025/09/21 02:15:21 by nitadros         ###   ########.fr       */
+/*   Updated: 2025/09/22 15:25:28 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 int handle_mouse(int x, int y, t_data *data)
 {
 	int diff;
+	(void)y;
+	
 	if (data->move.m < 0)
 		mlx_mouse_hide(data->mlx.mlx, data->mlx.win);
 	else

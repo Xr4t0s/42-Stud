@@ -6,7 +6,7 @@
 /*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/20 23:38:55 by engiacom          #+#    #+#             */
-/*   Updated: 2025/09/21 01:37:04 by nitadros         ###   ########.fr       */
+/*   Updated: 2025/09/22 15:11:30 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ typedef struct s_mouse
 	int prev_x;
 	int	warping;
 }	t_mouse;
-
 
 int	key_press(int key, t_data *data);
 int	key_release(int keycode, t_data *data);

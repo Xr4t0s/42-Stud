@@ -6,7 +6,7 @@
 /*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 02:09:52 by nitadros          #+#    #+#             */
-/*   Updated: 2025/09/21 04:17:40 by nitadros         ###   ########.fr       */
+/*   Updated: 2025/09/22 15:26:00 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,10 +82,8 @@ int	parse_file(t_data *d, char *filename)
 {
 	int		i;
 	char	*line;
-	char	*trimed;
 
 	i = 0;
-	trimed = NULL;
 	d->map.fd_file = open(filename, O_RDONLY);
 	if (d->map.fd_file == -1)
 		return (0);
