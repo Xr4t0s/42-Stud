@@ -1,0 +1,41 @@
+services:
+  nginx:
+    build: ./requirements/nginx
+    container_name: nginx
+    depends_on:
+      - wordpress
+    ports:
+      - "443:443"
+      - "8080:80"
+    networks:
+      [inception]
+    volumes:
+      - wordpress:/var/www/html
+  
+  wordpress:
+    build: ./requirements/wordpress
+    container_name: wordpress
+    depends_on:
+      - mariadb
+    networks:
+      [inception]
+    volumes:
+      - wordpress:/var/www/html
+
+  mariadb:
+    build: ./requirements/mariadb
+    container_name: mariadb
+    networks:
+      [inception]
+    volumes:
+      - mariadb:/var/lib/mysql
+    
+
+
+networks:
+  inception:
+    driver: bridge
+
+volumes:
+  wordpress:
+  mariadb:
