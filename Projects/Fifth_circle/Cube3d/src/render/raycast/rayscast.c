@@ -6,310 +6,102 @@
 /*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 00:17:11 by engiacom          #+#    #+#             */
-/*   Updated: 2025/09/21 04:34:18 by nitadros         ###   ########.fr       */
+/*   Updated: 2025/09/28 22:28:06 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cube3d.h"
+#include "cub3d.h"
 #include "raycast.h"
 #include <math.h>
 
-#define MAX_DIST 15.0
-
-void	draw_line(char *addr, int x0, int y0, int x1, int y1, int color, int bpp, int line_len)
+void	init_ray(t_raydata *rd, t_data *data)
 {
-	// Algorithme de Bresenham pour tracer une ligne de (x0,y0) à (x1,y1)
-	int dx = abs(x1 - x0);
-	int dy = abs(y1 - y0);
-	int sx;
-	int sy;
-	int err = dx - dy;
-
-	// Direction du pas en X
-	if (x0 < x1)
-		sx = 1;
-	else
-		sx = -1;
-
-	// Direction du pas en Y
-	if (y0 < y1)
-		sy = 1;
-	else
-		sy = -1;
-
-	while (1)
+	mlx_hook(data->mlx.win, 17, 0, close_window, data);
+	handle_keypress(0, data);
+	if (rd->img == NULL)
 	{
-		// Évite d’écrire hors image (test minimal)
-		if (x0 >= 0 && y0 >= 0)
-		{
-			char *pixel = addr + (y0 * line_len + x0 * (bpp / 8));
-			*(unsigned int *)pixel = color;
-		}
-		// Point d’arrivée atteint
-		if (x0 == x1 && y0 == y1)
-			break;
-
-		// Mise à jour d’erreur et déplacements
-		int e2 = 2 * err;
-		if (e2 > -dy)
-		{
-			err -= dy;
-			x0 += sx;
-		}
-		if (e2 < dx)
-		{
-			err += dx;
-			y0 += sy;
-		}
+		rd->img = mlx_new_image(data->mlx.mlx, data->mlx.width,
+				data->mlx.height);
+		rd->addr = mlx_get_data_addr(rd->img, &rd->bpp,
+				&rd->line_len, &rd->endian);
 	}
+	rd->x = 0;
+}
+
+void	base_calc(t_raycast *raycast, t_data *data, t_raydata *rd)
+{
+	raycast->pos_x = data->player.xp / data->scale;
+	raycast->pos_y = data->player.yp / data->scale;
+	raycast->dir_x = cos(data->player.angle);
+	raycast->dir_y = sin(data->player.angle);
+	raycast->plane_x = -raycast->dir_y * tan(data->player.fov / 2);
+	raycast->plane_y = raycast->dir_x * tan(data->player.fov / 2);
+	raycast->camera_x = 2.0f * (float)rd->x / (float)data->mlx.width - 1.0f;
+	raycast->raydir_x = raycast->dir_x + raycast->plane_x * raycast->camera_x;
+	raycast->raydir_y = raycast->dir_y + raycast->plane_y * raycast->camera_x;
+	raycast->map_x = (int)raycast->pos_x;
+	raycast->map_y = (int)raycast->pos_y;
+	raycast->deltadist_x = fabs(1.0 / raycast->raydir_x);
+	raycast->deltadist_y = fabs(1.0 / raycast->raydir_y);
+}
+
+void	base_calc2(t_raycast *raycast)
+{
+	if (raycast->raydir_x < 0)
+		raycast->step_x = -1;
+	else
+		raycast->step_x = 1;
+	if (raycast->raydir_y < 0)
+		raycast->step_y = -1;
+	else
+		raycast->step_y = 1;
+	if (raycast->raydir_x < 0)
+		raycast->sidedist_x = (raycast->pos_x - raycast->map_x)
+			* raycast->deltadist_x;
+	else
+		raycast->sidedist_x = (raycast->map_x + 1.0 - raycast->pos_x)
+			* raycast->deltadist_x;
+	if (raycast->raydir_y < 0)
+		raycast->sidedist_y = (raycast->pos_y - raycast->map_y)
+			* raycast->deltadist_y;
+	else
+		raycast->sidedist_y = (raycast->map_y + 1.0 - raycast->pos_y)
+			* raycast->deltadist_y;
+}
+
+void	ending(t_data *data, t_raydata *rd)
+{
+	data->raycast.door = -1;
+	minimap(data, rd->addr, rd->bpp, rd->line_len);
+	mlx_put_image_to_window(data->mlx.mlx, data->mlx.win, rd->img, 0, 0);
+	mlx_destroy_image(data->mlx.mlx, rd->img);
 }
 
 int	render(void *param)
 {
-	// Rendu principal : raycasting colonne par colonne + minimap
-	t_data	*data = (t_data *)param;
-	
-	static void *img = NULL;
-	static char *addr;
-	static int bpp, line_len, endian;
+	t_data				*data;
+	t_raydata			rd;
+	t_direction			*tex;
+	static t_raycast	raycast;
 
-	handle_keypress(0, data);
-	
-	// Création du buffer image une seule fois
-	if (img == NULL)
+	data = (t_data *)param;
+	rd.img = NULL;
+	init_ray(&rd, data);
+	while (rd.x < data->mlx.width)
 	{
-		img = mlx_new_image(data->mlx.mlx, data->mlx.width, data->mlx.height);
-		addr = mlx_get_data_addr(img, &bpp, &line_len, &endian);
-	}
-	struct timeval tv;
-    gettimeofday(&tv, NULL);
-	long long start = (long long)tv.tv_sec * 1000 + tv.tv_usec / 1000;
-	int x = 0;
-	while (x < data->mlx.width)
-	{
-		t_raycast raycast;
-
-		// Position du joueur (échelle : tes positions semblent en /10)
-		raycast.posX = data->player.xP / 10.0;
-		raycast.posY = data->player.yP / 10.0;
-
-		// Direction de vue du joueur (angle en radians)
-		raycast.dirX = cos(data->player.angle); // X=0,Y=-1 → Nord si angle = -pi/2
-		raycast.dirY = sin(data->player.angle);
-
-		// Plan caméra (contrôle le FOV)
-		raycast.planeX = -raycast.dirY * tan(data->player.fov / 2);
-		raycast.planeY =  raycast.dirX * tan(data->player.fov / 2);
-
-		// Coordonnée caméra en X dans l’espace écran [-1, 1]
-		raycast.cameraX = 2.0f * (float)x / (float)data->mlx.width - 1.0f;
-
-		// Direction du rayon pour cette colonne écran
-		raycast.rayDirX = raycast.dirX + raycast.planeX * raycast.cameraX;
-		raycast.rayDirY = raycast.dirY + raycast.planeY * raycast.cameraX;
-
-		// Case de la grille (carte) où commence le rayon
-		raycast.mapX = (int)raycast.posX;
-		raycast.mapY = (int)raycast.posY;
-
-		// Distances à parcourir entre deux intersections de grille sur X/Y
-		raycast.deltaDistX = fabs(1.0 / raycast.rayDirX);
-		raycast.deltaDistY = fabs(1.0 / raycast.rayDirY);
-
-		// Détermination du sens des pas sur X
-		if (raycast.rayDirX < 0)
-			raycast.stepX = -1;
-		else
-			raycast.stepX = 1;
-
-		// Détermination du sens des pas sur Y
-		if (raycast.rayDirY < 0)
-			raycast.stepY = -1;
-		else
-			raycast.stepY = 1;
-
-		// Distance du rayon jusqu’à la première arête verticale rencontrée
-		if (raycast.rayDirX < 0)
-			raycast.sideDistX = (raycast.posX - raycast.mapX) * raycast.deltaDistX;
-		else
-			raycast.sideDistX = (raycast.mapX + 1.0 - raycast.posX) * raycast.deltaDistX;
-
-		// Distance du rayon jusqu’à la première arête horizontale rencontrée
-		if (raycast.rayDirY < 0)
-			raycast.sideDistY = (raycast.posY - raycast.mapY) * raycast.deltaDistY;
-		else
-			raycast.sideDistY = (raycast.mapY + 1.0 - raycast.posY) * raycast.deltaDistY;
-
-		// DDA : on avance d’une case à la fois jusqu’au mur ou distance max
-		int   hit = 0;
-		float distance_travelled = 0.0f;
-
-		while (hit == 0 && distance_travelled < MAX_DIST)
-		{
-			if (raycast.sideDistX < raycast.sideDistY)
-			{
-				distance_travelled = raycast.sideDistX;
-				raycast.sideDistX += raycast.deltaDistX;
-				raycast.mapX += raycast.stepX;
-				raycast.side = 0; // impact sur une face verticale
-			}
-			else
-			{
-				distance_travelled = raycast.sideDistY;
-				raycast.sideDistY += raycast.deltaDistY;
-				raycast.mapY += raycast.stepY;
-				raycast.side = 2; // impact sur une face horizontale
-			}
-
-			// Test de collision avec un mur ('1')
-			if (data->map.map[raycast.mapY][raycast.mapX] == '1' || data->map.map[raycast.mapY][raycast.mapX] == 'D')
-				hit = 1;
-			if (data->map.map[raycast.mapY][raycast.mapX] == 'D' && data->raycast.door > 0 && (fabs(raycast.sideDistX) <= 2 || fabs(raycast.sideDistY) <= 2) && raycast.cameraX >= -0.30 && raycast.cameraX <= 0.30)
-			{
-				// printf("%f\n%f\n", raycast.sideDistX, raycast.sideDistY);
-				data->map.map[raycast.mapY][raycast.mapX] = '*';
-				data->raycast.door *= -1;
-				hit = 0;
-			}
-			else if (data->map.map[raycast.mapY][raycast.mapX] == '*' && data->raycast.door > 0 && (fabs(raycast.sideDistX) <= 2 || fabs(raycast.sideDistY) <= 2) && raycast.cameraX >= -0.30 && raycast.cameraX <= 0.30)
-			{
-				// printf("%f\n%f\n", raycast.sideDistX, raycast.sideDistY);
-				data->map.map[raycast.mapY][raycast.mapX] = 'D';
-				data->raycast.door *= -1;
-				hit = 1;
-			}
-
-			// Affine l’orientation de la face touchée (0→1 pour Est/Ouest, 2→3 pour Nord/Sud)
-			if (raycast.side == 2)
-			{
-				if (raycast.posY > raycast.mapY)
-					raycast.side = 3; // face sud
-			}
-			else
-			{
-				if (raycast.posX > raycast.mapX)
-					raycast.side = 1; // face est
-			}
-		}
-
-		// Distance perpendiculaire au mur (corrige l’effet fish-eye)
-		float finalDist;
-		if (hit)
-		{
-			if (raycast.side <= 1)
-			{
-				raycast.perpWallDist =
-					(raycast.mapX - raycast.posX + (1 - raycast.stepX) / 2.0) / raycast.rayDirX;
-			}
-			else
-			{
-				raycast.perpWallDist =
-					(raycast.mapY - raycast.posY + (1 - raycast.stepY) / 2.0) / raycast.rayDirY;
-			}
-			// Clamp par sécurité
-			if (raycast.perpWallDist < MAX_DIST)
-				finalDist = raycast.perpWallDist;
-			else
-				finalDist = MAX_DIST;
-		}
-		else
-		{
-			finalDist = MAX_DIST;
-		}
-
-		// Distance utilisée pour la hauteur de ligne (fallback si pas de hit)
-		double dist;
-		if (hit)
-			dist = raycast.perpWallDist;
-		else
-			dist = 1e9;
-
-		// Calcul de la hauteur de la “slice” de mur pour cette colonne
-		int lineHeight;
-		if (dist > 0.0)
-			lineHeight = (int)(data->mlx.height / dist);
-		else
-			lineHeight = data->mlx.height;
-
-		int drawStart  = (data->mlx.height - lineHeight) / 2;
-		int drawEnd    = drawStart + lineHeight - 1;
-
-		if (drawStart < 0)
-			drawStart = 0;
-		if (drawEnd >= data->mlx.height)
-			drawEnd = data->mlx.height - 1;
-
-		// Couleurs (ARGB 0x00RRGGBB ici, selon ton mlx)
-		unsigned int ceil_col  = 0x00303030; // plafond
-		unsigned int floor_col = 0x00605030; // sol
-
-		// Couleur du mur selon la face frappée (ombrage simple)
-		unsigned int wall_col;
+		all_checks(&raycast, &rd, data, tex);
 		if (raycast.side == 1)
-			wall_col = 0x00457568; // face est
+			tex = &data->map.textures.ea;
 		else if (raycast.side == 2)
-			wall_col = 0x0000FF00; // face nord
+			tex = &data->map.textures.no;
 		else if (raycast.side == 3)
-			wall_col = 0x0000FFFF; // face sud
+			tex = &data->map.textures.so;
 		else
-			wall_col = 0x00AAAAAA; // face ouest
-
-		// --- Remplissage plafond (y : 0 → drawStart-1)
-		int y = 0;
-		while (y < drawStart)
-		{
-			char *p = addr + (y * line_len + x * (bpp / 8));
-			*(unsigned int *)p = ceil_col;
-			y++;
-		}
-
-		// --- Colonne du mur (y : drawStart → drawEnd)
-		y = drawStart;
-		while (y <= drawEnd)
-		{
-			char *p = addr + (y * line_len + x * (bpp / 8));
-			*(unsigned int *)p = wall_col;
-			y++;
-		}
-
-		// --- Remplissage sol (y : drawEnd+1 → 719)
-		y = drawEnd + 1;
-		while (y < data->mlx.height)
-		{
-			char *p = addr + (y * line_len + x * (bpp / 8));
-			*(unsigned int *)p = floor_col;
-			y++;
-		}
-
-		// Point d’impact du rayon (utile pour la minimap / debug)
-		float hitX = raycast.posX + raycast.rayDirX * finalDist;
-		float hitY = raycast.posY + raycast.rayDirY * finalDist;
-
-		// Trace le rayon sur la minimap (échelle *10)
-		draw_line(
-			addr,
-			(int)(raycast.posX * 10.0 + 1.5), (int)(raycast.posY * 10.0),
-			(int)(hitX * 10.0),               (int)(hitY * 10.0),
-			0x00FFFF00, bpp, line_len
-		);
-
-		x++;
+			tex = &data->map.textures.we;
+		init_tex_and_draw(&raycast, &rd, tex, data);
+		draw_wall(&rd, tex);
+		draw_floor_and_put_screen(&rd, &raycast, data);
 	}
-	data->raycast.door = -1;
-
-	// Dessine la minimap par-dessus
-	minimap(data->map.map, data, addr, bpp, line_len);
-
-	// Affiche le buffer à l’écran
-	mlx_put_image_to_window(data->mlx.mlx, data->mlx.win, img, 0, 0);
-	gettimeofday(&tv, NULL);
-	long long end = (long long)tv.tv_sec * 1000 + tv.tv_usec / 1000;
-	while (end - start <= 32)
-	{
-		usleep(100);
-		gettimeofday(&tv, NULL);
-		end = (long long)tv.tv_sec * 1000 + tv.tv_usec / 1000;
-	}
+	ending(data, &rd);
 	return (0);
 }
-

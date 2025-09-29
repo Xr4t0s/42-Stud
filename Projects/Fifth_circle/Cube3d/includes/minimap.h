@@ -1,42 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_tabdup.c                                        :+:      :+:    :+:   */
+/*   minimap.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/25 06:07:16 by nitadros          #+#    #+#             */
-/*   Updated: 2025/09/26 21:49:13 by nitadros         ###   ########.fr       */
+/*   Created: 2025/09/23 20:51:52 by engiacom          #+#    #+#             */
+/*   Updated: 2025/09/28 21:27:55 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#ifndef MINIMAP_H
+# define MINIMAP_H
 
-char	**ft_tabdup(char **src)
+# include "cub3d.h"
+
+typedef struct s_minivar
 {
-	int		height;
-	int		i;
-	char	**dest;
+	char	*addr;
+	int		x;
+	int		y;
+	int		px;
+	int		py;
+	int		color;
+	int		bpp;
+	int		line_len;
 
-	height = 0;
-	while (src[height])
-		height++;
-	dest = malloc(sizeof(char *) * (height + 1));
-	if (!dest)
-		return (NULL);
-	i = 0;
-	while (i < height)
-	{
-		dest[i] = ft_strdup(src[i]);
-		if (!dest[i])
-		{
-			while (--i >= 0)
-				free(dest[i]);
-			free(dest);
-			return (NULL);
-		}
-		i++;
-	}
-	dest[i] = NULL;
-	return (dest);
-}
+}	t_minivar;
+
+void	minimap_draw_pixel(t_minivar *mini, int x, int y, t_data *data);
+
+#endif

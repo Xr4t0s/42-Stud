@@ -6,11 +6,23 @@
 /*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 00:15:14 by nitadros          #+#    #+#             */
-/*   Updated: 2025/09/22 15:12:02 by nitadros         ###   ########.fr       */
+/*   Updated: 2025/09/28 21:34:48 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cube3d.h"
+#include "cub3d.h"
+
+void	init_textures(t_map *map)
+{
+	map->textures.no.img = NULL;
+	map->textures.so.img = NULL;
+	map->textures.we.img = NULL;
+	map->textures.ea.img = NULL;
+	map->textures.no.addr = NULL;
+	map->textures.so.addr = NULL;
+	map->textures.we.addr = NULL;
+	map->textures.ea.addr = NULL;
+}
 
 void	init_map(t_map *map)
 {
@@ -20,15 +32,12 @@ void	init_map(t_map *map)
 	i = 0;
 	j = 0;
 	map->fd_file = 0;
-	map->map = malloc(sizeof(char *) * 1000);
+	map->map = ft_calloc(8, 5000);
 	if (!map->map)
 		return ;
 	map->width = 0;
 	map->height = 0;
-	map->textures.no.img = NULL;
-	map->textures.so.img = NULL;
-	map->textures.we.img = NULL;
-	map->textures.ea.img = NULL;
+	init_textures(map);
 	while (j < 2)
 	{
 		while (i < 3)
@@ -44,9 +53,9 @@ void	init_map(t_map *map)
 void	init_player(t_player *player)
 {
 	player->x = 0;
-	player->xP = 0;
+	player->xp = 0;
 	player->y = 0;
-	player->yP = 0;
+	player->yp = 0;
 	player->angle = 2.355;
 	player->fov = 1.1519;
 	player->fov_rot = 0.05;
@@ -54,19 +63,7 @@ void	init_player(t_player *player)
 	player->move_speed = 1.5;
 }
 
-int	init_txt(t_data *data)
-{
-	int	h;
-	int	w;
-	
-	data->minimap.player = mlx_xpm_file_to_image(data->mlx.mlx, "src/render/minimap/textures/player.xpm", &w, &h);
-	data->minimap.bg = mlx_xpm_file_to_image(data->mlx.mlx, "src/render/minimap/textures/white.xpm", &w, &h);
-	data->minimap.wall = mlx_xpm_file_to_image(data->mlx.mlx, "src/render/minimap/textures/blue.xpm", &w, &h);
-	data->minimap.bg4 = mlx_xpm_file_to_image(data->mlx.mlx, "src/render/minimap/textures/bg4.xpm", &w, &h);
-	return (1);
-}
-
-void	init_move(t_move *move)
+void	init_move(t_move *move, t_mouse *mouse)
 {
 	move->w = 0;
 	move->a = 0;
@@ -75,21 +72,19 @@ void	init_move(t_move *move)
 	move->l = 0;
 	move->r = 0;
 	move->m = -1;
-}
-
-void	init_mouse(t_mouse *mouse)
-{
 	mouse->prev_x = 0;
 }
 
 void	init(t_data *data)
 {
-	data->mlx.width = 1080;
-	data->mlx.height = 720;
+	data->mlx.width = 2160;
+	data->mlx.height = 1440;
 	init_map(&data->map);
 	init_player(&data->player);
-	init_txt(data);
-	init_move(&data->move);
-	init_mouse(&data->mouse);
+	init_move(&data->move, &data->mouse);
 	data->raycast.door = -1;
+	if (data->mlx.height > 1080)
+		data->scale = 10;
+	else
+		data->scale = 5;
 }

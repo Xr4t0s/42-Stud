@@ -6,20 +6,20 @@
 /*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 23:55:02 by nitadros          #+#    #+#             */
-/*   Updated: 2025/09/20 01:53:04 by nitadros         ###   ########.fr       */
+/*   Updated: 2025/09/28 21:29:01 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cube3d.h"
+#include "cub3d.h"
 
-static int	check_floor_and_ceiling(int	fc[2][3])
+static int	check_floor_and_ceiling(int fc[2][3])
 {
 	int	i;
 	int	j;
 
 	i = 0;
 	j = 0;
-	while(i < 2)
+	while (i < 2)
 	{
 		while (j < 3)
 		{
@@ -40,7 +40,7 @@ static int	check_directions(t_direction direction)
 	return (1);
 }
 
-static int check_Xtext_and_redir(t_textures textures)
+static int	check_xtext_and_redir(t_textures textures)
 {
 	if (!check_directions(textures.no)
 		|| !check_directions(textures.so)
@@ -54,7 +54,7 @@ static int check_Xtext_and_redir(t_textures textures)
 
 int	check_param(t_data d)
 {
-	if (!check_Xtext_and_redir(d.map.textures))
+	if (!check_xtext_and_redir(d.map.textures))
 		return (0);
 	return (1);
 }

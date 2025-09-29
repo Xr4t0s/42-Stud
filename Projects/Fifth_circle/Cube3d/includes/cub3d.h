@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cube3d.h                                           :+:      :+:    :+:   */
+/*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 02:16:22 by nitadros          #+#    #+#             */
-/*   Updated: 2025/09/21 01:49:46 by nitadros         ###   ########.fr       */
+/*   Updated: 2025/09/28 22:29:47 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CUBE3D_H
-# define CUBE3D_H
+#ifndef CUB3D_H
+# define CUB3D_H
 # include <stdio.h>
 # include "libs/libft.h"
 # include "libs/get_next_line.h"
@@ -24,6 +24,7 @@
 # include "free.h"
 # include "raycast.h"
 # include "math.h"
+# include "minimap.h"
 
 typedef struct s_mlx
 {
@@ -38,10 +39,13 @@ typedef struct s_data
 	t_map		map;
 	t_mlx		mlx;
 	t_player	player;
-	t_minimap	minimap;
 	t_raycast	raycast;
 	t_move		move;
 	t_mouse		mouse;
+	t_minivar	minivar;
+	int			scale;
 }	t_data;
+
+int	ft_exit(char *error, t_data *d, int free, int all);
 
 #endif

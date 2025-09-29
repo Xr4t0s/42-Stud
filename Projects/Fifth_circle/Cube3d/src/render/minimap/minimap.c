@@ -6,61 +6,98 @@
 /*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 22:46:34 by engiacom          #+#    #+#             */
-/*   Updated: 2025/09/21 02:17:24 by nitadros         ###   ########.fr       */
+/*   Updated: 2025/09/28 23:35:03 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cube3d.h"
-# include "raycast.h"
+#include "cub3d.h"
+#include "raycast.h"
 
-void	minimap_draw_pixel(char *addr, int x, int y, int color, int bpp, int line_len, t_data *data)
+static void	init_var(t_minivar *mini, char *addr, int bpp, int line_len)
 {
-	if (x >= 0 && x < data->mlx.width && y >= 0 && y < data->mlx.height)
-	{
-		char *dst = addr + (y * line_len + x * (bpp / 8));
-		if (*(unsigned int *)dst != 0x00FFFF00)
-			*(unsigned int *)dst = color;
-	}
+	mini->addr = addr;
+	mini->x = 0;
+	mini->y = 0;
+	mini->px = 0;
+	mini->py = 0;
+	mini->color = 0;
+	mini->bpp = bpp;
+	mini->line_len = line_len;
 }
 
-void	minimap(char **map, t_data *data, char *addr, int bpp, int line_len)
+void	apply_color(t_minivar *mini, t_data *data)
 {
-	int	x, y, px, py;
-	int	size = 10;
+	char	**map;
 
-	y = 0;
-	while (map[y])
+	map = data->map.map;
+	mini->color = 0x000000;
+	if (map[mini->y][mini->x] == '1')
+		mini->color = 0x444444;
+	else if (map[mini->y][mini->x] == '0'
+		|| map[mini->y][mini->x] == 'N'
+		|| map[mini->y][mini->x] == 'S'
+		|| map[mini->y][mini->x] == 'E'
+		|| map[mini->y][mini->x] == 'W'
+		|| map[mini->y][mini->x] == '*')
+		mini->color = 0xAAAAAA;
+}
+
+void	pre_draw(t_minivar *mini, t_data *data)
+{
+	while (mini->py < data->scale)
 	{
-		x = 0;
-		while (map[y][x])
+		mini->px = 0;
+		while (mini->px < data->scale)
 		{
-			int color = 0x000000; // background par défaut
-
-			if (map[y][x] == '1')
-				color = 0x444444; // gris foncé pour mur
-			else if (map[y][x] == '0')
-				color = 0xAAAAAA; // gris clair pour sol
-			else if (map[y][x] == 'N' || map[y][x] == 'S' || map[y][x] == 'E' || map[y][x] == 'W')
-				color = 0xAAAAAA; // vert pour joueur
-
-			// dessine le bloc
-			for (py = 0; py < size; py++)
-			{
-				for (px = 0; px < size; px++)
-				{
-					minimap_draw_pixel(addr, x * size + px, y * size + py, color, bpp, line_len, data);
-				}
-			}
-			x++;
+			minimap_draw_pixel(mini,
+				mini->x * data->scale + mini->px,
+				mini->y * data->scale + mini->py,
+				data);
+			mini->px++;
 		}
-		y++;
+		mini->py++;
 	}
-
-	// Dessine le joueur comme un carré rouge 4x4 centré
-	for (py = 0; py <= 3; py++)
-		for (px = 0; px <= 3; px++)
-			minimap_draw_pixel(addr, data->player.xP + px, data->player.yP + py, 0xFF0000, bpp, line_len, data);
+	mini->x++;
 }
 
+void	draw_player(t_minivar *mini, t_data *data)
+{
+	mini->py = 0;
+	while (mini->py <= 3)
+	{
+		mini->px = 0;
+		while (mini->px <= 3)
+		{
+			mini->color = 0xFF0000;
+			minimap_draw_pixel(mini,
+				data->player.xp + mini->px,
+				data->player.yp + mini->py,
+				data);
+			mini->px++;
+		}
+		mini->py++;
+	}
+}
 
+void	minimap(t_data *data, char *addr, int bpp, int line_len)
+{
+	t_minivar	*mini;
+	char		**map;
 
+	mini = &data->minivar;
+	init_var(mini, addr, bpp, line_len);
+	map = data->map.map;
+	mini->y = 0;
+	while (map[mini->y])
+	{
+		mini->x = 0;
+		while (map[mini->y][mini->x])
+		{
+			apply_color(mini, data);
+			mini->py = 0;
+			pre_draw(mini, data);
+		}
+		mini->y++;
+	}
+	draw_player(mini, data);
+}

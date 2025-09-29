@@ -6,15 +6,14 @@
 /*   By: nitadros <nitadros@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/20 23:41:44 by engiacom          #+#    #+#             */
-/*   Updated: 2025/09/21 02:32:04 by nitadros         ###   ########.fr       */
+/*   Updated: 2025/09/28 21:29:17 by nitadros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cube3d.h"
+#include "cub3d.h"
 
 int	key_press(int keycode, t_data *data)
 {
-	// printf("%d\n", keycode);
 	if (keycode == 13 || keycode == 65362 || keycode == 119)
 		data->move.w = 1;
 	else if (keycode == 1 || keycode == 65364 || keycode == 115)
@@ -38,13 +37,12 @@ int	key_press(int keycode, t_data *data)
 	else if (keycode == 109)
 		data->move.m *= -1;
 	else if (keycode == 65307)
-		free_all(data, 1), exit(0);
+		return (free_all(data, 1), exit(0), 1);
 	return (1);
 }
 
 int	key_release(int keycode, t_data *data)
 {
-	// printf("TEST release\n");
 	if (keycode == 13 || keycode == 65362 || keycode == 119)
 		data->move.w = 0;
 	else if (keycode == 1 || keycode == 65364 || keycode == 115)
@@ -61,11 +59,3 @@ int	key_release(int keycode, t_data *data)
 		data->player.move_speed = 1.5;
 	return (1);
 }
-
-
-// int	movements(t_data *data)
-// {
-// 	mlx_hook(data->mlx.win, 2, 1L<<0, key_press, &data);
-// 	// mlx_hook(data->mlx.win, 2, 1L << 0, handle_keypress, data);
-// 	return (1);
-// }

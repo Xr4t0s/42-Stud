@@ -1,12 +1,8 @@
 {
 	"files.associations": {
-		"cube3d.h": "c",
-		"get_next_line.h": "c",
-		"map.h": "c",
+		"cub3d.h": "c",
 		"init.h": "c",
-		"player.h": "c",
-		"raycast.h": "c",
-		"libft.h": "c",
+		"get_next_line_bonus.h": "c",
 		"movements.h": "c"
 	}
 }
