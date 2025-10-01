@@ -20,3 +20,11 @@ int		Fixed::getRawBits( void ) const {
 void	Fixed::setRawBits( int const raw ) {
 	this->_raw = raw;
 }
+
+float	Fixed::toFloat( void ) const {
+	return _raw / 256.f;
+}
+
+int		Fixed::toInt( void ) const {
+	return _raw >> 8;
+}

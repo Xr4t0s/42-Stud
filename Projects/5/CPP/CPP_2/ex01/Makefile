@@ -1,4 +1,4 @@
-NAME    = fixed_point
+NAME    = towards
 SRC     = 	main.cpp \
 			src/Fixed.cpp
 OBJ     = $(SRC:.cpp=.o)

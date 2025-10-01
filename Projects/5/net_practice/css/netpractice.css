@@ -63,8 +63,8 @@ div {
     position:fixed;
     bottom:0px;
     right:0px;
-    width:250px;
-    height:200px;
+    width:500px;
+    height:500px;
     font-size:70%;
     overflow-y: scroll;
 }

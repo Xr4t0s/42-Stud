@@ -3,16 +3,19 @@
 class Fixed {
 	private:
 		int					_raw;
-		static const int	_fBits = 8;
+		static const int 	_fBits = 8;
 
 	public:
-		Fixed() {
-			_raw = 0;
+		Fixed() : _raw(0) {
+			std::cout << "Default  constructor called" << std::endl;
 		}
-		Fixed(Fixed& copy) {
-			_raw = copy._raw;
+		Fixed(const Fixed& other);
+		Fixed& operator=(Fixed const& rhs);
+		
+		int		getRawBits( void ) const;
+		void	setRawBits( int const raw );
+
+		~Fixed() {
+			std::cout << "Destructor called" << std::endl;
 		}
-		
-		
-		~Fixed() {}
 };
