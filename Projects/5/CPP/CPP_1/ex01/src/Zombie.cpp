@@ -1,12 +1,15 @@
 #include "Zombie.hpp"
 
-void run( void ) {
-	Zombie *horde = zombieHorde(3, "Alicia");
-	Zombie *horde2 = zombieHorde(5, "Pouilleux"); 
+Zombie::Zombie() {}
 
-	for (int i = 0; i < 3; i++) horde[i].announce();
-	for (int i = 0; i < 5; i++) horde2[i].announce();
+void	Zombie::set_name( std::string name ) {
+	_name = name;
+}
 
-	delete[] horde;
-	delete[] horde2;
+void	Zombie::announce( void ) {
+	std::cout << _name << ": BraiiiiiiinnnzzzZ..." << std::endl;
+}
+
+Zombie::~Zombie() {
+	std::cout << _name << " just died." << std::endl;
 }

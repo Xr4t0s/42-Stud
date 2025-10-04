@@ -1,20 +1,18 @@
-NAME	= war
+NAME    = overload
 SRC     = 	main.cpp \
-			src/HumanA.cpp \
-			src/HumanB.cpp \
-			src/Weapon.cpp
+			src/Fixed.cpp
 OBJ     = $(SRC:.cpp=.o)
-INC     = includes
 CXX     = c++
 CF      = -Wall -Wextra -Werror -std=c++98 -g
+INC             = -I includes/
 
 all: $(NAME)
 
 $(NAME): $(OBJ)
-	$(CXX) $(CF) -I$(INC) $(OBJ) -o $(NAME)
+	$(CXX) $(CF) $(OBJ) -o $(NAME)
 
 %.o: %.cpp
-	$(CXX) $(CF) -I$(INC) -c $< -o $@
+	$(CXX) $(CF) $(INC) -c $< -o $@
 
 clean:
 	rm -rf $(OBJ)

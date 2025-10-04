@@ -5,15 +5,11 @@ class Zombie
 	private:
 		std::string _name;
 	public:
-		Zombie(std::string name) : _name(name) {}
+		Zombie(std::string name);
 
-		void	announce( void ) {
-			std::cout << _name << ": BraiiiiiiinnnzzzZ..." << std::endl;
-		}
+		void	announce( void );
 
-		~Zombie() {
-			std::cout << _name << " just died." << std::endl;
-		}
+		~Zombie();
 };
 
 Zombie*	newZombie(std::string name);

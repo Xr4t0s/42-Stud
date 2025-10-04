@@ -1,0 +1,33 @@
+{
+  "version": 4,
+  "configurations": [
+    {
+      "name": "WSL-MultiProjects",
+      "compilerPath": "/usr/bin/clang++",          // ou "/usr/bin/g++"
+      "cStandard": "c17",
+      "cppStandard": "c++17",
+      "intelliSenseMode": "linux-clang-x64",
+
+      // 👉 Dossiers d’headers typiques de ta structure
+      "includePath": [
+        "${workspaceFolder}/Projects/**/includes",
+        "${workspaceFolder}/Projects/**/include",
+        "${workspaceFolder}/libs/**",
+        "${workspaceFolder}/**"                     // (optionnel, plus large)
+      ],
+
+      // 👉 Pour la navigation (cmd+clic) : mets pareil que includePath
+      "browse": {
+        "path": [
+          "${workspaceFolder}/Projects/**/includes",
+          "${workspaceFolder}/Projects/**/include",
+          "${workspaceFolder}/libs/**",
+          "${workspaceFolder}/**"
+        ]
+      }
+
+      // Astuce bonus si tu génères compile_commands.json
+      // "compileCommands": "${workspaceFolder}/compile_commands.json"
+    }
+  ]
+}

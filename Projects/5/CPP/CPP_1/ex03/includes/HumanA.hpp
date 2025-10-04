@@ -8,15 +8,11 @@ class HumanA {
 		Weapon&		_weapon;
 
 	public:
-		HumanA(std::string name, Weapon& weapon) : _name(name), _weapon(weapon) {}
+		HumanA( std::string name, Weapon& weapon );
 
-		void attack(void) {
-			std::cout << _name << " attacks with their " << _weapon.getType() << std::endl;
-		}
+		void attack(void);
 		
-		~HumanA() {}
+		~HumanA();
 };
-
-void	humanA( void );
 
 #endif

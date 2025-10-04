@@ -7,17 +7,12 @@ class Weapon {
 		std::string _type;
 	
 	public:
-		Weapon( std::string type ) : _type(type) {}
+		Weapon( std::string type );
 
-		void	setType(std::string newType) {
-			_type = newType;
-		}
+		void	setType(std::string newType);
+		const std::string&	getType( void ) const;
 
-		const std::string&	getType( void ) const {
-			return _type;
-		}
-
-		~Weapon() {}
+		~Weapon();
 };
 
 #endif 

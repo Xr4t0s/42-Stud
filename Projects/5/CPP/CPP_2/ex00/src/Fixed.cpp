@@ -1,5 +1,9 @@
 #include "Fixed.hpp"
 
+Fixed::Fixed( void ) : _raw(0) {
+	std::cout << "Default  constructor called" << std::endl;
+}
+
 Fixed::Fixed(const Fixed& other) {
 	std::cout << "Copy constructor called" << std::endl;
 	_raw = other._raw;
@@ -19,4 +23,8 @@ int		Fixed::getRawBits( void ) const {
 
 void	Fixed::setRawBits( int const raw ) {
 	this->_raw = raw;
+}
+
+Fixed::~Fixed() {
+	std::cout << "Default  constructor called" << std::endl;
 }
